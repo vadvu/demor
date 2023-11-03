@@ -6,9 +6,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `demor` is to provide you with: 1. the most basic functions
+The goal of `demor` is to provide you with: \* the most basic functions
 for demographic analysis  
-2. Some data
+\* Some data
 
 ## Installation
 
@@ -27,8 +27,9 @@ For getting data from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there
 is function `get_rosbris()` that can download data on
 mortality/fertility by 1/5-year age groups from 1989 to the last
-available year (in 2023 its 2022). Worth noting: downloading and
-preparing the final file can get some time.  
+available year (in 2023 its 2022).  
+Worth noting: downloading and preparing the final file can get some
+time.  
 In the chunk below mortality data for 5-age groups with population in
 “long” format is loading. For more function description use
 `?get_rosbris`
@@ -109,4 +110,37 @@ LT(
 
 Also one can do simple decomposition between 2 populations. Lets use
 Russia-2000 as base population and Russia-2010 as compared population
-<img src="man/figures/README-decomp-1.png" width="100%" />
+
+``` r
+rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2000 <- db[db$year==2000 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+
+dec <- decomp(mx1 = rus2000$mx, 
+              mx2 = rus2010$mx, 
+              sex = "m", 
+              age = rus2000$age, 
+              method = "andreev")
+dec
+#>    age   ex1   ex2     lx2  dex ex12   ex12_prc
+#> 1    0 58.98 63.03 1.00000 4.05 0.53 13.0221130
+#> 2    1 59.04 62.59 0.99124 3.55 0.11  2.7027027
+#> 3    5 55.29 58.74 0.98885 3.45 0.07  1.7199017
+#> 4   10 50.45 53.84 0.98710 3.39 0.05  1.2285012
+#> 5   15 45.59 48.94 0.98519 3.35 0.21  5.1597052
+#> 6   20 41.05 44.21 0.97937 3.16 0.45 11.0565111
+#> 7   25 37.01 39.75 0.96698 2.74 0.26  6.3882064
+#> 8   30 33.06 35.59 0.94550 2.53 0.03  0.7371007
+#> 9   35 29.15 31.74 0.91386 2.59 0.15  3.6855037
+#> 10  40 25.40 27.92 0.87831 2.52 0.29  7.1253071
+#> 11  45 21.90 24.20 0.83638 2.30 0.37  9.0909091
+#> 12  50 18.71 20.70 0.78234 1.99 0.38  9.3366093
+#> 13  55 15.82 17.47 0.71293 1.65 0.34  8.3538084
+#> 14  60 13.24 14.57 0.62512 1.33 0.26  6.3882064
+#> 15  65 10.93 12.04 0.51889 1.11 0.22  5.4054054
+#> 16  70  8.88  9.76 0.40374 0.88 0.17  4.1769042
+#> 17  75  7.12  7.77 0.28553 0.65 0.06  1.4742015
+#> 18  80  5.47  6.17 0.17349 0.70 0.05  1.2285012
+#> 19  85  4.16  5.04 0.08447 0.88 0.07  1.7199017
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
