@@ -75,7 +75,7 @@ LT(
 ```
 
 Also one can do simple decomposition between 2 populations. Lets use Russia-2000 as base population and Russia-2010 as compared population
-```{r decomp, echo = FALSE}
+```{r}
 rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
 rus2000 <- db[db$year==2000 & db$code==1100 & db$sex=="m" & db$territory=="t",]
 
