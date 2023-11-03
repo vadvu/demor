@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `demor` is to provide you with: \* the most basic functions
-for demographic analysis  
+The goal of `demor` is to provide you with:  
+\* the most basic functions for demographic analysis  
 \* Some data
 
 ## Installation
