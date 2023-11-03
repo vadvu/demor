@@ -7,6 +7,8 @@
 #' (can be seen on the [website](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)). default is `2022` (in 2023).
 #'
 #' @return List (if `initial = T`) of dataframes: population and mortality/fertility data. Dataframe (if `initial = F`).
+#' @import dplyr
+#' @import tidyr
 #' @export
 get_rosbris <- function(type, age = 1, initial = F, lastyear = 2022){
   if(type != "m" & type != "f"){
@@ -77,7 +79,7 @@ get_rosbris <- function(type, age = 1, initial = F, lastyear = 2022){
         data <- merge(datam, datap) %>%
           dplyr::mutate (Dx = round(mx * N,2))
         data$age <- as.numeric(data$age)
-        data <- data %>% dplyr::arrange (code, year, territory, sex, age)
+        data <- data %>% dplyr::arrange (code, year, territory, sex, age) %>% drop_na(code)
 
         return(data)
       }
@@ -140,7 +142,7 @@ get_rosbris <- function(type, age = 1, initial = F, lastyear = 2022){
         data <- merge(dataf, datap) %>%
           dplyr::mutate (Bx = round(fx * N,2))
         data$age <- as.numeric(data$age)
-        data <- data %>% dplyr::arrange (code, year, territory, age)
+        data <- data %>% dplyr::arrange (code, year, territory, age) %>% drop_na(code)
 
         return(data)
       }

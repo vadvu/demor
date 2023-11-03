@@ -7,13 +7,12 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  warning = FALSE, 
+  message = FALSE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-Authors@R: 
-    person("Vadim", "Ustyuzhanin", email = "vvustiuzhanin@yandex.ru", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-3800-1108"))
 ```
 
 # demor
@@ -21,37 +20,79 @@ Authors@R:
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of demor is to ...
+The goal of `demor` is to provide you with:
+1. the most basic functions for demographic analysis    
+2. Some data
 
 ## Installation
 
-You can install the development version of demor like so:
+You can install the development version of demor from [GitHub](https://github.com/) with:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+
+# install.packages("devtools")
+devtools::install_github("vadvu/demor")
+
 ```
 
-## Example
+## Get ROSBRIS data
 
-This is a basic example which shows you how to solve a common problem:
+For getting data from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there is function `get_rosbris()` that can download 
+data on mortality/fertility by 1/5-year age groups from 1989 to the last available year (in 2023 its 2022).
+Worth noting: downloading and preparing the final file can get some time.    
+In the chunk below mortality data for 5-age groups with population in "long" format is loading. For more function description use `?get_rosbris` 
 
-```{r example}
+```{r}
 library(demor)
-## basic example code
+
+db <- get_rosbris(
+  #mortality data
+  type = "m",
+  #what age group download
+  age =  5,
+  #to get "long" data
+  initial = F,
+  #last available year (the name of the downloading file contains years, so for the downloading the last year is required)
+  lastyear = 2022
+)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Lets see data for Russia in 2010 for males and for total population
 
-```{r cars}
-summary(cars)
+```{r}
+db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+Now one can create life-table based on getted data for 2010-Russia using `LT()`
+```{r}
+rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+LT(
+  age = rus2010$age, 
+  sex = "m", 
+  #age specific mortality rates
+  mx = rus2010$mx)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+Also one can do simple decomposition between 2 populations. Lets use Russia-2000 as base population and Russia-2010 as compared population
+```{r decomp, echo = FALSE}
+rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2000 <- db[db$year==2000 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+
+dec <- decomp(mx1 = rus2000$mx, 
+              mx2 = rus2010$mx, 
+              sex = "m", 
+              age = rus2000$age, 
+              method = "andreev")
+
+barplot(height=dec$ex12, 
+        names=dec$age,
+        xlab="Age-groups", 
+        ylab="Сontribution to the e0 difference")
+```
+
+
+
+
+
+
