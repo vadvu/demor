@@ -7,8 +7,8 @@
 <!-- badges: end -->
 
 The goal of `demor` is to provide you with:  
-\* the most basic functions for demographic analysis  
-\* Some data
+1. the most basic functions for demographic analysis  
+2. some data
 
 ## Installation
 
@@ -37,7 +37,7 @@ In the chunk below mortality data for 5-age groups with population in
 ``` r
 library(demor)
 
-db <- get_rosbris(
+dbm <- get_rosbris(
   #mortality data
   type = "m",
   #what age group download
@@ -50,9 +50,10 @@ db <- get_rosbris(
 ```
 
 Lets see data for Russia in 2010 for males and for total population
+(both urban and rural)
 
 ``` r
-db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #>       year code territory sex age       mx       N        Dx
 #> 20445 2010 1100         t   m   0 0.008823  869388   7670.61
 #> 20446 2010 1100         t   m   1 0.000604 3222450   1946.36
@@ -75,11 +76,18 @@ db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
 #> 20463 2010 1100         t   m  85 0.198593  231350  45944.49
 ```
 
-Now one can create life-table based on getted data for 2010-Russia using
-`LT()`
+## Life-table and additional function for mortality
+
+Now one can create life-table based on gotten data for 2010-Russia using
+`LT()`.  
+Note, nax for year 0 is modeled as in:  
+Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in
+infancy and infant mortality level: Reconsidering the Coale-Demeny
+formulas at current levels of low mortality. Demographic Research, 33,
+363-390.
 
 ``` r
-rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 LT(
   age = rus2010$age, 
@@ -112,8 +120,8 @@ Also one can do simple decomposition between 2 populations. Lets use
 Russia-2000 as base population and Russia-2010 as compared population
 
 ``` r
-rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
-rus2000 <- db[db$year==2000 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
+rus2000 <- dbm[dbm$year==2000 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 dec <- decomp(mx1 = rus2000$mx, 
               mx2 = rus2010$mx, 
@@ -143,4 +151,96 @@ dec
 #> 19  85  4.16  5.04 0.08447 0.88 0.07  1.7199017
 ```
 
+Than let us plot the result of `decomp`.
+
+``` r
+barplot(height=dec$ex12, 
+        names=dec$age,
+        xlab="Age-groups", 
+        ylab="Сontribution to the e0 difference")
+```
+
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+## Some fertility
+
+For the analysis of fertility in the `demor` there are only a few (1…)
+functions, due to the author’s preference for mortality analysis…  
+Lets get basic fertility data (asFR) from
+[RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
+`get_rosbris()`
+
+``` r
+dbf <- get_rosbris(
+  #fertility data
+  type = "f",
+  #what age group download
+  age =  5,
+  #to get "long" data
+  initial = F,
+  #last available year
+  lastyear = 2022
+)
+```
+
+For the example Russia-2010 is gotten
+
+``` r
+rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
+rus2010f
+#>      year code territory age       fx       N        Bx
+#> 3153 2010 1100         t  15 0.027015 4214250 113847.96
+#> 3154 2010 1100         t  20 0.087421 6027079 526893.27
+#> 3155 2010 1100         t  25 0.099061 5957982 590203.65
+#> 3156 2010 1100         t  30 0.067240 5515957 370892.95
+#> 3157 2010 1100         t  35 0.029922 5187670 155225.46
+#> 3158 2010 1100         t  40 0.005904 4764028  28126.82
+#> 3159 2010 1100         t  45 0.000257 5738736   1474.86
+#> 3160 2010 1100         t  50 0.000014 6203597     86.85
+```
+
+Now one can compute TFR
+
+``` r
+tfr(
+  #asFR
+  rus2010f$fx,
+  #age interval
+  age.int = 5
+    )
+#> [1] 1.58417
+```
+
+## Some other functions
+
+Also in the `demor` there are some additional functions.  
+One of them is `plot_pyr` that plots population pyramid using
+[ggplot2](https://github.com/tidyverse/ggplot2)  
+Lets create population pyramid using midyear population from Rosbris
+mortality data. We already have data in `dbm`.
+
+``` r
+plot_pyr(
+  popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
+  ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+Also one can designed plot using `ggplot2` functions
+
+``` r
+library(ggplot2)
+plot <- 
+  plot_pyr(
+  popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
+  ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
+
+plot + 
+  labs(y = "My y", x = "Age")+
+  theme_minimal()
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />

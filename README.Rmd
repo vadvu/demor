@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The goal of `demor` is to provide you with:    
-* the most basic functions for demographic analysis    
-* Some data
+1. the most basic functions for demographic analysis    
+2. some data    
 
 ## Installation
 
@@ -45,7 +45,7 @@ In the chunk below mortality data for 5-age groups with population in "long" for
 ```{r}
 library(demor)
 
-db <- get_rosbris(
+dbm <- get_rosbris(
   #mortality data
   type = "m",
   #what age group download
@@ -57,16 +57,21 @@ db <- get_rosbris(
 )
 ```
 
-Lets see data for Russia in 2010 for males and for total population
+Lets see data for Russia in 2010 for males and for total population (both urban and rural)
 
 ```{r}
-db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 ```
 
-Now one can create life-table based on getted data for 2010-Russia using `LT()`
+
+## Life-table and additional function for mortality
+
+Now one can create life-table based on gotten data for 2010-Russia using `LT()`.    
+Note, nax for year 0 is modeled as in:    
+Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. Demographic Research, 33, 363-390.
 
 ```{r}
-rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 LT(
   age = rus2010$age, 
@@ -78,8 +83,8 @@ LT(
 Also one can do simple decomposition between 2 populations. Lets use Russia-2000 as base population and Russia-2010 as compared population
 
 ```{r}
-rus2010 <- db[db$year==2010 & db$code==1100 & db$sex=="m" & db$territory=="t",]
-rus2000 <- db[db$year==2000 & db$code==1100 & db$sex=="m" & db$territory=="t",]
+rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
+rus2000 <- dbm[dbm$year==2000 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 dec <- decomp(mx1 = rus2000$mx, 
               mx2 = rus2010$mx, 
@@ -89,13 +94,84 @@ dec <- decomp(mx1 = rus2000$mx,
 dec
 ```
 
+Than let us plot the result of `decomp`. 
 
-```{r, echo=FALSE}
+```{r}
 barplot(height=dec$ex12, 
         names=dec$age,
         xlab="Age-groups", 
         ylab="Сontribution to the e0 difference")
 ```
+
+
+## Some fertility
+
+For the analysis of fertility in the `demor` there are only a few (1...) functions, due to the author's preference for mortality analysis...    
+Lets get basic fertility data (asFR) from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using `get_rosbris()`
+
+```{r}
+dbf <- get_rosbris(
+  #fertility data
+  type = "f",
+  #what age group download
+  age =  5,
+  #to get "long" data
+  initial = F,
+  #last available year
+  lastyear = 2022
+)
+```
+
+For the example Russia-2010 is gotten
+
+```{r}
+rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
+rus2010f
+```
+
+
+Now one can compute TFR
+
+```{r}
+tfr(
+  #asFR
+  rus2010f$fx,
+  #age interval
+  age.int = 5
+    )
+```
+
+
+## Some other functions
+
+Also in the `demor` there are some additional functions.    
+One of them is `plot_pyr` that plots population pyramid using [ggplot2](https://github.com/tidyverse/ggplot2)   
+Lets create population pyramid using midyear population from Rosbris mortality data. We already have data in `dbm`. 
+
+```{r}
+plot_pyr(
+  popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
+  ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
+```
+
+
+Also one can designed plot using `ggplot2` functions
+
+```{r}
+library(ggplot2)
+plot <- 
+  plot_pyr(
+  popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
+  ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
+
+plot + 
+  labs(y = "My y", x = "Age")+
+  theme_minimal()
+```
+
+
 
 
 

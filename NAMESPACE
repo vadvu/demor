@@ -3,6 +3,8 @@
 export(LT)
 export(decomp)
 export(get_rosbris)
+export(plot_pyr)
 export(tfr)
 import(dplyr)
+import(ggplot2)
 import(tidyr)
