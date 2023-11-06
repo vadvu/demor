@@ -11,14 +11,14 @@ decomp(mx1, mx2, sex, age, method = "andreev")
 
 \item{mx2}{Age specific mortality rates of population 2 (compared population).}
 
-\item{sex}{Sex. "m" for males or "f" for females}
+\item{sex}{Sex. "m" for males and "f" for females}
 
 \item{age}{Array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
 \item{method}{Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.}
 }
 \value{
-dataframe with some parameters of decomposition (depends on method) and decomposition in years of percents.
+dataframe with some parameters of decomposition (depends on method) and decomposition in years or percents.
 }
 \description{
 Age decomposition of mortality: single decrement

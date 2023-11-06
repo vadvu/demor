@@ -17,7 +17,7 @@ get_rosbris(type, age = 1, initial = F, lastyear = 2022)
 (can be seen on the \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{website}). default is \code{2022} (in 2023).}
 }
 \value{
-List (if \code{initial = T}) of dataframes: population and mortality/fertility data. Dataframe (if \code{initial = F}).
+List (if \code{initial = T}) of dataframes: population and mortality/fertility data. Dataframe (if \code{initial = F}) in long format.
 }
 \description{
 Get data from RosBris

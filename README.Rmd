@@ -104,6 +104,33 @@ barplot(height=dec$ex12,
 ```
 
 
+Also in the `demor` there is `leecart()` function that provides users with basic Lee-Carter model (IT IS IN DEMO NOW!) for mortality forecasting
+
+```{r}
+leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
+                            n = 2
+                            )
+head(leecart_forecast)
+```
+
+
+AThere is `asdt()` function (also IT IS IN DEMO NOW!) that calculates associated single decrement life table (ASDT) for causes of death (cause-deleted life table). 
+In other words, by this function one can answer the question "what will be the life expectancy if there is no mortality from cause i ?"   
+For the example in the `demor` data (as it is easy to guess, taken from 
+Andreev & Shkolnikov [spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)) 
+on  mortality of US men in 2002 by some causes is added. Let me show what would be ex if there is no deaths from neoplasm (i)
+
+```{r}
+data("asdtex")
+
+asdt(age = asdtex$age, 
+     sex = "m",
+     m_all = asdtex$all, 
+     m_i = asdtex$neoplasms, 
+     full = F, 
+     method = "chiang1968")[,c("age", "ex", "ex_without_i")]
+```
+
 ## Some fertility
 
 For the analysis of fertility in the `demor` there are only a few (1...) functions, due to the author's preference for mortality analysis...    

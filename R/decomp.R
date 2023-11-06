@@ -3,13 +3,14 @@
 #'
 #' @param mx1 Age specific mortality rates of population 1 (basic population).
 #' @param mx2 Age specific mortality rates of population 2 (compared population).
-#' @param sex Sex. "m" for males or "f" for females
+#' @param sex Sex. "m" for males and "f" for females
 #' @param age Array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param method Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.
 #'
-#' @return dataframe with some parameters of decomposition (depends on method) and decomposition in years of percents.
+#' @return dataframe with some parameters of decomposition (depends on method) and decomposition in years or percents.
 #' @export
 decomp <- function(mx1, mx2, sex, age, method = "andreev") {
+  if (method != "andreev" & method != "arriaga"){stop("Choose method (misspelling?)")}
   lt1 <- LT(age, sex, mx1)
   lt2 <- LT(age, sex, mx2)
   if (method == "andreev") {

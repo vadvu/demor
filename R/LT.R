@@ -38,7 +38,7 @@ LT <- function(age, sex, mx) {
   if (mx[last] > 0) {
     ax[last] <- 1 / mx[last]
   }
-  qx <- nx * mx / (1 + nx * (1 - ax) * mx)
+  qx <- (nx * mx) / (1 + nx * (1 - ax) * mx)
   qx[last] <- 1
   px <- 1 - qx
   lx <- 1

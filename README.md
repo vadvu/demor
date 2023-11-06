@@ -162,6 +162,66 @@ barplot(height=dec$ex12,
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
+Also in the `demor` there is `leecart()` function that provides users
+with basic Lee-Carter model (IT IS IN DEMO NOW!) for mortality
+forecasting
+
+``` r
+leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
+                            n = 2
+                            )
+head(leecart_forecast)
+#>   age group          t+1          t+2
+#> 1   0  mean 0.0052050868 0.0049093048
+#> 2   1  mean 0.0003032973 0.0002839591
+#> 3   5  mean 0.0001878952 0.0001771170
+#> 4  10  mean 0.0002669130 0.0002560473
+#> 5  15  mean 0.0007304609 0.0006927688
+#> 6  20  mean 0.0013011257 0.0012128257
+```
+
+AThere is `asdt()` function (also IT IS IN DEMO NOW!) that calculates
+associated single decrement life table (ASDT) for causes of death
+(cause-deleted life table). In other words, by this function one can
+answer the question “what will be the life expectancy if there is no
+mortality from cause i ?”  
+For the example in the `demor` data (as it is easy to guess, taken from
+Andreev & Shkolnikov
+[spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591))
+on mortality of US men in 2002 by some causes is added. Let me show what
+would be ex if there is no deaths from neoplasm (i)
+
+``` r
+data("asdtex")
+
+asdt(age = asdtex$age, 
+     sex = "m",
+     m_all = asdtex$all, 
+     m_i = asdtex$neoplasms, 
+     full = F, 
+     method = "chiang1968")[,c("age", "ex", "ex_without_i")]
+#>    age    ex ex_without_i
+#> 1    0 74.65        78.58
+#> 2    1 74.22        78.18
+#> 3    5 70.32        74.28
+#> 4   10 65.38        69.33
+#> 5   15 60.45        64.39
+#> 6   20 55.72        59.67
+#> 7   25 51.10        55.06
+#> 8   30 46.43        50.39
+#> 9   35 41.75        45.72
+#> 10  40 37.16        41.13
+#> 11  45 32.70        36.64
+#> 12  50 28.39        32.26
+#> 13  55 24.25        27.98
+#> 14  60 20.32        23.82
+#> 15  65 16.69        19.84
+#> 16  70 13.40        16.12
+#> 17  75 10.51        12.75
+#> 18  80  8.07         9.81
+#> 19  85  6.15         7.32
+```
+
 ## Some fertility
 
 For the analysis of fertility in the `demor` there are only a few (1…)
@@ -226,7 +286,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
 Also one can designed plot using `ggplot2` functions
 
@@ -243,4 +303,4 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
