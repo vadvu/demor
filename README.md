@@ -78,6 +78,8 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 ## Life-table and additional function for mortality
 
+### Life-table
+
 Now one can create life-table based on gotten data for 2010-Russia using
 `LT()`.  
 Note, nax for year 0 is modeled as in:  
@@ -115,6 +117,8 @@ LT(
 #> [18,]  80 0.13804 0.500 0.51313 0.17349 0.08902 0.64489  1.07021  6.17
 #> [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04
 ```
+
+### Age decomposition of differences in life expectancies
 
 Also one can do simple decomposition between 2 populations. Lets use
 Russia-2000 as base population and Russia-2010 as compared population
@@ -162,6 +166,101 @@ barplot(height=dec$ex12,
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
+### Age and cause decomposition of differences in life expectancies
+
+Also one can do decomposition between 2 populations by age and causes.
+Lets use example from Andreev & Shkolnikov
+[spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)
+where data for US and England and Wales men mortality by some causes are
+presented  
+Lets see the data
+
+``` r
+head(mdecompex)
+#> # A tibble: 6 × 9
+#>     age neoplasms circulatory respiratory  digestive  accident     other     all
+#>   <dbl>     <dbl>       <dbl>       <dbl>      <dbl>     <dbl>     <dbl>   <dbl>
+#> 1     0 0.0000349  0.000173    0.000188   0.000151   0.000377  0.00669   7.62e-3
+#> 2     1 0.0000309  0.0000155   0.0000220  0.00000930 0.000163  0.000112  3.53e-4
+#> 3     5 0.0000313  0.00000560  0.00000687 0.00000324 0.0000792 0.0000409 1.67e-4
+#> 4    10 0.0000305  0.0000127   0.00000896 0.00000286 0.000127  0.0000490 2.31e-4
+#> 5    15 0.0000424  0.0000322   0.0000141  0.00000401 0.000765  0.0000821 9.40e-4
+#> 6    20 0.0000600  0.0000511   0.0000158  0.00000928 0.00114   0.000130  1.41e-3
+#> # ℹ 1 more variable: cnt <chr>
+```
+
+For `mdecomp` 2 lists with arrays for 2 population are required.
+
+``` r
+#US men
+mx1 <- list(all = mdecompex[mdecompex$cnt=="usa",]$all, 
+            neoplasm = mdecompex[mdecompex$cnt=="usa",]$neoplasms, 
+            circulatory = mdecompex[mdecompex$cnt=="usa",]$circulatory, 
+            respiratory = mdecompex[mdecompex$cnt=="usa",]$respiratory,
+            digestive = mdecompex[mdecompex$cnt=="usa",]$digestive,
+            accident = mdecompex[mdecompex$cnt=="usa",]$accident,
+            other = mdecompex[mdecompex$cnt=="usa",]$other)
+#England and Wales men
+mx2 <- list(all = mdecompex[mdecompex$cnt=="eng",]$all, 
+            neoplasm = mdecompex[mdecompex$cnt=="eng",]$neoplasms, 
+            circulatory = mdecompex[mdecompex$cnt=="eng",]$circulatory, 
+            respiratory = mdecompex[mdecompex$cnt=="eng",]$respiratory,
+            digestive = mdecompex[mdecompex$cnt=="eng",]$digestive,
+            accident = mdecompex[mdecompex$cnt=="eng",]$accident,
+            other = mdecompex[mdecompex$cnt=="eng",]$other)
+
+decm <- mdecomp(mx1 = mx1, 
+              mx2 = mx2, 
+              sex = "m", 
+              age = unique(mdecompex$age)
+              )
+head(decm)
+#>   age ex12      neoplasm  circulatory   respiratory     digestive   accident
+#> 1   0 0.12  0.0008745885 6.544742e-03  0.0038965543  6.616401e-03 0.02107294
+#> 2   1 0.03 -0.0025030458 5.483996e-04  0.0020247182  6.245908e-04 0.03637029
+#> 3   5 0.02 -0.0016468368 8.262058e-05 -0.0001300012  9.929857e-05 0.02178479
+#> 4  10 0.01 -0.0014084238 4.993427e-04 -0.0002451017  8.338450e-05 0.01117647
+#> 5  15 0.13 -0.0032690840 2.657675e-03  0.0005053688 -2.052103e-04 0.13796276
+#> 6  20 0.17 -0.0009648903 2.773336e-03 -0.0016773417 -8.983808e-04 0.18353643
+#>           other
+#> 1  0.0809947781
+#> 2 -0.0070649563
+#> 3 -0.0001898743
+#> 4 -0.0001056675
+#> 5 -0.0076515085
+#> 6 -0.0127691565
+```
+
+Than let us plot the result of `mdecomp` using ggplot2. This requires
+some data transformations
+
+``` r
+library(ggplot2)
+
+decm_plot <- decm[,c(1,3)]
+decm_plot$group = colnames(decm)[3]
+colnames(decm_plot)[2]<-"ex12"
+for(i in 4:ncol(decm)){
+  decm_plot_i <- decm[,c(1,i)]
+  decm_plot_i$group = colnames(decm)[i]
+  colnames(decm_plot_i)[2]<-"ex12"
+  decm_plot <- rbind(decm_plot,decm_plot_i)
+  rm(decm_plot_i)
+}
+
+ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
+  geom_bar(stat="identity", colour = "black")+
+  theme_minimal()+
+  scale_fill_brewer(palette="Set1")+
+  labs(x = "Age", y = "Contribution to difference in ex", fill = "Cause:", 
+       caption  = paste0("Total difference in ex = ", sum(decm[,2]))
+       )
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+### Lee-Carter model
+
 Also in the `demor` there is `leecart()` function that provides users
 with basic Lee-Carter model (IT IS IN DEMO NOW!) for mortality
 forecasting
@@ -179,6 +278,8 @@ head(leecart_forecast)
 #> 5  15  mean 0.0007304609 0.0006927688
 #> 6  20  mean 0.0013011257 0.0012128257
 ```
+
+### Associated single decrement life table
 
 AThere is `asdt()` function (also IT IS IN DEMO NOW!) that calculates
 associated single decrement life table (ASDT) for causes of death
@@ -286,7 +387,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 Also one can designed plot using `ggplot2` functions
 
@@ -303,4 +404,4 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />

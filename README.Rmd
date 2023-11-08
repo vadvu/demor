@@ -65,7 +65,7 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 
 ## Life-table and additional function for mortality
-
+### Life-table
 Now one can create life-table based on gotten data for 2010-Russia using `LT()`.    
 Note, nax for year 0 is modeled as in:    
 Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. Demographic Research, 33, 363-390.
@@ -79,6 +79,8 @@ LT(
   #age specific mortality rates
   mx = rus2010$mx)
 ```
+
+### Age decomposition of differences in life expectancies
 
 Also one can do simple decomposition between 2 populations. Lets use Russia-2000 as base population and Russia-2010 as compared population
 
@@ -103,6 +105,72 @@ barplot(height=dec$ex12,
         ylab="Сontribution to the e0 difference")
 ```
 
+### Age and cause decomposition of differences in life expectancies
+
+Also one can do decomposition between 2 populations by age and causes. Lets use example from 
+Andreev & Shkolnikov 
+[spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591) 
+where data for US and England and Wales men mortality by some causes are presented    
+Lets see the data
+
+```{r}
+head(mdecompex)
+```
+
+For `mdecomp` 2 lists with arrays for 2 population are required. 
+
+```{r}
+#US men
+mx1 <- list(all = mdecompex[mdecompex$cnt=="usa",]$all, 
+            neoplasm = mdecompex[mdecompex$cnt=="usa",]$neoplasms, 
+            circulatory = mdecompex[mdecompex$cnt=="usa",]$circulatory, 
+            respiratory = mdecompex[mdecompex$cnt=="usa",]$respiratory,
+            digestive = mdecompex[mdecompex$cnt=="usa",]$digestive,
+            accident = mdecompex[mdecompex$cnt=="usa",]$accident,
+            other = mdecompex[mdecompex$cnt=="usa",]$other)
+#England and Wales men
+mx2 <- list(all = mdecompex[mdecompex$cnt=="eng",]$all, 
+            neoplasm = mdecompex[mdecompex$cnt=="eng",]$neoplasms, 
+            circulatory = mdecompex[mdecompex$cnt=="eng",]$circulatory, 
+            respiratory = mdecompex[mdecompex$cnt=="eng",]$respiratory,
+            digestive = mdecompex[mdecompex$cnt=="eng",]$digestive,
+            accident = mdecompex[mdecompex$cnt=="eng",]$accident,
+            other = mdecompex[mdecompex$cnt=="eng",]$other)
+
+decm <- mdecomp(mx1 = mx1, 
+              mx2 = mx2, 
+              sex = "m", 
+              age = unique(mdecompex$age)
+              )
+head(decm)
+```
+
+Than let us plot the result of `mdecomp` using ggplot2. This requires some data transformations
+
+```{r}
+library(ggplot2)
+
+decm_plot <- decm[,c(1,3)]
+decm_plot$group = colnames(decm)[3]
+colnames(decm_plot)[2]<-"ex12"
+for(i in 4:ncol(decm)){
+  decm_plot_i <- decm[,c(1,i)]
+  decm_plot_i$group = colnames(decm)[i]
+  colnames(decm_plot_i)[2]<-"ex12"
+  decm_plot <- rbind(decm_plot,decm_plot_i)
+  rm(decm_plot_i)
+}
+
+ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
+  geom_bar(stat="identity", colour = "black")+
+  theme_minimal()+
+  scale_fill_brewer(palette="Set1")+
+  labs(x = "Age", y = "Contribution to difference in ex", fill = "Cause:", 
+       caption  = paste0("Total difference in ex = ", sum(decm[,2]))
+       )
+```
+
+### Lee-Carter model
 
 Also in the `demor` there is `leecart()` function that provides users with basic Lee-Carter model (IT IS IN DEMO NOW!) for mortality forecasting
 
@@ -113,6 +181,8 @@ leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm
 head(leecart_forecast)
 ```
 
+
+###  Associated single decrement life table
 
 AThere is `asdt()` function (also IT IS IN DEMO NOW!) that calculates associated single decrement life table (ASDT) for causes of death (cause-deleted life table). 
 In other words, by this function one can answer the question "what will be the life expectancy if there is no mortality from cause i ?"   
