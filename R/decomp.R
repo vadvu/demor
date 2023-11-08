@@ -46,12 +46,10 @@ decomp <- function(mx1, mx2, sex, age, method = "andreev") {
     comp$ex12 = NA
     for (i in 1:nrow(comp)) {
       if (i == nrow(comp)) {
-        comp[i, ]$ex12 = comp[i, ]$l1 * (comp[i, ]$T2 / comp[i, ]$l2 - comp[i, ]$T1 /
-                                           comp[i, ]$l1)
+        comp[i, ]$ex12 = comp[i, ]$l1 * ( (comp[i, ]$T2 / comp[i, ]$l2) - (comp[i, ]$T1 /comp[i, ]$l1) )
       } else{
-        comp[i, ]$ex12 = comp[i, ]$l1 * (comp[i, ]$L2 / comp[i, ]$l2 - comp[i, ]$L1 /
-                                           comp[i, ]$L1) + comp[i + 1, ]$T2 * (comp[i, ]$l1 / comp[i, ]$l2 - comp[i +
-                                                                                                                    1, ]$l1 / comp[i + 1, ]$l2)
+        comp[i, ]$ex12 = comp[i, ]$l1 * ( (comp[i, ]$L2 / comp[i, ]$l2) - (comp[i, ]$L1 / comp[i, ]$l1) ) +
+          comp[i + 1, ]$T2 * ( (comp[i, ]$l1 / comp[i, ]$l2) - (comp[i+1, ]$l1 / comp[i+1, ]$l2) )
       }
     }
     comp$ex12 <- round(comp$ex12, 2)
