@@ -114,6 +114,7 @@ where data for US and England and Wales men mortality by some causes are present
 Lets see the data
 
 ```{r}
+data("mdecompex")
 head(mdecompex)
 ```
 
