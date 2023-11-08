@@ -176,6 +176,7 @@ presented
 Lets see the data
 
 ``` r
+data("mdecompex")
 head(mdecompex)
 #> # A tibble: 6 × 9
 #>     age neoplasms circulatory respiratory  digestive  accident     other     all
@@ -248,11 +249,15 @@ for(i in 4:ncol(decm)){
   rm(decm_plot_i)
 }
 
+for (i in unique(decm_plot$group)){
+  decm_plot[decm_plot$group==i,]$group <- paste0(i, " (", round(sum(decm_plot[decm_plot$group==i,]$ex12),2), ")")
+}
+
 ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
   geom_bar(stat="identity", colour = "black")+
   theme_minimal()+
   scale_fill_brewer(palette="Set1")+
-  labs(x = "Age", y = "Contribution to difference in ex", fill = "Cause:", 
+  labs(x = "Age", y = "Contribution to difference in ex", fill = "Cause (contribution):", 
        caption  = paste0("Total difference in ex = ", sum(decm[,2]))
        )
 ```
