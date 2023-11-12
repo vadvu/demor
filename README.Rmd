@@ -198,13 +198,34 @@ on  mortality of US men in 2002 by some causes is added. Let me show what would 
 ```{r}
 data("asdtex")
 
-asdt(age = asdtex$age, 
-     sex = "m",
-     m_all = asdtex$all, 
-     m_i = asdtex$neoplasms, 
-     full = F, 
-     method = "chiang1968")[,c("age", "ex", "ex_without_i")]
+asdt_neoplasm <- asdt(age = asdtex$age, 
+                      sex = "m",
+                      m_all = asdtex$all, 
+                      m_i = asdtex$neoplasms, 
+                      full = F, 
+                      method = "chiang1968")
+asdt_neoplasm[,c("age", "ex", "ex_without_i")]
 ```
+
+One can plot the results using `ggplot2`
+
+```{r}
+library(ggplot2)
+
+ggplot(data = asdt_neoplasm, aes(x = age))+
+  geom_line(aes(y = ex, color = "ex"), size = 1)+
+  geom_line(aes(y = ex_without_i, color = "ex without neoplasms"), size = 1)+
+  theme_minimal()
+
+ggplot(data = asdt_neoplasm, aes(x = age))+
+  geom_line(aes(y = lx, color = "ex"), size = 1)+
+  geom_line(aes(y = l_not_i, color = "ex without neoplasms"), size = 1)+
+  geom_hline(yintercept = 0.5, linetype = "dashed")+
+  theme_classic()
+
+```
+
+
 
 ## Some fertility
 
@@ -261,7 +282,6 @@ plot_pyr(
 Also one can designed plot using `ggplot2` functions
 
 ```{r}
-library(ggplot2)
 plot <- 
   plot_pyr(
   popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
