@@ -80,6 +80,17 @@ LT(
   mx = rus2010$mx)
 ```
 
+### HLI
+A good alternative to the human development indicator (HDI) is the human life indicator (HLI) proposed by Ghislandi, Sanderson and Scherbov (2019). It requires just mx (and it is based on life table). Lets calculate it using our example data:
+
+```{r}
+hli(
+  age = rus2010$age, 
+  sex = "m", 
+  mx = rus2010$mx)
+```
+
+
 ### Age decomposition of differences in life expectancies
 
 Also one can do simple decomposition between 2 populations. Lets use Russia-2000 as base population and Russia-2010 as compared population

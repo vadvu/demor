@@ -118,6 +118,21 @@ LT(
 #> [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04
 ```
 
+### HLI
+
+A good alternative to the human development indicator (HDI) is the human
+life indicator (HLI) proposed by Ghislandi, Sanderson and Scherbov
+(2019). It requires just mx (and it is based on life table). Lets
+calculate it using our example data:
+
+``` r
+hli(
+  age = rus2010$age, 
+  sex = "m", 
+  mx = rus2010$mx)
+#> [1] 55.19236
+```
+
 ### Age decomposition of differences in life expectancies
 
 Also one can do simple decomposition between 2 populations. Lets use
@@ -164,7 +179,7 @@ barplot(height=dec$ex12,
         ylab="Сontribution to the e0 difference")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ### Age and cause decomposition of differences in life expectancies
 
@@ -262,7 +277,7 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
        )
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ### Lee-Carter model
 
@@ -300,12 +315,13 @@ would be ex if there is no deaths from neoplasm (i)
 ``` r
 data("asdtex")
 
-asdt(age = asdtex$age, 
-     sex = "m",
-     m_all = asdtex$all, 
-     m_i = asdtex$neoplasms, 
-     full = F, 
-     method = "chiang1968")[,c("age", "ex", "ex_without_i")]
+asdt_neoplasm <- asdt(age = asdtex$age, 
+                      sex = "m",
+                      m_all = asdtex$all, 
+                      m_i = asdtex$neoplasms, 
+                      full = F, 
+                      method = "chiang1968")
+asdt_neoplasm[,c("age", "ex", "ex_without_i")]
 #>    age    ex ex_without_i
 #> 1    0 74.65        78.58
 #> 2    1 74.22        78.18
@@ -327,6 +343,30 @@ asdt(age = asdtex$age,
 #> 18  80  8.07         9.81
 #> 19  85  6.15         7.32
 ```
+
+One can plot the results using `ggplot2`
+
+``` r
+library(ggplot2)
+
+ggplot(data = asdt_neoplasm, aes(x = age))+
+  geom_line(aes(y = ex, color = "ex"), size = 1)+
+  geom_line(aes(y = ex_without_i, color = "ex without neoplasms"), size = 1)+
+  theme_minimal()
+```
+
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+
+``` r
+
+ggplot(data = asdt_neoplasm, aes(x = age))+
+  geom_line(aes(y = lx, color = "ex"), size = 1)+
+  geom_line(aes(y = l_not_i, color = "ex without neoplasms"), size = 1)+
+  geom_hline(yintercept = 0.5, linetype = "dashed")+
+  theme_classic()
+```
+
+<img src="man/figures/README-unnamed-chunk-13-2.png" width="100%" />
 
 ## Some fertility
 
@@ -392,12 +432,11 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
 Also one can designed plot using `ggplot2` functions
 
 ``` r
-library(ggplot2)
 plot <- 
   plot_pyr(
   popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
@@ -409,4 +448,4 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />

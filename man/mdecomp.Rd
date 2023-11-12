@@ -16,7 +16,7 @@ mdecomp(mx1, mx2, age, sex)
 \item{sex}{Sex. "m" for males and "f" for females}
 }
 \value{
-Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decompositions by causes (\code{ex12_cause(i)})
+Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decompositions by causes (\code{cause(i)})
 }
 \description{
 Age and cause decomposition of differences in life expectancies
