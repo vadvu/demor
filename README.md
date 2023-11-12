@@ -83,10 +83,11 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 Now one can create life-table based on gotten data for 2010-Russia using
 `LT()`.  
 Note, nax for year 0 is modeled as in:  
-Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in
-infancy and infant mortality level: Reconsidering the Coale-Demeny
-formulas at current levels of low mortality. Demographic Research, 33,
-363-390.
+Andreev, E. M., & Kingkade, W. W.
+([2015](https://doi.org/10.4054/DemRes.2015.33.13)). Average age at
+death in infancy and infant mortality level: Reconsidering the
+Coale-Demeny formulas at current levels of low mortality. Demographic
+Research, 33, 363-390.
 
 ``` r
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
@@ -122,8 +123,8 @@ LT(
 
 A good alternative to the human development indicator (HDI) is the human
 life indicator (HLI) proposed by Ghislandi, Sanderson and Scherbov
-(2019). It requires just mx (and it is based on life table). Lets
-calculate it using our example data:
+([2019](https://doi.org/10.1111/padr.12205)). It requires just mx (and
+it is based on life table). Lets calculate it using our example data:
 
 ``` r
 hli(
