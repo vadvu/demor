@@ -50,7 +50,7 @@ leecart <- function(data, n=10, sex = "m", concise = T){
   #m forecast
   for (i in c(1,4,5)){
     if(i==1){
-      mf <- matrix(NA, n, 19, byrow = TRUE)
+      mf <- matrix(NA, n, length(unique(data$age)), byrow = TRUE)
       for(z in 1:n){
         mf[z,]<-exp(ax+b*fk[z,i])
       }
@@ -60,7 +60,7 @@ leecart <- function(data, n=10, sex = "m", concise = T){
       mf1 <- as.data.frame(tidyr::pivot_longer(mf, cols = 1:length(unique(data$age)), names_to = "age",
                                                values_to = "mx"))
     }else{
-      mf <- matrix(NA, n, 19, byrow = TRUE)
+      mf <- matrix(NA, n, length(unique(data$age)), byrow = TRUE)
       for(z in 1:n){
         mf[z,]<-exp(ax+b*fk[z,i])
       }
