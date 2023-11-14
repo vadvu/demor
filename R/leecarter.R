@@ -1,12 +1,14 @@
-#' (IN DEMO!) Basic Lee-Carter model
+#' Basic Lee-Carter model
 #'
 #' @param data Dataframe with following columns: age, year, mx
 #' @param n Numeric. Forecasted horizon
+#' @param sex Sex. "m" for males or "f" for females.
+#' @param concise Should results be restricted? `T` for just forecast, `F` for full data
 #'
-#' @return Dataframe with projected mx for t+n periods with mean, low95 and high 95 values (group column)
-#' @import forecast
+#' @return Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values
+#' @import forecast dplyr tidyr
 #' @export
-leecart <- function(data, n=10){
+leecart <- function(data, n=10, sex = "m", concise = T){
   #data = year, age, mx
   `%notin%` <- Negate(`%in%`)
   if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){
@@ -23,7 +25,6 @@ leecart <- function(data, n=10){
   for(i in unique(data$age)){
     data[data$age == i,]$Ax <- log(data[data$age == i,]$mx) - ax[paste0(i)]
   }
-
   ma <- data.frame(k = 1:length(unique(data$age)))
   for(i in min(data$year):max(data$year)){
     ma[paste0(i)]<-NA
@@ -31,29 +32,62 @@ leecart <- function(data, n=10){
   }
   ma <- as.matrix(ma[,-1])
   #3 step
-  svd <- svd(ma)
-  k <- svd$v[,1]
-  s <- svd$d[1]
-  b <- svd$u[,1]
-  svd <- data.frame(age = unique(data$age), ax = ax, b = b, s = s)
+  svd <- svd(t(ma),1,1)
+  k <- svd$u * sum(svd$v) * svd$d[1]
+  b <- svd$v/sum(svd$v)
+  svd <- data.frame(age = unique(data$age), ax = ax, b = b)
   #4 step
+  #k forecast
   ar <- forecast::auto.arima(k, seasonal = F, stationary = F, allowdrift = T)
-  fk <- as.data.frame(forecast(ar, h = n))
-  pred_m <- data.frame(age = unique(data$age), group = "mean")
-  for (i in 1:n){
-    pred_m[paste0("t+",i)] <- NA
-    pred_m[,paste0("t+",i)] <- exp(svd$ax + svd$s*fk[i,1]*svd$b)
+  fk <- as.data.frame(forecast::forecast(ar, h = n))
+  fk$year <- (max(unique(data$year))+1):(max(unique(data$year))+n)
+  kh <- fk[1:length(unique(data$year)),]
+  kh$year <- unique(data$year)
+  kh[,-6]<-NA
+  kh[,1]<-k
+  allk <- rbind(kh,fk)[,c(6,1:5)]
+  colnames(fk)[2]<-"k"
+  #m forecast
+  for (i in c(1,4,5)){
+    if(i==1){
+      mf <- matrix(NA, n, 19, byrow = TRUE)
+      for(z in 1:n){
+        mf[z,]<-exp(ax+b*fk[z,i])
+      }
+      mf <- as.data.frame(mf)
+      colnames(mf)<-unique(data$age)
+      mf$year <- (max(unique(data$year))+1):(max(unique(data$year))+n)
+      mf1 <- as.data.frame(tidyr::pivot_longer(mf, cols = 1:length(unique(data$age)), names_to = "age",
+                                               values_to = "mx"))
+    }else{
+      mf <- matrix(NA, n, 19, byrow = TRUE)
+      for(z in 1:n){
+        mf[z,]<-exp(ax+b*fk[z,i])
+      }
+      mf <- as.data.frame(mf)
+      colnames(mf)<-unique(data$age)
+      mf$year <- (max(unique(data$year))+1):(max(unique(data$year))+n)
+      mf <- as.data.frame(tidyr::pivot_longer(mf, cols = 1:length(unique(data$age)), names_to = "age",
+                                              values_to = paste0("mx", ifelse(i==4,"_low95","_high95"))))
+      mf1 <- merge(mf1,mf,by = c('year', 'age'))
+    }
   }
-  pred_l <- data.frame(age = unique(data$age), group = "low95")
-  for (i in 1:n){
-    pred_l[paste0("t+",i)] <- NA
-    pred_l[,paste0("t+",i)] <- exp(svd$ax + svd$s*fk[i,4]*svd$b)
+  ledata <- data.frame(year = rep(unique(mf1$year), length(unique(data$age))), age = rep(unique(data$age), length(unique(mf1$year))))
+  ledata <- ledata %>% dplyr::arrange(year, age)
+  ledata$ex = NA
+  ledata$ex_low95 = NA
+  ledata$ex_high95 = NA
+  for (i in unique(ledata$year)){
+    ledata[ledata$year==i,"ex"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,3])[,"ex"]
+    ledata[ledata$year==i,"ex_high95"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,4])[,"ex"]
+    ledata[ledata$year==i,"ex_low95"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,5])[,"ex"]
   }
-  pred_h <- data.frame(age = unique(data$age), group = "high95")
-  for (i in 1:n){
-    pred_h[paste0("t+",i)] <- NA
-    pred_h[,paste0("t+",i)] <- exp(svd$ax + svd$s*fk[i,5]*svd$b)
+  allf <- cbind(mf1, ledata[,-c(1:2)])
+  if(concise){
+    return(allf)
+  }else{
+    return(
+      list(param = list("a,b" = as.matrix(svd), "k" = k), kdata = allk, mxdata = mf1, ledata = ledata, all_forecast = allf)
+    )
   }
-  pred <- rbind(pred_m, pred_h, pred_l)
-  return(pred)
 }

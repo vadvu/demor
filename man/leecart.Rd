@@ -2,18 +2,22 @@
 % Please edit documentation in R/leecarter.R
 \name{leecart}
 \alias{leecart}
-\title{(IN DEMO!) Basic Lee-Carter model}
+\title{Basic Lee-Carter model}
 \usage{
-leecart(data, n = 10)
+leecart(data, n = 10, sex = "m", concise = T)
 }
 \arguments{
 \item{data}{Dataframe with following columns: age, year, mx}
 
 \item{n}{Numeric. Forecasted horizon}
+
+\item{sex}{Sex. "m" for males or "f" for females.}
+
+\item{concise}{Should results be restricted? \code{T} for just forecast, \code{F} for full data}
 }
 \value{
-Dataframe with projected mx for t+n periods with mean, low95 and high 95 values (group column)
+Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values
 }
 \description{
-(IN DEMO!) Basic Lee-Carter model
+Basic Lee-Carter model
 }

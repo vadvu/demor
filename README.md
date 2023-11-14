@@ -82,12 +82,8 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 Now one can create life-table based on gotten data for 2010-Russia using
 `LT()`.  
-Note, nax for year 0 is modeled as in:  
-Andreev, E. M., & Kingkade, W. W.
-([2015](https://doi.org/10.4054/DemRes.2015.33.13)). Average age at
-death in infancy and infant mortality level: Reconsidering the
-Coale-Demeny formulas at current levels of low mortality. Demographic
-Research, 33, 363-390.
+Note, nax for year 0 is modeled as in Andreev & Kingkade
+([2015](https://doi.org/10.4054/DemRes.2015.33.13)).
 
 ``` r
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
@@ -288,17 +284,38 @@ forecasting
 
 ``` r
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 2
+                            n = 10, 
+                            sex = "m", 
+                            concise = T
                             )
 head(leecart_forecast)
-#>   age group          t+1          t+2
-#> 1   0  mean 0.0052050868 0.0049093048
-#> 2   1  mean 0.0003032973 0.0002839591
-#> 3   5  mean 0.0001878952 0.0001771170
-#> 4  10  mean 0.0002669130 0.0002560473
-#> 5  15  mean 0.0007304609 0.0006927688
-#> 6  20  mean 0.0013011257 0.0012128257
+#>   year age           mx     mx_low95    mx_high95    ex ex_low95 ex_high95
+#> 1 2020   0 0.0052050868 0.0049297552 0.0054957958 68.54    67.99     69.08
+#> 2 2020   1 0.0003032973 0.0002852915 0.0003224396 67.89    67.36     68.42
+#> 3 2020  10 0.0002669130 0.0002568045 0.0002774194 63.97    63.45     64.50
+#> 4 2020  15 0.0007304609 0.0006953816 0.0007673099 59.06    58.53     59.58
+#> 5 2020  20 0.0013011257 0.0012188971 0.0013889016 54.26    53.75     54.78
+#> 6 2020  25 0.0019688556 0.0018300568 0.0021181815 49.60    49.10     50.10
 ```
+
+One can plot the results using ggplot2:
+
+``` r
+ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
+  geom_line()+geom_ribbon(aes(ymin = ex_low95, ymax = ex_high95), alpha = 0.3, fill = "red")+
+  theme_classic()
+```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+
+``` r
+
+ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.factor(year)))+
+  geom_line()+geom_ribbon(aes(ymin = log10(mx_low95), ymax = log10(mx_high95)), alpha = 0)+
+  theme_classic()
+```
+
+<img src="man/figures/README-unnamed-chunk-12-2.png" width="100%" />
 
 ### Associated single decrement life table
 
@@ -356,7 +373,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
 
 ``` r
 
@@ -367,7 +384,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-14-2.png" width="100%" />
 
 ## Some fertility
 
@@ -433,7 +450,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
 Also one can designed plot using `ggplot2` functions
 
@@ -449,4 +466,4 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />

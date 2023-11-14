@@ -67,8 +67,7 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 ## Life-table and additional function for mortality
 ### Life-table
 Now one can create life-table based on gotten data for 2010-Russia using `LT()`.    
-Note, nax for year 0 is modeled as in:    
-Andreev, E. M., & Kingkade, W. W. ([2015](https://doi.org/10.4054/DemRes.2015.33.13)). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. Demographic Research, 33, 363-390.
+Note, nax for year 0 is modeled as in Andreev & Kingkade ([2015](https://doi.org/10.4054/DemRes.2015.33.13)).
 
 ```{r}
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
@@ -192,9 +191,23 @@ Also in the `demor` there is `leecart()` function that provides users with basic
 
 ```{r}
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 2
+                            n = 10, 
+                            sex = "m", 
+                            concise = T
                             )
 head(leecart_forecast)
+```
+
+One can plot the results using ggplot2:
+
+```{r}
+ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
+  geom_line()+geom_ribbon(aes(ymin = ex_low95, ymax = ex_high95), alpha = 0.3, fill = "red")+
+  theme_classic()
+
+ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.factor(year)))+
+  geom_line()+geom_ribbon(aes(ymin = log10(mx_low95), ymax = log10(mx_high95)), alpha = 0)+
+  theme_classic()
 ```
 
 
