@@ -12,7 +12,7 @@ The goal of `demor` is to provide you with:
 
 ## Installation
 
-You can install the development version of demor from
+You can install the development version of `demor` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -25,7 +25,7 @@ devtools::install_github("vadvu/demor")
 
 For getting data from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there
-is function `get_rosbris()` that can download data on
+is a function `get_rosbris()` that can download data on
 mortality/fertility by 1/5-year age groups from 1989 to the last
 available year (in 2023 its 2022).  
 Worth noting: downloading and preparing the final file can get some
@@ -49,7 +49,7 @@ dbm <- get_rosbris(
 )
 ```
 
-Lets see data for Russia in 2010 for males and for total population
+Lets see the data for Russia in 2010 for males and for total population
 (both urban and rural)
 
 ``` r
@@ -76,13 +76,13 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #> 20463 2010 1100         t   m  85 0.198593  231350  45944.49
 ```
 
-## Life-table and additional function for mortality
+## Life table and additional function for mortality
 
-### Life-table
+### Life table
 
-Now one can create life-table based on gotten data for 2010-Russia using
-`LT()`.  
-Note, nax for year 0 is modeled as in Andreev & Kingkade
+Now one can create *life table* based on gotten data for 2010-Russia
+using `LT()`.  
+Note, $a_x$ for age 0 is modeled as in Andreev & Kingkade
 ([2015](https://doi.org/10.4054/DemRes.2015.33.13)).
 
 ``` r
@@ -115,12 +115,26 @@ LT(
 #> [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04
 ```
 
+Note, from life table one can compute other *functions* (not just $e_x$
+or $l_x$):  
+1. $CDR = \frac{1}{e_0}$ or Death rate above some age
+$x: \frac{1}{e_x}$.  
+2. Probability of surviving from age $x$ to age $y$:
+$p=\frac{l_y}{l_x}$.  
+3. Probability that a newborn will die between ages $x$ and $x+n$:
+$\frac{d_x^n}{l_0}$.  
+4. Probability that a newborn will die between ages $x$ and $y$:
+$\frac{l_x-l_y}{l_0}$.  
+5. Life course ratio from age $x$ to $y$ that is the fraction of
+person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
+
 ### HLI
 
-A good alternative to the human development indicator (HDI) is the human
-life indicator (HLI) proposed by Ghislandi, Sanderson and Scherbov
-([2019](https://doi.org/10.1111/padr.12205)). It requires just mx (and
-it is based on life table). Lets calculate it using our example data:
+A good alternative to the *human development indicator* (HDI) is the
+*human life indicator* (HLI) proposed by Ghislandi, Sanderson and
+Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just
+$m_x$ (and it is based on life table). Lets calculate it using our
+example data:
 
 ``` r
 hli(
@@ -132,8 +146,9 @@ hli(
 
 ### Age decomposition of differences in life expectancies
 
-Also one can do simple decomposition between 2 populations. Lets use
-Russia-2000 as base population and Russia-2010 as compared population
+Also one can do simple *decomposition* between 2 populations. Lets use
+Russia-2000 as *base population* and Russia-2010 as *compared
+population*
 
 ``` r
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
@@ -167,7 +182,7 @@ dec
 #> 19  85  4.16  5.04 0.08447 0.88 0.07  1.7199017
 ```
 
-Than let us plot the result of `decomp`.
+Than let us plot the result of `decomp` using R basic plot.
 
 ``` r
 barplot(height=dec$ex12, 
@@ -180,11 +195,11 @@ barplot(height=dec$ex12,
 
 ### Age and cause decomposition of differences in life expectancies
 
-Also one can do decomposition between 2 populations by age and causes.
-Lets use example from Andreev & Shkolnikov
+Also one can do *decomposition* between 2 populations by *age* and
+*causes*. Lets use example from Andreev & Shkolnikov
 [spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)
 where data for US and England and Wales men mortality by some causes are
-presented  
+presented.  
 Lets see the data
 
 ``` r
@@ -244,8 +259,9 @@ head(decm)
 #> 6 -0.0127691565
 ```
 
-Than let us plot the result of `mdecomp` using ggplot2. This requires
-some data transformations
+Than let us plot the result of `mdecomp` using
+[ggplot2](https://github.com/tidyverse/ggplot2). This requires some data
+transformations
 
 ``` r
 library(ggplot2)
@@ -279,8 +295,7 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
 ### Lee-Carter model
 
 Also in the `demor` there is `leecart()` function that provides users
-with basic Lee-Carter model (IT IS IN DEMO NOW!) for mortality
-forecasting
+with basic *Lee-Carter model* for mortality forecasting:
 
 ``` r
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
@@ -298,7 +313,8 @@ head(leecart_forecast)
 #> 6 2020  25 0.0019688556 0.0018300568 0.0021181815 49.60    49.10     50.10
 ```
 
-One can plot the results using ggplot2:
+One can plot the results using
+[ggplot2](https://github.com/tidyverse/ggplot2):
 
 ``` r
 ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
@@ -319,16 +335,15 @@ ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.facto
 
 ### Associated single decrement life table
 
-AThere is `asdt()` function (also IT IS IN DEMO NOW!) that calculates
-associated single decrement life table (ASDT) for causes of death
-(cause-deleted life table). In other words, by this function one can
-answer the question “what will be the life expectancy if there is no
-mortality from cause i ?”  
-For the example in the `demor` data (as it is easy to guess, taken from
+There is `asdt()` function that calculates *associated single decrement
+life table* (ASDT) for causes of death (*cause-deleted life table*). In
+other words, by this function one can answer the question “what will be
+the life expectancy if there is no mortality from cause i?”  
+For example in the `demor` data (as it is easy to guess, taken from
 Andreev & Shkolnikov
 [spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591))
 on mortality of US men in 2002 by some causes is added. Let me show what
-would be ex if there is no deaths from neoplasm (i)
+would be $e_x$ if there is no deaths from neoplasm (i)
 
 ``` r
 data("asdtex")
@@ -362,7 +377,8 @@ asdt_neoplasm[,c("age", "ex", "ex_without_i")]
 #> 19  85  6.15         7.32
 ```
 
-One can plot the results using `ggplot2`
+One can plot the results using
+[ggplot2](https://github.com/tidyverse/ggplot2):
 
 ``` r
 library(ggplot2)
@@ -390,7 +406,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 For the analysis of fertility in the `demor` there are only a few (1…)
 functions, due to the author’s preference for mortality analysis…  
-Lets get basic fertility data (asFR) from
+Lets get basic *fertility data* (asFR or $f_x$) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
 `get_rosbris()`
 
@@ -423,7 +439,7 @@ rus2010f
 #> 3160 2010 1100         t  50 0.000014 6203597     86.85
 ```
 
-Now one can compute TFR
+Now one can compute TFR:
 
 ``` r
 tfr(
@@ -452,7 +468,8 @@ plot_pyr(
 
 <img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
-Also one can designed plot using `ggplot2` functions
+Also one can redesigned plot using
+[ggplot2](https://github.com/tidyverse/ggplot2) functions:
 
 ``` r
 plot <- 
