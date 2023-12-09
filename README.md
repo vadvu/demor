@@ -515,3 +515,5 @@ plot +
 ```
 
 <img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
+
+\##References
