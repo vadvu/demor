@@ -1,14 +1,25 @@
 Using Demor package for basic demographic analysis
 ================
 
-- [demor](#demor)
+- [Installation](#installation)
+- [Get ROSBRIS data](#get-rosbris-data)
+- [Life table and additional function for
+  mortality](#life-table-and-additional-function-for-mortality)
+  - [Life table](#life-table)
+  - [HLI](#hli)
+  - [Age decomposition of differences in life
+    expectancies](#age-decomposition-of-differences-in-life-expectancies)
+  - [Age and cause decomposition of differences in life
+    expectancies](#age-and-cause-decomposition-of-differences-in-life-expectancies)
+  - [Lee-Carter model](#lee-carter-model)
+  - [Associated single decrement life
+    table](#associated-single-decrement-life-table)
+- [Some fertility](#some-fertility)
+- [Some other functions](#some-other-functions)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# demor
-
-<!-- badges: start -->
-<!-- badges: end -->
+\##Introduction
 
 The goal of `demor` is to provide you with:  
 1. the most basic functions for demographic analysis  
