@@ -1,3 +1,7 @@
+Using Demor package for basic demographic analysis
+================
+
+- [demor](#demor)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -82,7 +86,8 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 Now one can create *life table* based on gotten data for 2010-Russia
 using `LT()`.  
-Note, $a_x$ for age 0 is modeled as in Andreev & Kingkade
+Note, ![a_x](https://latex.codecogs.com/png.latex?a_x "a_x") for age 0
+is modeled as in Andreev & Kingkade
 ([2015](https://doi.org/10.4054/DemRes.2015.33.13)).
 
 ``` r
@@ -115,26 +120,39 @@ LT(
 #> [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04
 ```
 
-Note, from life table one can compute other *functions* (not just $e_x$
-or $l_x$):  
-1. $CDR = \frac{1}{e_0}$ or Death rate above some age
-$x: \frac{1}{e_x}$.  
-2. Probability of surviving from age $x$ to age $y$:
-$p=\frac{l_y}{l_x}$.  
-3. Probability that a newborn will die between ages $x$ and $x+n$:
-$\frac{d_x^n}{l_0}$.  
-4. Probability that a newborn will die between ages $x$ and $y$:
-$\frac{l_x-l_y}{l_0}$.  
-5. Life course ratio from age $x$ to $y$ that is the fraction of
-person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
+Note, from life table one can compute other *functions* (not just
+![e_x](https://latex.codecogs.com/png.latex?e_x "e_x") or
+![l_x](https://latex.codecogs.com/png.latex?l_x "l_x")):  
+1.
+![CDR = \frac{1}{e_0}](https://latex.codecogs.com/png.latex?CDR%20%3D%20%5Cfrac%7B1%7D%7Be_0%7D "CDR = \frac{1}{e_0}")
+or Death rate above some age
+![x: \frac{1}{e_x}](https://latex.codecogs.com/png.latex?x%3A%20%5Cfrac%7B1%7D%7Be_x%7D "x: \frac{1}{e_x}").  
+2. Probability of surviving from age
+![x](https://latex.codecogs.com/png.latex?x "x") to age
+![y](https://latex.codecogs.com/png.latex?y "y"):
+![p=\frac{l_y}{l_x}](https://latex.codecogs.com/png.latex?p%3D%5Cfrac%7Bl_y%7D%7Bl_x%7D "p=\frac{l_y}{l_x}").  
+3. Probability that a newborn will die between ages
+![x](https://latex.codecogs.com/png.latex?x "x") and
+![x+n](https://latex.codecogs.com/png.latex?x%2Bn "x+n"):
+![\frac{d_x^n}{l_0}](https://latex.codecogs.com/png.latex?%5Cfrac%7Bd_x%5En%7D%7Bl_0%7D "\frac{d_x^n}{l_0}").  
+4. Probability that a newborn will die between ages
+![x](https://latex.codecogs.com/png.latex?x "x") and
+![y](https://latex.codecogs.com/png.latex?y "y"):
+![\frac{l_x-l_y}{l_0}](https://latex.codecogs.com/png.latex?%5Cfrac%7Bl_x-l_y%7D%7Bl_0%7D "\frac{l_x-l_y}{l_0}").  
+5. Life course ratio from age
+![x](https://latex.codecogs.com/png.latex?x "x") to
+![y](https://latex.codecogs.com/png.latex?y "y") that is the fraction of
+person-years lived from age
+![x](https://latex.codecogs.com/png.latex?x "x") onward:
+![\frac{T_y}{T_x}](https://latex.codecogs.com/png.latex?%5Cfrac%7BT_y%7D%7BT_x%7D "\frac{T_y}{T_x}").
 
 ### HLI
 
 A good alternative to the *human development indicator* (HDI) is the
 *human life indicator* (HLI) proposed by Ghislandi, Sanderson and
 Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just
-$m_x$ (and it is based on life table). Lets calculate it using our
-example data:
+![m_x](https://latex.codecogs.com/png.latex?m_x "m_x") (and it is based
+on life table). Lets calculate it using our example data:
 
 ``` r
 hli(
@@ -343,7 +361,8 @@ For example in the `demor` data (as it is easy to guess, taken from
 Andreev & Shkolnikov
 [spreadsheet](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591))
 on mortality of US men in 2002 by some causes is added. Let me show what
-would be $e_x$ if there is no deaths from neoplasm (i)
+would be ![e_x](https://latex.codecogs.com/png.latex?e_x "e_x") if there
+is no deaths from neoplasm (i)
 
 ``` r
 data("asdtex")
@@ -406,7 +425,8 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 For the analysis of fertility in the `demor` there are only a few (1…)
 functions, due to the author’s preference for mortality analysis…  
-Lets get basic *fertility data* (asFR or $f_x$) from
+Lets get basic *fertility data* (asFR or
+![f_x](https://latex.codecogs.com/png.latex?f_x "f_x")) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
 `get_rosbris()`
 
