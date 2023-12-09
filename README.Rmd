@@ -24,7 +24,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-##Introduction 
 
 The goal of `demor` is to provide you with:\
 1. the most basic functions for demographic analysis\
@@ -76,7 +75,7 @@ Lets see the data for Russia in 2010 for males and for total population
 dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 ```
 
-## Life table and additional function for mortality
+## Mortality
 
 ### Life table
 
@@ -113,7 +112,7 @@ person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
 A good alternative to the *human development indicator* (HDI) is the
 *human life indicator* (HLI) proposed by Ghislandi, Sanderson and
 Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just
-$m_x$ (and it is based on life table). Lets calculate it using our
+$m_x$ (and it is based on *life table*). Lets calculate it using our
 example data:
 
 ```{r}
@@ -293,10 +292,13 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 ```
 
-## Some fertility
+## Fertility
 
 For the analysis of fertility in the `demor` there are only a few (1...)
 functions, due to the author's preference for mortality analysis...\
+
+###TFR
+
 Lets get basic *fertility data* (asFR or $f_x$) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
 `get_rosbris()`
@@ -332,7 +334,7 @@ tfr(
     )
 ```
 
-## Some other functions
+## Other functions
 
 Also in the `demor` there are some additional functions.\
 One of them is `plot_pyr` that plots population pyramid using

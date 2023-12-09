@@ -3,8 +3,7 @@ Using Demor package for basic demographic analysis
 
 - [Installation](#installation)
 - [Get ROSBRIS data](#get-rosbris-data)
-- [Life table and additional function for
-  mortality](#life-table-and-additional-function-for-mortality)
+- [Mortality](#mortality)
   - [Life table](#life-table)
   - [HLI](#hli)
   - [Age decomposition of differences in life
@@ -14,12 +13,10 @@ Using Demor package for basic demographic analysis
   - [Lee-Carter model](#lee-carter-model)
   - [Associated single decrement life
     table](#associated-single-decrement-life-table)
-- [Some fertility](#some-fertility)
-- [Some other functions](#some-other-functions)
+- [Fertility](#fertility)
+- [Other functions](#other-functions)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-\##Introduction
 
 The goal of `demor` is to provide you with:  
 1. the most basic functions for demographic analysis  
@@ -91,7 +88,7 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #> 20463 2010 1100         t   m  85 0.198593  231350  45944.49
 ```
 
-## Life table and additional function for mortality
+## Mortality
 
 ### Life table
 
@@ -163,7 +160,7 @@ A good alternative to the *human development indicator* (HDI) is the
 *human life indicator* (HLI) proposed by Ghislandi, Sanderson and
 Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just
 ![m_x](https://latex.codecogs.com/png.latex?m_x "m_x") (and it is based
-on life table). Lets calculate it using our example data:
+on *life table*). Lets calculate it using our example data:
 
 ``` r
 hli(
@@ -432,10 +429,13 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 <img src="man/figures/README-unnamed-chunk-14-2.png" width="100%" />
 
-## Some fertility
+## Fertility
 
 For the analysis of fertility in the `demor` there are only a few (1…)
 functions, due to the author’s preference for mortality analysis…  
+
+\###TFR
+
 Lets get basic *fertility data* (asFR or
 ![f_x](https://latex.codecogs.com/png.latex?f_x "f_x")) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
@@ -482,7 +482,7 @@ tfr(
 #> [1] 1.58417
 ```
 
-## Some other functions
+## Other functions
 
 Also in the `demor` there are some additional functions.  
 One of them is `plot_pyr` that plots population pyramid using
