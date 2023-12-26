@@ -2,7 +2,6 @@
 title: "Using Demor package for basic demographic analysis"
 output:
   github_document:
-    pandoc_args: --webtex
     toc: true
     toc_depth: 3
 bibliography: references.bib
@@ -277,7 +276,7 @@ rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 rus2010f
 ```
 
-Now one can compute TFR:
+Now one can compute *TFR*:
 
 ```{r}
 tfr(
@@ -315,4 +314,4 @@ plot +
   theme_minimal()
 ```
 
-##References
+#References
