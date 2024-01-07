@@ -5,7 +5,8 @@ Using Demor package for basic demographic analysis
 - [Get ROSBRIS data](#get-rosbris-data)
 - [Mortality](#mortality)
   - [Life table](#life-table)
-  - [HLI](#hli)
+  - [Human Life Indicator (HLI)](#human-life-indicator-hli)
+  - [Years of Life Lost (YLL)](#years-of-life-lost-yll)
   - [Age decomposition of differences in life
     expectancies](#age-decomposition-of-differences-in-life-expectancies)
   - [Age and cause decomposition of differences in life
@@ -15,6 +16,7 @@ Using Demor package for basic demographic analysis
     table](#associated-single-decrement-life-table)
 - [Fertility](#fertility)
 - [Other functions](#other-functions)
+- [References](#references)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -140,7 +142,7 @@ $\frac{l_x-l_y}{l_0}$.
 5. Life course ratio from age $x$ to $y$ that is the fraction of
 person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
 
-### HLI
+### Human Life Indicator (HLI)
 
 A good alternative to the *human development indicator* (HDI) is the
 *human life indicator* (HLI) proposed by Ghislandi, Sanderson and
@@ -154,6 +156,81 @@ hli(
   sex = "m", 
   mx = rus2010$mx)
 #> [1] 55.19236
+```
+
+### Years of Life Lost (YLL)
+
+One of the most popular (and relatively young) measure of *lifespan
+inequality* is “*years of life lost*” (YLL) proposed by Martinez et
+al. ([2019](https://doi.org/10.1093/ije/dyy254)). As authors claim, “YLL
+is a valuable measure for public health surveillance, particularly for
+quantifying the level and trends of premature mortality, identification
+of leading causes of premature deaths and monitoring the progress of YLL
+as a key indicator of population health” (ibid., 1368).
+
+Authors proposed different metrics of *YLL*: 1. Absolute number of
+*YLL*: $YLL_{x,t,c}=d_{x,t,c}*SLE_x$ that is calculated for age *x*,
+time *t* and cause of death *c*. *YLL* for the whole population is just
+sum of $YLL_x$. *SLE* is the *standard life expectancy* that is
+invariant over time, sex and population (it’s meaning is
+straightforward: it is the potential maximum life span of an individual,
+who is not exposed to avoidable health risks or severe injuries and
+receives appropriate health services), and $D_x$ is a number of deaths.
+Of course, one can calculate *YLL* not for specific cause *c*, but for
+overall mortality that is called *all-causes YLL*.  
+2. *YLL* as proportion: $YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$ that is
+just *cause specific YLL* divided by *all-causes YLL*.  
+3. *YLL* rate: $YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$, where
+$P_{x,t}$ is population.  
+4. Age-standardized *YLL* rate:
+$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$, where $W_x$ is the
+standard population weight at *x*. In other words, it’s just direct
+standardization of $YLL^r_{x,t,c}$.
+
+Let’s calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris
+data that we have downloaded.
+
+``` r
+#YLL
+yll(rus2010$Dx, type = "yll")
+#> $yll_all
+#> [1] 33640561
+#> 
+#> $yll
+#>  [1]  705159.2  174024.0  108414.6  104611.4  384855.2 1096994.4 1741367.9
+#>  [8] 2190511.0 2157177.1 2171936.4 3075902.7 3860081.6 3989475.5 3502545.3
+#> [15] 2002623.9 3063221.5 1729131.5 1233349.3  349178.1
+```
+
+``` r
+#YLL rate
+yll(rus2010$Dx, type = "yll.r", pop = rus2010$N)
+#> $yll.r_all
+#> [1] 50945.02
+#> 
+#> $yll.r
+#>  [1]  81109.836   5400.365   3000.453   3077.806   8840.451  17712.527
+#>  [7]  29011.861  40596.105  43375.182  48645.890  59839.275  74119.462
+#> [13]  92058.751 112357.578 127258.833 142480.124 160414.307 172691.796
+#> [19] 150930.678
+```
+
+For *ASYR* one needs standard population. Let’s use 2010 population as
+standard (note, in this case *ASYR* equals *YLL rate* because we use
+2010 mortality).
+
+``` r
+#ASYR
+yll(rus2010$Dx, type = "asyr", pop = rus2010$N, w = rus2010$N/sum(rus2010$N))
+#> $asyr
+#> [1] 50945.02
+```
+
+Also one can calculate different *YLL* measures using standards that are
+provided by `demor` as dataframe.
+
+``` r
+demor::sle_stand
 ```
 
 ### Age decomposition of differences in life expectancies
@@ -203,7 +280,7 @@ barplot(height=dec$ex12,
         ylab="Сontribution to the e0 difference")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ### Age and cause decomposition of differences in life expectancies
 
@@ -302,7 +379,7 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
        )
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
 ### Lee-Carter model
 
@@ -334,7 +411,7 @@ ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 ``` r
 
@@ -343,7 +420,7 @@ ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.facto
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-2.png" width="100%" />
 
 ### Associated single decrement life table
 
@@ -401,7 +478,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
 ``` r
 
@@ -412,7 +489,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-2.png" width="100%" />
 
 ## Fertility
 
@@ -481,7 +558,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="100%" />
 
 Also one can redesigned plot using
 [ggplot2](https://github.com/tidyverse/ggplot2) functions:
@@ -498,6 +575,8 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
 
-\#References
+## References
+
+- 

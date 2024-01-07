@@ -85,7 +85,7 @@ Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$
 4. Probability that a newborn will die between ages $x$ and $y$: $\frac{l_x-l_y}{l_0}$.\
 5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
 
-### HLI
+### Human Life Indicator (HLI)
 
 A good alternative to the *human development indicator* (HDI) is the *human life indicator* (HLI) proposed by Ghislandi, Sanderson and Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just $m_x$ (and it is based on *life table*). Lets calculate it using our example data:
 
@@ -95,6 +95,45 @@ hli(
   sex = "m", 
   mx = rus2010$mx)
 ```
+
+### Years of Life Lost (YLL)
+
+One of the most popular (and relatively young) measure of *lifespan inequality* is "*years of life lost*" (YLL) proposed by Martinez et al. ([2019](https://doi.org/10.1093/ije/dyy254)). As authors claim, "YLL is a valuable measure for public health surveillance, particularly for quantifying the level and trends of premature mortality, identification of leading causes of premature deaths and monitoring the progress of YLL as a key indicator of population health" (ibid., 1368).   
+
+Authors proposed different metrics of *YLL*:
+1. Absolute number of *YLL*: $YLL_{x,t,c}=d_{x,t,c}*SLE_x$ that is calculated for age *x*, time *t* and cause of death *c*.  *YLL* for the whole population is just sum of $YLL_x$. *SLE* is the *standard life expectancy* that is invariant over time, sex and population (it's meaning is straightforward: it is the potential maximum life span of an individual, who is not exposed to avoidable health risks or severe injuries and receives appropriate health services), and $D_x$ is a number of deaths. Of course, one can calculate *YLL* not for specific cause *c*, but for overall mortality that is called *all-causes YLL*.    
+2. *YLL* as proportion: $YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$ that is just *cause specific YLL* divided by *all-causes YLL*.   
+3. *YLL* rate: $YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$, where $P_{x,t}$ is population.    
+4. Age-standardized *YLL* rate: $ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$, where $W_x$ is the standard population weight at *x*. In other words, it's just direct standardization of $YLL^r_{x,t,c}$.    
+
+Let's calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris data that we have downloaded. 
+
+```{r}
+#YLL
+yll(rus2010$Dx, type = "yll")
+
+```
+
+```{r}
+#YLL rate
+yll(rus2010$Dx, type = "yll.r", pop = rus2010$N)
+
+```
+
+For *ASYR* one needs standard population. Let's use 2010 population as standard (note, in this case *ASYR* equals *YLL rate* because we use 2010 mortality).
+
+```{r}
+#ASYR
+yll(rus2010$Dx, type = "asyr", pop = rus2010$N, w = rus2010$N/sum(rus2010$N))
+
+```
+
+Also one can calculate different *YLL* measures using standards that are provided by `demor` as dataframe. 
+
+``` r
+demor::sle_stand
+```
+
 
 ### Age decomposition of differences in life expectancies
 
@@ -314,4 +353,17 @@ plot +
   theme_minimal()
 ```
 
-#References
+## References
+* 
+
+
+
+
+
+
+
+
+
+
+
+

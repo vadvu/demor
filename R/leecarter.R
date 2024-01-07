@@ -73,7 +73,7 @@ leecart <- function(data, n=10, sex = "m", concise = T){
     }
   }
   ledata <- data.frame(year = rep(unique(mf1$year), length(unique(data$age))), age = rep(unique(data$age), length(unique(mf1$year))))
-  ledata <- ledata %>% dplyr::arrange(year, age)
+  ledata <- ledata %>% dplyr::mutate(age = as.numeric(age)) %>%  dplyr::arrange(year, age)
   ledata$ex = NA
   ledata$ex_low95 = NA
   ledata$ex_high95 = NA
