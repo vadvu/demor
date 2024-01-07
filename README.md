@@ -168,23 +168,23 @@ quantifying the level and trends of premature mortality, identification
 of leading causes of premature deaths and monitoring the progress of YLL
 as a key indicator of population health” (ibid., 1368).
 
-Authors proposed different metrics of *YLL*: 1. Absolute number of
-*YLL*: $YLL_{x,t,c}=d_{x,t,c}*SLE_x$ that is calculated for age *x*,
-time *t* and cause of death *c*. *YLL* for the whole population is just
-sum of $YLL_x$. *SLE* is the *standard life expectancy* that is
-invariant over time, sex and population (it’s meaning is
-straightforward: it is the potential maximum life span of an individual,
-who is not exposed to avoidable health risks or severe injuries and
-receives appropriate health services), and $D_x$ is a number of deaths.
-Of course, one can calculate *YLL* not for specific cause *c*, but for
-overall mortality that is called *all-causes YLL*.  
+Authors proposed different metrics of *YLL*:  
+1. Absolute number of *YLL*: $YLL_{x,t,c}=d_{x,t,c}*SLE_x$ that is
+calculated for age *x*, time *t* and cause of death *c*. *YLL* for the
+whole population is just sum of $YLL_x$. *SLE* is the *standard life
+expectancy* that is invariant over time, sex and population (it’s
+meaning is straightforward: it is the potential maximum life span of an
+individual, who is not exposed to avoidable health risks or severe
+injuries and receives appropriate health services), and $D_x$ is a
+number of deaths. Of course, one can calculate *YLL* not for specific
+cause *c*, but for overall mortality that is called *all-causes YLL*.  
 2. *YLL* as proportion: $YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$ that is
 just *cause specific YLL* divided by *all-causes YLL*.  
 3. *YLL* rate: $YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$, where
 $P_{x,t}$ is population.  
 4. Age-standardized *YLL* rate:
-$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$, where $W_x$ is the
-standard population weight at *x*. In other words, it’s just direct
+$$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$, where $W_x$ is
+the standard population weight at *x*. In other words, it’s just direct
 standardization of $YLL^r_{x,t,c}$.
 
 Let’s calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris
