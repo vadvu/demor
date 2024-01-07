@@ -169,7 +169,7 @@ of leading causes of premature deaths and monitoring the progress of YLL
 as a key indicator of population health” (ibid., 1368).
 
 Authors proposed different metrics of *YLL*:  
-1. Absolute number of *YLL*: $YLL_{x,t,c}=d_{x,t,c}*SLE_x$ that is
+1. Absolute number of *YLL*: $$YLL_{x,t,c}=d_{x,t,c}*SLE_x$$ that is
 calculated for age *x*, time *t* and cause of death *c*. *YLL* for the
 whole population is just sum of $YLL_x$. *SLE* is the *standard life
 expectancy* that is invariant over time, sex and population (it’s
@@ -178,13 +178,13 @@ individual, who is not exposed to avoidable health risks or severe
 injuries and receives appropriate health services), and $D_x$ is a
 number of deaths. Of course, one can calculate *YLL* not for specific
 cause *c*, but for overall mortality that is called *all-causes YLL*.  
-2. *YLL* as proportion: $YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$ that is
+2. *YLL* as proportion: $$YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$$ that is
 just *cause specific YLL* divided by *all-causes YLL*.  
-3. *YLL* rate: $YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$, where
+3. *YLL* rate: $$YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$$ where
 $P_{x,t}$ is population.  
 4. Age-standardized *YLL* rate:
-$$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$, where $W_x$ is
-the standard population weight at *x*. In other words, it’s just direct
+$$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$ where $W_x$ is the
+standard population weight at *x*. In other words, it’s just direct
 standardization of $YLL^r_{x,t,c}$.
 
 Let’s calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris
@@ -281,6 +281,22 @@ barplot(height=dec$ex12,
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+Or using `ggplot2`
+
+``` r
+library(ggplot2)
+
+ggplot(dec, aes( as.factor(age), ex12))+
+  geom_bar(stat = "identity", color = "black", fill = "orange3")+
+  theme_minimal()+
+  labs(x = "Age-groups", 
+       y = "Сontribution to the e0 difference")+
+  annotate("text", x = "70", y = 0.5, label = paste0("Total difference in e0: ", sum(dec$ex12)))+
+  geom_text(aes(label = ex12), vjust = 1.5, color = "white", size = 3.5)
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
 ### Age and cause decomposition of differences in life expectancies
 
@@ -379,7 +395,7 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
        )
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
 
 ### Lee-Carter model
 
@@ -411,7 +427,7 @@ ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
 ``` r
 
@@ -420,7 +436,7 @@ ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.facto
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-2.png" width="100%" />
 
 ### Associated single decrement life table
 
@@ -478,7 +494,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
 ``` r
 
@@ -489,7 +505,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-2.png" width="100%" />
 
 ## Fertility
 
@@ -558,7 +574,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
 
 Also one can redesigned plot using
 [ggplot2](https://github.com/tidyverse/ggplot2) functions:
@@ -575,7 +591,7 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
 ## References
 
