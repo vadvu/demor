@@ -23,3 +23,9 @@ dataframe with some parameters of decomposition (depends on method) and decompos
 \description{
 Age decomposition of mortality: single decrement
 }
+\references{
+\enumerate{
+\item Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. \emph{Demography}, \emph{21}, 83-96.
+\item Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. \emph{Вестник статистики}, \emph{9}, 42-47.
+}
+}

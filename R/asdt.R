@@ -6,7 +6,8 @@
 #' @param m_i Age specific mortality rates of some cause of death (i)
 #' @param full Logical. Is full table needed? TRUE = full, FALSE = concise
 #' @param method The method of ASDT construction to use. Now just "chiang1968" is supported.
-#' @return dataframe
+#' @references Chiang, L. (1968). *Introduction to Stochastic Processes in Biostatistics*. New York: John Wiley and Sons.
+#' @return dataframe.
 #' @export
 asdt <- function(age, sex, m_all, m_i, full = F, method = "chiang1968"){
   lt <- as.data.frame(LT(age = age, sex = sex, mx = m_all))

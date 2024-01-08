@@ -4,7 +4,7 @@
 #' @param n Numeric. Forecasted horizon
 #' @param sex Sex. "m" for males or "f" for females.
 #' @param concise Should results be restricted? `TRUE` for just forecast, `FALSE` for full data
-#'
+#' @references Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.
 #' @return Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr
 #' @export

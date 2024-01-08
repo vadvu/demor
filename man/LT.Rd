@@ -2,7 +2,7 @@
 % Please edit documentation in R/LT.R
 \name{LT}
 \alias{LT}
-\title{Life table with corrected nax}
+\title{Life table}
 \usage{
 LT(age, sex, mx)
 }
@@ -17,5 +17,11 @@ LT(age, sex, mx)
 Matrix
 }
 \description{
-Life table with corrected nax
+Life table
+}
+\details{
+ax for age 0 is modeled as in Andreev & Kingkade (2015).
+}
+\references{
+Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. \emph{Demographic Research}, \emph{33}, 363-390.
 }

@@ -2,7 +2,7 @@ Demor package for basic demographic analysis
 ================
 
 - [Installation](#installation)
-- [Get ROSBRIS data](#get-rosbris-data)
+- [Get Rosbris data](#get-rosbris-data)
 - [Mortality](#mortality)
   - [Life table](#life-table)
   - [Human Life Indicator (HLI)](#human-life-indicator-hli)
@@ -25,7 +25,7 @@ The goal of `demor` is to provide you with:
 1. the most basic functions for demographic analysis  
 2. some data
 
-## Installation
+# Installation
 
 You can install the development version of `demor` from
 [GitHub](https://github.com/) with:
@@ -36,7 +36,7 @@ You can install the development version of `demor` from
 devtools::install_github("vadvu/demor")
 ```
 
-## Get ROSBRIS data
+# Get Rosbris data
 
 For getting data from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there
@@ -91,9 +91,9 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #> 20463 2010 1100         t   m  85 0.198593  231350  45944.49
 ```
 
-## Mortality
+# Mortality
 
-### Life table
+## Life table
 
 Now one can create *life table* based on gotten data for 2010-Russia
 using `LT()`.  
@@ -143,13 +143,16 @@ $\frac{l_x-l_y}{l_0}$.
 5. Life course ratio from age $x$ to $y$ that is the fraction of
 person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
 
-### Human Life Indicator (HLI)
+## Human Life Indicator (HLI)
 
 A good alternative to the *human development indicator* (HDI) is the
 *human life indicator* (HLI) proposed by Ghislandi, Sanderson and
 Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just
-$m_x$ (and it is based on *life table*). Lets calculate it using our
-example data:
+$m_x$ (and it is based on *life table*). It is calculated as geometric
+mean of lifespans: $$HLI = \prod_x^\omega{(x+a_x)^{d_x}}$$ where *x* is
+age and *a*, *d* are functions from *life table*.
+
+Lets calculate it using our example data:
 
 ``` r
 hli(
@@ -159,7 +162,7 @@ hli(
 #> [1] 55.19236
 ```
 
-### Years of Life Lost (YLL)
+## Years of Life Lost (YLL)
 
 One of the most popular (and relatively young) measure of *lifespan
 inequality* is “*years of life lost*” (YLL) proposed by Martinez et
@@ -241,7 +244,7 @@ provided by `demor` as dataframe.
 demor::sle_stand
 ```
 
-### Age decomposition of differences in life expectancies
+## Age decomposition of differences in life expectancies
 
 Also one can do simple *decomposition* between 2 populations. Lets use
 Russia-2000 as *base population* and Russia-2010 as *compared
@@ -306,7 +309,7 @@ ggplot(dec, aes( as.factor(age), ex12))+
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
-### Age and cause decomposition of differences in life expectancies
+## Age and cause decomposition of differences in life expectancies
 
 Also one can do *decomposition* between 2 populations by *age* and
 *causes*. Lets use example from Andreev & Shkolnikov
@@ -405,7 +408,7 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
 
 <img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
 
-### Lee-Carter model
+## Lee-Carter model
 
 Also in the `demor` there is `leecart()` function that provides users
 with basic *Lee-Carter model* (proposed by Lee and Carter in 1992 and
@@ -433,21 +436,24 @@ One can plot the results using
 ``` r
 ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
   geom_line()+geom_ribbon(aes(ymin = ex_low95, ymax = ex_high95), alpha = 0.3, fill = "red")+
-  theme_classic()
+  theme_classic()+
+  scale_x_continuous(breaks = seq(2020, 2030, 2))
 ```
 
 <img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
 ``` r
 
+
 ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.factor(year)))+
   geom_line()+geom_ribbon(aes(ymin = log10(mx_low95), ymax = log10(mx_high95)), alpha = 0)+
-  theme_classic()
+  theme_minimal()+
+  labs(x = "Age", color = "Year:")
 ```
 
 <img src="man/figures/README-unnamed-chunk-16-2.png" width="100%" />
 
-### Associated single decrement life table
+## Associated single decrement life table
 
 There is `asdt()` function that calculates *associated single decrement
 life table* (ASDT) for causes of death (*cause-deleted life table*). In
@@ -516,12 +522,12 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 <img src="man/figures/README-unnamed-chunk-18-2.png" width="100%" />
 
-## Fertility
+# Fertility
 
 For the analysis of fertility in the `demor` there are only a few (1…)
 functions, due to the author’s preference for mortality analysis…
 
-### TFR
+## TFR
 
 Lets get basic *fertility data* (asFR or $f_x$) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
@@ -568,7 +574,7 @@ tfr(
 #> [1] 1.58417
 ```
 
-## Other functions
+# Other functions
 
 Also in the `demor` there are some additional functions.  
 One of them is `plot_pyr` that plots population pyramid using
@@ -602,23 +608,23 @@ plot +
 
 <img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
-## References
+# References
 
-- Center for Demographic Research, Moscow (Russia). 2023. “Russian
-  Fertility and Mortality Database (Rosbris)”
+- Center for Demographic Research (2023). *Russian Fertility and
+  Mortality Database (Rosbris)*.
   [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)  
 - Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in
   infancy and infant mortality level: Reconsidering the Coale-Demeny
-  formulas at current levels of low mortality. Demographic Research, 33,
-  363-390.  
+  formulas at current levels of low mortality. *Demographic Research*,
+  *33*, 363-390.  
 - Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple
-  measure of human development: The human life indicator. Population and
-  development review, 45(1), 219.  
-- Andreev, E. M., & Shkolnikov, V. M. (2012). An Excel spreadsheet for
+  measure of human development: The human life indicator. *Population
+  and development review*, *45*(*1*), 219-233.  
+- Andreev, E. M., & Shkolnikov, V. M. (2012). *An Excel spreadsheet for
   the decomposition of a difference between two values of an aggregate
   demographic measure by stepwise replacement running from young to old
-  ages. MPIDR Technical Report TR-2012-002.
+  ages*. MPIDR Technical Report TR-2012-002.
   [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)  
 - Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US
-  mortality. Journal of the American statistical association, 87(419),
-  659-671.
+  mortality. *Journal of the American statistical association*,
+  *87*(*419*), 659-671.

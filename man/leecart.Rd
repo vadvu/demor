@@ -21,3 +21,6 @@ Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 
 \description{
 Basic Lee-Carter model
 }
+\references{
+Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. \emph{Journal of the American statistical association}, \emph{87}(\emph{419}), 659-671.
+}

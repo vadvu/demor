@@ -6,6 +6,7 @@
 #' @param lastyear Numeric. The last available year in rosbris .
 #' (can be seen on the [website](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)). default is `2022` (in 2023).
 #'
+#' @references Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)
 #' @return List (if `initial = TRUE`) of dataframes: population and mortality/fertility data. Dataframe (if `initial = FALSE`) in long format.
 #' @import dplyr
 #' @import tidyr

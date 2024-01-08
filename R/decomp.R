@@ -6,6 +6,9 @@
 #' @param sex Sex. "m" for males and "f" for females
 #' @param age Array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param method Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.
+#' @references
+#' 1. Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. *Demography*, *21*, 83-96.
+#' 2. Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. *Вестник статистики*, *9*, 42-47.
 #'
 #' @return dataframe with some parameters of decomposition (depends on method) and decomposition in years or percents.
 #' @export

@@ -20,8 +20,11 @@ asdt(age, sex, m_all, m_i, full = F, method = "chiang1968")
 \item{method}{The method of ASDT construction to use. Now just "chiang1968" is supported.}
 }
 \value{
-dataframe
+dataframe.
 }
 \description{
 Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
+}
+\references{
+Chiang, L. (1968). \emph{Introduction to Stochastic Processes in Biostatistics}. New York: John Wiley and Sons.
 }

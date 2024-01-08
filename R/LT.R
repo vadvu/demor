@@ -1,9 +1,12 @@
-#' Life table with corrected nax
+#' Life table
 #'
 #' @param age Array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param sex Sex. "m" for males or "f" for females.
 #' @param mx Age specific mortality rates.
+#' @details
+#' ax for age 0 is modeled as in Andreev & Kingkade (2015).
 #'
+#' @references Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.
 #' @return Matrix
 #' @export
 LT <- function(age, sex, mx) {

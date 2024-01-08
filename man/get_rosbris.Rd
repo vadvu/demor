@@ -22,3 +22,6 @@ List (if \code{initial = TRUE}) of dataframes: population and mortality/fertilit
 \description{
 Get data from RosBris
 }
+\references{
+Center for Demographic Research (2023). \emph{Russian Fertility and Mortality Database (Rosbris)}. \href{http://www.demogr.nes.ru/en/demogr_indicat/data}{URL}
+}
