@@ -2,8 +2,7 @@
 % Please edit documentation in R/hli.R
 \name{hli}
 \alias{hli}
-\title{The Human Life Indicator (HLI)
-Calculating HLI as in Ghislandi, S., Sanderson, W.C., Scherbov, S., 2019. A Simple Measure of Human Development: The Human Life Indicator. Population and Development Review 45, 219–233.. https://doi.org/10.1111/padr.12205}
+\title{The Human Life Indicator (HLI)}
 \usage{
 hli(age, sex, mx)
 }
@@ -15,9 +14,11 @@ hli(age, sex, mx)
 \item{mx}{Age specific mortality rates.}
 }
 \value{
-value
+HLI value
 }
 \description{
 The Human Life Indicator (HLI)
-Calculating HLI as in Ghislandi, S., Sanderson, W.C., Scherbov, S., 2019. A Simple Measure of Human Development: The Human Life Indicator. Population and Development Review 45, 219–233.. https://doi.org/10.1111/padr.12205
+}
+\references{
+Ghislandi, S., Sanderson, W.C., Scherbov, S., 2019. A Simple Measure of Human Development: The Human Life Indicator. Population and Development Review 45, 219–233. https://doi.org/10.1111/padr.12205
 }

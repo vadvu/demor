@@ -1,4 +1,4 @@
-#' (IN DEMO!) Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
+#' Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
 #'
 #' @param age Array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param sex Sex. "m" for males or "f" for females.

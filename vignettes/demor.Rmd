@@ -1,13 +1,11 @@
 ---
-title: "Using Demor package for basic demographic analysis"
-output:
-  github_document:
-    toc: true
-    toc_depth: 3
-bibliography: references.bib
+title: "demor"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{demor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -15,23 +13,12 @@ knitr::opts_chunk$set(
   warning = FALSE, 
   message = FALSE,
   comment = "#>",
-  fig.path = "man/figures/README-",
   out.width = "100%"
 )
 ```
 
-The goal of `demor` is to provide you with:\
-1. the most basic functions for demographic analysis\
-2. some data
-
-## Installation
-
-You can install the development version of `demor` from [GitHub](https://github.com/) with:
-
-``` r
-
-# install.packages("devtools")
-devtools::install_github("vadvu/demor")
+```{r setup}
+library(demor)
 ```
 
 ## Get ROSBRIS data
@@ -41,8 +28,6 @@ Worth noting: downloading and preparing the final file can get some time.\
 In the chunk below mortality data for 5-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
 
 ```{r}
-library(demor)
-
 dbm <- get_rosbris(
   #mortality data
   type = "m",
@@ -368,18 +353,4 @@ plot +
   labs(y = "My y", x = "Age")+
   theme_minimal()
 ```
-
-## References
-* 
-
-
-
-
-
-
-
-
-
-
-
 

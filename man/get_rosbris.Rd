@@ -4,7 +4,7 @@
 \alias{get_rosbris}
 \title{Get data from RosBris}
 \usage{
-get_rosbris(type, age = 1, initial = F, lastyear = 2022)
+get_rosbris(type, age = 1, initial = FALSE, lastyear = 2022)
 }
 \arguments{
 \item{type}{Character. Type of data for downloading. "m" = mortality, f = "ferility"}
@@ -17,7 +17,7 @@ get_rosbris(type, age = 1, initial = F, lastyear = 2022)
 (can be seen on the \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{website}). default is \code{2022} (in 2023).}
 }
 \value{
-List (if \code{initial = T}) of dataframes: population and mortality/fertility data. Dataframe (if \code{initial = F}) in long format.
+List (if \code{initial = TRUE}) of dataframes: population and mortality/fertility data. Dataframe (if \code{initial = FALSE}) in long format.
 }
 \description{
 Get data from RosBris

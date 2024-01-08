@@ -6,11 +6,11 @@
 #' @param lastyear Numeric. The last available year in rosbris .
 #' (can be seen on the [website](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)). default is `2022` (in 2023).
 #'
-#' @return List (if `initial = T`) of dataframes: population and mortality/fertility data. Dataframe (if `initial = F`) in long format.
+#' @return List (if `initial = TRUE`) of dataframes: population and mortality/fertility data. Dataframe (if `initial = FALSE`) in long format.
 #' @import dplyr
 #' @import tidyr
 #' @export
-get_rosbris <- function(type, age = 1, initial = F, lastyear = 2022){
+get_rosbris <- function(type, age = 1, initial = FALSE, lastyear = 2022){
   if(type != "m" & type != "f"){
     stop("choose type of returned data: `m` (mortality) or `f` (fertility)")
   }

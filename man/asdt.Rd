@@ -2,7 +2,7 @@
 % Please edit documentation in R/asdt.R
 \name{asdt}
 \alias{asdt}
-\title{(IN DEMO!) Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)}
+\title{Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)}
 \usage{
 asdt(age, sex, m_all, m_i, full = F, method = "chiang1968")
 }
@@ -23,5 +23,5 @@ asdt(age, sex, m_all, m_i, full = F, method = "chiang1968")
 dataframe
 }
 \description{
-(IN DEMO!) Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
+Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
 }

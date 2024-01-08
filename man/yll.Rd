@@ -30,12 +30,13 @@ list with values.
 Years of Life Lost (YLL) calculation
 }
 \details{
+Possible \emph{YLL} types:
 \enumerate{
 \item Absolute number of \emph{YLL} - \code{yll} type.
 \item \emph{YLL} as proportion - \code{yll.p} type.
 \item \emph{YLL} rate - \code{yll.r} type.
 \item Age-standardized \emph{YLL} rate  - \code{asyr} type.
-For more details see \href{https://github.com/vadvu/demor}{github page}.
+For more details see \href{https://github.com/vadvu/demor?tab=readme-ov-file#years-of-life-lost-yll}{github page}.
 }
 }
 \references{

@@ -4,7 +4,7 @@
 \alias{leecart}
 \title{Basic Lee-Carter model}
 \usage{
-leecart(data, n = 10, sex = "m", concise = T)
+leecart(data, n = 10, sex = "m", concise = TRUE)
 }
 \arguments{
 \item{data}{Dataframe with following columns: age, year, mx}
@@ -13,7 +13,7 @@ leecart(data, n = 10, sex = "m", concise = T)
 
 \item{sex}{Sex. "m" for males or "f" for females.}
 
-\item{concise}{Should results be restricted? \code{T} for just forecast, \code{F} for full data}
+\item{concise}{Should results be restricted? \code{TRUE} for just forecast, \code{FALSE} for full data}
 }
 \value{
 Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values

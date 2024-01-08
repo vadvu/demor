@@ -3,12 +3,12 @@
 #' @param data Dataframe with following columns: age, year, mx
 #' @param n Numeric. Forecasted horizon
 #' @param sex Sex. "m" for males or "f" for females.
-#' @param concise Should results be restricted? `T` for just forecast, `F` for full data
+#' @param concise Should results be restricted? `TRUE` for just forecast, `FALSE` for full data
 #'
 #' @return Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr
 #' @export
-leecart <- function(data, n=10, sex = "m", concise = T){
+leecart <- function(data, n=10, sex = "m", concise = TRUE){
   #data = year, age, mx
   `%notin%` <- Negate(`%in%`)
   if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){

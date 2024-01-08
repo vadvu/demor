@@ -6,11 +6,12 @@
 #' @param pop Array with population. Used only with `yll.r` and `asyr` types.
 #' @param w Array with population weights for direct standardization. Used only with `asyr` type.
 #' @details
+#' Possible *YLL* types:
 #' 1. Absolute number of *YLL* - `yll` type.
 #' 2. *YLL* as proportion - `yll.p` type.
 #' 3. *YLL* rate - `yll.r` type.
 #' 4. Age-standardized *YLL* rate  - `asyr` type.
-#' For more details see [github page](https://github.com/vadvu/demor).
+#' For more details see [github page](https://github.com/vadvu/demor?tab=readme-ov-file#years-of-life-lost-yll).
 #'
 #' @references Martinez, R., Soliz, P., Caixeta, R., Ordunez, P., 2019. Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
 #' @return list with values.
@@ -125,7 +126,8 @@ yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), Dx_all = NULL, po
 
     return(
       list(
-        asyr = sum( w * (100000 * (sle[1:ndx] * Dx) / pop) )
+        asyr =  w * (100000 * (sle[1:ndx] * Dx) / pop),
+        asyr_all = sum( w * (100000 * (sle[1:ndx] * Dx) / pop) )
       )
     )
   }

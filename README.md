@@ -15,6 +15,7 @@ Using Demor package for basic demographic analysis
   - [Associated single decrement life
     table](#associated-single-decrement-life-table)
 - [Fertility](#fertility)
+  - [TFR](#tfr)
 - [Other functions](#other-functions)
 - [References](#references)
 
@@ -223,6 +224,11 @@ standard (note, in this case *ASYR* equals *YLL rate* because we use
 #ASYR
 yll(rus2010$Dx, type = "asyr", pop = rus2010$N, w = rus2010$N/sum(rus2010$N))
 #> $asyr
+#>  [1] 1067.8879  263.5407  164.1824  158.4227  582.8220 1661.2803 2637.1149
+#>  [8] 3317.2939 3266.8132 3289.1646 4658.1245 5845.6793 6041.6326 5304.2289
+#> [15] 3032.7590 4638.9202 2618.5841 1867.7751  528.7928
+#> 
+#> $asyr_all
 #> [1] 50945.02
 ```
 
@@ -512,7 +518,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 For the analysis of fertility in the `demor` there are only a few (1…)
 functions, due to the author’s preference for mortality analysis…  
 
-\###TFR
+### TFR
 
 Lets get basic *fertility data* (asFR or $f_x$) from
 [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using
