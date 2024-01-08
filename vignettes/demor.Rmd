@@ -357,9 +357,11 @@ plot +
 ```
 
 ## References
-* Center for Demographic Research, Moscow (Russia). 2023. “Russian Fertility and Mortality Database (Rosbris)” URL: http://www.demogr.nes.ru/en/demogr_indicat/data   
+* Center for Demographic Research, Moscow (Russia). 2023. “Russian Fertility and Mortality Database (Rosbris)” [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)    
 * Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. Demographic Research, 33, 363-390.    
 * Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple measure of human development: The human life indicator. Population and development review, 45(1), 219.   
-* Andreev, E. M., & Shkolnikov, V. M. (2012). An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages. MPIDR Technical Report TR-2012-002. URL: https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591    
-* Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American statistical association, 87(419), 659-671.   
+* Andreev, E. M., & Shkolnikov, V. M. (2012). An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages. MPIDR Technical Report TR-2012-002. [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)    
+* Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American statistical association, 87(419), 659-671.    
+
+ 
 
