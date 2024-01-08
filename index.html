@@ -58,7 +58,7 @@
 </h1></div>
 <ul>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#get-rosbris-data">Get ROSBRIS data</a></li>
+<li><a href="#get-rosbris-data">Get Rosbris data</a></li>
 <li>
 <a href="#mortality">Mortality</a>
 <ul>
@@ -83,18 +83,19 @@
 <!-- README.md is generated from README.Rmd. Please edit that file --><p>The goal of <code>demor</code> is to provide you with:<br>
 1. the most basic functions for demographic analysis<br>
 2. some data</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+</div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
 <p>You can install the development version of <code>demor</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"vadvu/demor"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="get-rosbris-data">Get ROSBRIS data<a class="anchor" aria-label="anchor" href="#get-rosbris-data"></a>
-</h2>
+<div class="section level1">
+<h1 id="get-rosbris-data">Get Rosbris data<a class="anchor" aria-label="anchor" href="#get-rosbris-data"></a>
+</h1>
 <p>For getting data from <a href="http://demogr.nes.ru/index.php/ru/demogr_indicat/data" class="external-link">RosBris</a> there is a function <code><a href="reference/get_rosbris.html">get_rosbris()</a></code> that can download data on mortality/fertility by 1/5-year age groups from 1989 to the last available year (in 2023 its 2022).<br>
 Worth noting: downloading and preparing the final file can get some time.<br>
 In the chunk below mortality data for 5-age groups with population in “long” format is loading. For more function description use <code><a href="reference/get_rosbris.html">?get_rosbris</a></code></p>
@@ -135,12 +136,12 @@ In the chunk below mortality data for 5-age groups with population in “long”
 <span><span class="co">#&gt; 20462 2010 1100         t   m  80 0.138043  714191  98589.07</span></span>
 <span><span class="co">#&gt; 20463 2010 1100         t   m  85 0.198593  231350  45944.49</span></span></code></pre></div>
 </div>
+<div class="section level1">
+<h1 id="mortality">Mortality<a class="anchor" aria-label="anchor" href="#mortality"></a>
+</h1>
 <div class="section level2">
-<h2 id="mortality">Mortality<a class="anchor" aria-label="anchor" href="#mortality"></a>
+<h2 id="life-table">Life table<a class="anchor" aria-label="anchor" href="#life-table"></a>
 </h2>
-<div class="section level3">
-<h3 id="life-table">Life table<a class="anchor" aria-label="anchor" href="#life-table"></a>
-</h3>
 <p>Now one can create <em>life table</em> based on gotten data for 2010-Russia using <code><a href="reference/LT.html">LT()</a></code>.<br>
 Note, <span class="math inline"><em>a</em><sub><em>x</em></sub></span> for age 0 is modeled as in Andreev &amp; Kingkade (<a href="https://doi.org/10.4054/DemRes.2015.33.13" class="external-link">2015</a>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -178,10 +179,11 @@ Note, <span class="math inline"><em>a</em><sub><em>x</em></sub></span> for age 0
 4. Probability that a newborn will die between ages <span class="math inline"><em>x</em></span> and <span class="math inline"><em>y</em></span>: <span class="math inline">$\frac{l_x-l_y}{l_0}$</span>.<br>
 5. Life course ratio from age <span class="math inline"><em>x</em></span> to <span class="math inline"><em>y</em></span> that is the fraction of person-years lived from age <span class="math inline"><em>x</em></span> onward: <span class="math inline">$\frac{T_y}{T_x}$</span>.</p>
 </div>
-<div class="section level3">
-<h3 id="human-life-indicator-hli">Human Life Indicator (HLI)<a class="anchor" aria-label="anchor" href="#human-life-indicator-hli"></a>
-</h3>
-<p>A good alternative to the <em>human development indicator</em> (HDI) is the <em>human life indicator</em> (HLI) proposed by Ghislandi, Sanderson and Scherbov (<a href="https://doi.org/10.1111/padr.12205" class="external-link">2019</a>). It requires just <span class="math inline"><em>m</em><sub><em>x</em></sub></span> (and it is based on <em>life table</em>). Lets calculate it using our example data:</p>
+<div class="section level2">
+<h2 id="human-life-indicator-hli">Human Life Indicator (HLI)<a class="anchor" aria-label="anchor" href="#human-life-indicator-hli"></a>
+</h2>
+<p>A good alternative to the <em>human development indicator</em> (HDI) is the <em>human life indicator</em> (HLI) proposed by Ghislandi, Sanderson and Scherbov (<a href="https://doi.org/10.1111/padr.12205" class="external-link">2019</a>). It requires just <span class="math inline"><em>m</em><sub><em>x</em></sub></span> (and it is based on <em>life table</em>). It is calculated as geometric mean of lifespans: <span class="math display">$$HLI = \prod_x^\omega{(x+a_x)^{d_x}}$$</span> where <em>x</em> is age and <em>a</em>, <em>d</em> are functions from <em>life table</em>.</p>
+<p>Lets calculate it using our example data:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hli.html">hli</a></span><span class="op">(</span></span>
 <span>  age <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">age</span>, </span>
@@ -189,9 +191,9 @@ Note, <span class="math inline"><em>a</em><sub><em>x</em></sub></span> for age 0
 <span>  mx <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">mx</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 55.19236</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="years-of-life-lost-yll">Years of Life Lost (YLL)<a class="anchor" aria-label="anchor" href="#years-of-life-lost-yll"></a>
-</h3>
+<div class="section level2">
+<h2 id="years-of-life-lost-yll">Years of Life Lost (YLL)<a class="anchor" aria-label="anchor" href="#years-of-life-lost-yll"></a>
+</h2>
 <p>One of the most popular (and relatively young) measure of <em>lifespan inequality</em> is “<em>years of life lost</em>” (YLL) proposed by Martinez et al. (<a href="https://doi.org/10.1093/ije/dyy254" class="external-link">2019</a>). As authors claim, “YLL is a valuable measure for public health surveillance, particularly for quantifying the level and trends of premature mortality, identification of leading causes of premature deaths and monitoring the progress of YLL as a key indicator of population health” (ibid., 1368).</p>
 <p>Authors proposed different metrics of <em>YLL</em>:<br>
 1. Absolute number of <em>YLL</em>: <span class="math display"><em>Y</em><em>L</em><em>L</em><sub><em>x</em>, <em>t</em>, <em>c</em></sub> = <em>D</em><sub><em>x</em>, <em>t</em>, <em>c</em></sub> * <em>S</em><em>L</em><em>E</em><sub><em>x</em></sub></span> that is calculated for age <em>x</em>, time <em>t</em> and cause of death <em>c</em>. <em>YLL</em> for the whole population is just sum of <span class="math inline"><em>Y</em><em>L</em><em>L</em><sub><em>x</em></sub></span>. <em>SLE</em> is the <em>standard life expectancy</em> that is invariant over time, sex and population (it’s meaning is straightforward: it is the potential maximum life span of an individual, who is not exposed to avoidable health risks or severe injuries and receives appropriate health services), and <span class="math inline"><em>D</em><sub><em>x</em></sub></span> is a number of deaths at age <em>x</em>. Of course, one can calculate <em>YLL</em> not for specific cause <em>c</em>, but for overall mortality that is called <em>all-causes YLL</em>.<br>
@@ -235,9 +237,9 @@ Note, <span class="math inline"><em>a</em><sub><em>x</em></sub></span> for age 0
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="reference/sle_stand.html">sle_stand</a></span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="age-decomposition-of-differences-in-life-expectancies">Age decomposition of differences in life expectancies<a class="anchor" aria-label="anchor" href="#age-decomposition-of-differences-in-life-expectancies"></a>
-</h3>
+<div class="section level2">
+<h2 id="age-decomposition-of-differences-in-life-expectancies">Age decomposition of differences in life expectancies<a class="anchor" aria-label="anchor" href="#age-decomposition-of-differences-in-life-expectancies"></a>
+</h2>
 <p>Also one can do simple <em>decomposition</em> between 2 populations. Lets use Russia-2000 as <em>base population</em> and Russia-2010 as <em>compared population</em></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rus2010</span> <span class="op">&lt;-</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span>,<span class="op">]</span></span>
@@ -289,9 +291,9 @@ Note, <span class="math inline"><em>a</em><sub><em>x</em></sub></span> for age 0
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">ex12</span><span class="op">)</span>, vjust <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="st">"white"</span>, size <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="100%"></p>
 </div>
-<div class="section level3">
-<h3 id="age-and-cause-decomposition-of-differences-in-life-expectancies">Age and cause decomposition of differences in life expectancies<a class="anchor" aria-label="anchor" href="#age-and-cause-decomposition-of-differences-in-life-expectancies"></a>
-</h3>
+<div class="section level2">
+<h2 id="age-and-cause-decomposition-of-differences-in-life-expectancies">Age and cause decomposition of differences in life expectancies<a class="anchor" aria-label="anchor" href="#age-and-cause-decomposition-of-differences-in-life-expectancies"></a>
+</h2>
 <p>Also one can do <em>decomposition</em> between 2 populations by <em>age</em> and <em>causes</em>. Lets use example from Andreev &amp; Shkolnikov <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">spreadsheet</a> where data for US and England and Wales men mortality by some causes are presented.<br>
 Lets see the data</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -374,9 +376,9 @@ Lets see the data</p>
 <span>       <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-14-1.png" width="100%"></p>
 </div>
-<div class="section level3">
-<h3 id="lee-carter-model">Lee-Carter model<a class="anchor" aria-label="anchor" href="#lee-carter-model"></a>
-</h3>
+<div class="section level2">
+<h2 id="lee-carter-model">Lee-Carter model<a class="anchor" aria-label="anchor" href="#lee-carter-model"></a>
+</h2>
 <p>Also in the <code>demor</code> there is <code><a href="reference/leecart.html">leecart()</a></code> function that provides users with basic <em>Lee-Carter model</em> (proposed by Lee and Carter in 1992 and that now has a lot of extensions) for mortality forecasting:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">leecart_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leecart.html">leecart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2004</span><span class="op">:</span><span class="fl">2019</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"age"</span>, <span class="st">"mx"</span><span class="op">)</span><span class="op">]</span>, </span>
@@ -396,18 +398,21 @@ Lets see the data</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">leecart_forecast</span><span class="op">[</span><span class="va">leecart_forecast</span><span class="op">$</span><span class="va">age</span><span class="op">==</span><span class="st">"0"</span>,<span class="op">]</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">ex</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">ex_low95</span>, ymax <span class="op">=</span> <span class="va">ex_high95</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, fill <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2020</span>, <span class="fl">2030</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="100%"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">leecart_forecast</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">mx</span><span class="op">)</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">mx_low95</span><span class="op">)</span>, ymax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">mx_high95</span><span class="op">)</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Age"</span>, color <span class="op">=</span> <span class="st">"Year:"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-16-2.png" width="100%"></p>
 </div>
-<div class="section level3">
-<h3 id="associated-single-decrement-life-table">Associated single decrement life table<a class="anchor" aria-label="anchor" href="#associated-single-decrement-life-table"></a>
-</h3>
+<div class="section level2">
+<h2 id="associated-single-decrement-life-table">Associated single decrement life table<a class="anchor" aria-label="anchor" href="#associated-single-decrement-life-table"></a>
+</h2>
 <p>There is <code><a href="reference/asdt.html">asdt()</a></code> function that calculates <em>associated single decrement life table</em> (ASDT) for causes of death (<em>cause-deleted life table</em>). In other words, by this function one can answer the question “what will be the life expectancy if there is no mortality from cause i?”<br>
 For example in the <code>demor</code> data (as it is easy to guess, taken from Andreev &amp; Shkolnikov <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">spreadsheet</a>) on mortality of US men in 2002 by some causes is added. Let me show what would be <span class="math inline"><em>e</em><sub><em>x</em></sub></span> if there is no deaths from neoplasm (i)</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -459,13 +464,13 @@ For example in the <code>demor</code> data (as it is easy to guess, taken from A
 <p><img src="reference/figures/README-unnamed-chunk-18-2.png" width="100%"></p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="fertility">Fertility<a class="anchor" aria-label="anchor" href="#fertility"></a>
-</h2>
+<div class="section level1">
+<h1 id="fertility">Fertility<a class="anchor" aria-label="anchor" href="#fertility"></a>
+</h1>
 <p>For the analysis of fertility in the <code>demor</code> there are only a few (1…) functions, due to the author’s preference for mortality analysis…</p>
-<div class="section level3">
-<h3 id="tfr">TFR<a class="anchor" aria-label="anchor" href="#tfr"></a>
-</h3>
+<div class="section level2">
+<h2 id="tfr">TFR<a class="anchor" aria-label="anchor" href="#tfr"></a>
+</h2>
 <p>Lets get basic <em>fertility data</em> (asFR or <span class="math inline"><em>f</em><sub><em>x</em></sub></span>) from <a href="http://demogr.nes.ru/index.php/ru/demogr_indicat/data" class="external-link">RosBris</a> using <code><a href="reference/get_rosbris.html">get_rosbris()</a></code></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dbf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span></span>
@@ -502,9 +507,9 @@ For example in the <code>demor</code> data (as it is easy to guess, taken from A
 <span><span class="co">#&gt; [1] 1.58417</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="other-functions">Other functions<a class="anchor" aria-label="anchor" href="#other-functions"></a>
-</h2>
+<div class="section level1">
+<h1 id="other-functions">Other functions<a class="anchor" aria-label="anchor" href="#other-functions"></a>
+</h1>
 <p>Also in the <code>demor</code> there are some additional functions.<br>
 One of them is <code>plot_pyr</code> that plots population pyramid using <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a><br>
 Lets create population pyramid using midyear population from Rosbris mortality data. We already have data in <code>dbm</code>.</p>
@@ -527,22 +532,22 @@ Lets create population pyramid using midyear population from Rosbris mortality d
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-23-1.png" width="100%"></p>
 </div>
-<div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
 <ul>
-<li>Center for Demographic Research, Moscow (Russia). 2023. “Russian Fertility and Mortality Database (Rosbris)” <a href="http://www.demogr.nes.ru/en/demogr_indicat/data" class="external-link">URL</a><br>
+<li>Center for Demographic Research (2023). <em>Russian Fertility and Mortality Database (Rosbris)</em>. <a href="http://www.demogr.nes.ru/en/demogr_indicat/data" class="external-link">URL</a><br>
 </li>
-<li>Andreev, E. M., &amp; Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. Demographic Research, 33, 363-390.<br>
+<li>Andreev, E. M., &amp; Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. <em>Demographic Research</em>, <em>33</em>, 363-390.<br>
 </li>
-<li>Ghislandi, S., Sanderson, W. C., &amp; Scherbov, S. (2019). A simple measure of human development: The human life indicator. Population and development review, 45(1), 219.<br>
+<li>Ghislandi, S., Sanderson, W. C., &amp; Scherbov, S. (2019). A simple measure of human development: The human life indicator. <em>Population and development review</em>, <em>45</em>(<em>1</em>), 219-233.<br>
 </li>
-<li>Andreev, E. M., &amp; Shkolnikov, V. M. (2012). An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages. MPIDR Technical Report TR-2012-002. <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">URL</a><br>
+<li>Andreev, E. M., &amp; Shkolnikov, V. M. (2012). <em>An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages</em>. MPIDR Technical Report TR-2012-002. <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">URL</a><br>
 </li>
-<li>Lee, R. D., &amp; Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American statistical association, 87(419), 659-671.</li>
+<li>Lee, R. D., &amp; Carter, L. R. (1992). Modeling and forecasting US mortality. <em>Journal of the American statistical association</em>, <em>87</em>(<em>419</em>), 659-671.</li>
 </ul>
 </div>
-</div>
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
