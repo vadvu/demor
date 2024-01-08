@@ -170,22 +170,24 @@ of leading causes of premature deaths and monitoring the progress of YLL
 as a key indicator of population health” (ibid., 1368).
 
 Authors proposed different metrics of *YLL*:  
-1. Absolute number of *YLL*: $$YLL_{x,t,c}=d_{x,t,c}*SLE_x$$ that is
+1. Absolute number of *YLL*: $$YLL_{x,t,c}=D_{x,t,c}*SLE_x$$ that is
 calculated for age *x*, time *t* and cause of death *c*. *YLL* for the
 whole population is just sum of $YLL_x$. *SLE* is the *standard life
 expectancy* that is invariant over time, sex and population (it’s
 meaning is straightforward: it is the potential maximum life span of an
 individual, who is not exposed to avoidable health risks or severe
 injuries and receives appropriate health services), and $D_x$ is a
-number of deaths. Of course, one can calculate *YLL* not for specific
-cause *c*, but for overall mortality that is called *all-causes YLL*.  
+number of deaths at age *x*. Of course, one can calculate *YLL* not for
+specific cause *c*, but for overall mortality that is called *all-causes
+YLL*.  
 2. *YLL* as proportion: $$YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$$ that is
 just *cause specific YLL* divided by *all-causes YLL*.  
-3. *YLL* rate: $$YLL^r_{x,t,c}=YLL_{x,t,c}/P_{x,t} * 100'000$$ where
+3. *YLL* rate: $$YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000$$ where
 $P_{x,t}$ is population.  
 4. Age-standardized *YLL* rate:
 $$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$ where $W_x$ is the
-standard population weight at *x*. In other words, it’s just direct
+standard population weight at age *x*, where $\omega$ is the oldest,
+closing age (for ex., 85+ or 100+). In other words, it’s just direct
 standardization of $YLL^r_{x,t,c}$.
 
 Let’s calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris
@@ -406,7 +408,8 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
 ### Lee-Carter model
 
 Also in the `demor` there is `leecart()` function that provides users
-with basic *Lee-Carter model* for mortality forecasting:
+with basic *Lee-Carter model* (proposed by Lee and Carter in 1992 and
+that now has a lot of extensions) for mortality forecasting:
 
 ``` r
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
@@ -516,7 +519,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 ## Fertility
 
 For the analysis of fertility in the `demor` there are only a few (1…)
-functions, due to the author’s preference for mortality analysis…  
+functions, due to the author’s preference for mortality analysis…
 
 ### TFR
 
@@ -601,4 +604,21 @@ plot +
 
 ## References
 
-- 
+- Center for Demographic Research, Moscow (Russia). 2023. “Russian
+  Fertility and Mortality Database (Rosbris)” URL:
+  <http://www.demogr.nes.ru/en/demogr_indicat/data>  
+- Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in
+  infancy and infant mortality level: Reconsidering the Coale-Demeny
+  formulas at current levels of low mortality. Demographic Research, 33,
+  363-390.  
+- Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple
+  measure of human development: The human life indicator. Population and
+  development review, 45(1), 219.  
+- Andreev, E. M., & Shkolnikov, V. M. (2012). An Excel spreadsheet for
+  the decomposition of a difference between two values of an aggregate
+  demographic measure by stepwise replacement running from young to old
+  ages. MPIDR Technical Report TR-2012-002. URL:
+  <https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591>  
+- Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US
+  mortality. Journal of the American statistical association, 87(419),
+  659-671.
