@@ -1,5 +1,5 @@
 ---
-title: "Using Demor package for basic demographic analysis"
+title: "Demor package for basic demographic analysis"
 output:
   github_document:
     toc: true

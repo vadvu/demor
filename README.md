@@ -1,4 +1,4 @@
-Using Demor package for basic demographic analysis
+Demor package for basic demographic analysis
 ================
 
 - [Installation](#installation)
