@@ -13,8 +13,8 @@ get_rosbris(type, age = 1, initial = FALSE, lastyear = 2022)
 
 \item{initial}{Logical. Do you want initial rosbris data? \code{T} for initial, \code{F} for 'long' format (default).}
 
-\item{lastyear}{Numeric. The last available year in rosbris .
-(can be seen on the \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{website}). default is \code{2022} (in 2023).}
+\item{lastyear}{Numeric. The last available year in rosbris
+(can be seen on the \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{website}). Default is \code{2022} (in 2023).}
 }
 \value{
 List (if \code{initial = TRUE}) of dataframes: population and mortality/fertility data. Dataframe (if \code{initial = FALSE}) in long format.

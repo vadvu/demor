@@ -40,5 +40,5 @@ For more details see \href{https://github.com/vadvu/demor?tab=readme-ov-file#yea
 }
 }
 \references{
-Martinez, R., Soliz, P., Caixeta, R., Ordunez, P., 2019. Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
+Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. \emph{International Journal of Epidemiology}, \emph{48}, 1367–1376.
 }

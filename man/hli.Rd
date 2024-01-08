@@ -20,5 +20,5 @@ HLI value
 The Human Life Indicator (HLI)
 }
 \references{
-Ghislandi, S., Sanderson, W.C., Scherbov, S., 2019. A Simple Measure of Human Development: The Human Life Indicator. Population and Development Review 45, 219–233. https://doi.org/10.1111/padr.12205
+Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. \emph{Population and Development Review}, \emph{45}, 219–233.
 }

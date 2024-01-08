@@ -29,7 +29,6 @@ The goal of `demor` is to provide you with:\
 You can install the development version of `demor` from [GitHub](https://github.com/) with:
 
 ``` r
-
 # install.packages("devtools")
 devtools::install_github("vadvu/demor")
 ```
@@ -79,11 +78,11 @@ LT(
 ```
 
 Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$):\
-1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: \frac{1}{e_x}$.\
-2. Probability of surviving from age $x$ to age $y$: $p=\frac{l_y}{l_x}$.\
-3. Probability that a newborn will die between ages $x$ and $x+n$: $\frac{d_x^n}{l_0}$.\
-4. Probability that a newborn will die between ages $x$ and $y$: $\frac{l_x-l_y}{l_0}$.\
-5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $\frac{T_y}{T_x}$.
+1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: 1/e_x$.\
+2. Probability of surviving from age $x$ to age $y$: $p=l_y/l_x$.\
+3. Probability that a newborn will die between ages $x$ and $x+n$: $d_x^n/l_0$.\
+4. Probability that a newborn will die between ages $x$ and $y$: $(l_x-l_y)/l_0$.\
+5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$.
 
 ## Human Life Indicator (HLI)
 
@@ -288,6 +287,7 @@ asdt_neoplasm <- asdt(age = asdtex$age,
                       full = F, 
                       method = "chiang1968")
 asdt_neoplasm[,c("age", "ex", "ex_without_i")]
+
 ```
 
 One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2):

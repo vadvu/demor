@@ -13,7 +13,7 @@
 #' 4. Age-standardized *YLL* rate  - `asyr` type.
 #' For more details see [github page](https://github.com/vadvu/demor?tab=readme-ov-file#years-of-life-lost-yll).
 #'
-#' @references Martinez, R., Soliz, P., Caixeta, R., Ordunez, P., 2019. Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
+#' @references Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. *International Journal of Epidemiology*, *48*, 1367–1376.
 #' @return list with values.
 #' @export
 #'

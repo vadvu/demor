@@ -3,8 +3,8 @@
 #' @param type Character. Type of data for downloading. "m" = mortality, f = "ferility"
 #' @param age Numeric. Age group. `1` for one-year data, `5` for five-year data
 #' @param initial Logical. Do you want initial rosbris data? `T` for initial, `F` for 'long' format (default).
-#' @param lastyear Numeric. The last available year in rosbris .
-#' (can be seen on the [website](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)). default is `2022` (in 2023).
+#' @param lastyear Numeric. The last available year in rosbris
+#' (can be seen on the [website](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)). Default is `2022` (in 2023).
 #'
 #' @references Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)
 #' @return List (if `initial = TRUE`) of dataframes: population and mortality/fertility data. Dataframe (if `initial = FALSE`) in long format.
