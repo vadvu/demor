@@ -117,7 +117,27 @@ population (both urban and rural)</p>
 <span><span class="co">#&gt; 20460 2010 1100         t   m  70 0.068599 2149929 147482.98</span></span>
 <span><span class="co">#&gt; 20461 2010 1100         t   m  75 0.097635 1077916 105242.33</span></span>
 <span><span class="co">#&gt; 20462 2010 1100         t   m  80 0.138043  714191  98589.07</span></span>
-<span><span class="co">#&gt; 20463 2010 1100         t   m  85 0.198593  231350  45944.49</span></span></code></pre></div>
+<span><span class="co">#&gt; 20463 2010 1100         t   m  85 0.198593  231350  45944.49</span></span>
+<span><span class="co">#&gt;                       name</span></span>
+<span><span class="co">#&gt; 20445 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20446 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20447 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20448 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20449 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20450 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20451 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20452 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20453 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20454 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20455 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20456 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20457 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20458 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20459 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20460 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20461 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20462 Российская Федерация</span></span>
+<span><span class="co">#&gt; 20463 Российская Федерация</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="mortality">Mortality<a class="anchor" aria-label="anchor" href="#mortality"></a>
@@ -534,15 +554,15 @@ using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rus2010f</span> <span class="op">&lt;-</span> <span class="va">dbf</span><span class="op">[</span><span class="va">dbf</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span>,<span class="op">]</span></span>
 <span><span class="va">rus2010f</span></span>
-<span><span class="co">#&gt;      year code territory age       fx       N        Bx</span></span>
-<span><span class="co">#&gt; 3153 2010 1100         t  15 0.027015 4214250 113847.96</span></span>
-<span><span class="co">#&gt; 3154 2010 1100         t  20 0.087421 6027079 526893.27</span></span>
-<span><span class="co">#&gt; 3155 2010 1100         t  25 0.099061 5957982 590203.65</span></span>
-<span><span class="co">#&gt; 3156 2010 1100         t  30 0.067240 5515957 370892.95</span></span>
-<span><span class="co">#&gt; 3157 2010 1100         t  35 0.029922 5187670 155225.46</span></span>
-<span><span class="co">#&gt; 3158 2010 1100         t  40 0.005904 4764028  28126.82</span></span>
-<span><span class="co">#&gt; 3159 2010 1100         t  45 0.000257 5738736   1474.86</span></span>
-<span><span class="co">#&gt; 3160 2010 1100         t  50 0.000014 6203597     86.85</span></span></code></pre></div>
+<span><span class="co">#&gt;      year code territory age       fx       N        Bx                 name</span></span>
+<span><span class="co">#&gt; 3153 2010 1100         t  15 0.027015 4214250 113847.96 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3154 2010 1100         t  20 0.087421 6027079 526893.27 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3155 2010 1100         t  25 0.099061 5957982 590203.65 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3156 2010 1100         t  30 0.067240 5515957 370892.95 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3157 2010 1100         t  35 0.029922 5187670 155225.46 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3158 2010 1100         t  40 0.005904 4764028  28126.82 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3159 2010 1100         t  45 0.000257 5738736   1474.86 Российская Федерация</span></span>
+<span><span class="co">#&gt; 3160 2010 1100         t  50 0.000014 6203597     86.85 Российская Федерация</span></span></code></pre></div>
 <p>Now one can compute <em>TFR</em>:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tfr.html">tfr</a></span><span class="op">(</span></span>
@@ -605,7 +625,11 @@ young to old ages</em>. MPIDR Technical Report TR-2012-002. <a href="https://www
 </li>
 <li>Lee, R. D., &amp; Carter, L. R. (1992). Modeling and forecasting US
 mortality. <em>Journal of the American statistical association</em>,
-<em>87</em>(<em>419</em>), 659-671.</li>
+<em>87</em>(<em>419</em>), 659-671.<br>
+</li>
+<li>Ghislandi, S., Sanderson, W.C., &amp; Scherbov, S. (2019). A Simple
+Measure of Human Development: The Human Life Indicator. <em>Population
+and Development Review</em>, <em>45</em>, 219–233.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
