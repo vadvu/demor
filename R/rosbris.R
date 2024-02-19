@@ -82,6 +82,10 @@ get_rosbris <- function(type, age = 1, initial = FALSE, lastyear = 2022){
         data$age <- as.numeric(data$age)
         data <- data %>% dplyr::arrange (code, year, territory, sex, age) %>% drop_na(code)
 
+        rosbris.codes <- demor::rosbris.codes
+        data <- left_join(data, rosbris.codes[,-1], by = "code")
+        rm(rosbris.codes)
+
         return(data)
       }
     }
@@ -144,6 +148,10 @@ get_rosbris <- function(type, age = 1, initial = FALSE, lastyear = 2022){
           dplyr::mutate (Bx = round(fx * N,2))
         data$age <- as.numeric(data$age)
         data <- data %>% dplyr::arrange (code, year, territory, age) %>% drop_na(code)
+
+        rosbris.codes <- demor::rosbris.codes
+        data <- left_join(data, rosbris.codes[,-1], by = "code")
+        rm(rosbris.codes)
 
         return(data)
       }

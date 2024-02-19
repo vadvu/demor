@@ -42,3 +42,15 @@
 #' }
 #' @source Martinez, R., Soliz, P., Caixeta, R., Ordunez, P. [2019](https://doi.org/10.1093/ije/dyy254). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
 "sle_stand"
+
+#' Rosbris' Region codes
+#'
+#'
+#' @format ## A dataframe
+#' \describe{
+#'   \item{n}{number of Region (sequence number)}
+#'   \item{name}{Region name}
+#'   \item{code}{Region unique code}
+#' }
+#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+"rosbris.codes"
