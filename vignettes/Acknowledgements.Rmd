@@ -1,0 +1,19 @@
+---
+title: "Acknowledgements"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Acknowledgements}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+This package is created with support of [Human Capital Multidisciplinary Center](https://ncmu.hse.ru/en/) within project ["Developing Multistate Demographic Models for Russia in the context of Educational Attainment and Health Status / Life Expectancy"](https://ncmu.hse.ru/en/programme-2-1-4/) No 075-15-2022-326 
+
