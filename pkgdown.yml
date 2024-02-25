@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   Acknowledgements: Acknowledgements.html
   demor: demor.html
-last_built: 2024-02-21T18:05Z
+last_built: 2024-02-25T22:31Z
 urls:
   reference: https://vadvu.github.io/demor/reference
   article: https://vadvu.github.io/demor/articles
