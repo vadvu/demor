@@ -433,7 +433,7 @@ that now has a lot of extensions) for mortality forecasting:
 
 ``` r
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 10, 
+                            n = 5, 
                             sex = "m", 
                             concise = T
                             )
@@ -448,27 +448,54 @@ head(leecart_forecast)
 ```
 
 One can plot the results using
-[ggplot2](https://github.com/tidyverse/ggplot2):
+[ggplot2](https://github.com/tidyverse/ggplot2) to comapare predicted
+data with actual that, however, requires some data handling:
 
 ``` r
-ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
-  geom_line()+geom_ribbon(aes(ymin = ex_low95, ymax = ex_high95), alpha = 0.3, fill = "red")+
-  theme_classic()+
-  scale_x_continuous(breaks = seq(2020, 2030, 2))
+#LE data calculation
+ledata <- data.frame(year = 2010:2022, lem = NA, lem.predicted = NA, ci.low = NA, ci.high = NA)
+for(i in 2010:2022){
+  ledata[ledata$year==i,2] <- LT(age = unique(dbm$age), 
+                                 sex = "m", 
+                                 mx = dbm[dbm$year==i & 
+                                            dbm$territory == "t" & 
+                                            dbm$code == 1100 & 
+                                            dbm$sex == "m",]$mx)[1,"ex"]
+  if(i>=2019){
+    if(i==2019){
+      ledata[ledata$year==i,3:5] <- rep(ledata[ledata$year==i,2],3)
+    }else{
+      ledata[ledata$year==i,3:5] <- leecart_forecast[leecart_forecast$age=="0" & 
+                                                     leecart_forecast$year == i,6:8] %>% as.numeric()
+    }
+  }
+}
+
+ggplot(data = ledata, aes(x = year))+
+  geom_point(aes(y = lem, color = "Observed data"))+
+  geom_line(aes(y = lem, color = "Observed data"))+
+  geom_point(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_line(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_ribbon(aes(ymin = ci.low, ymax = ci.high), fill = "pink", alpha = 0.5)+
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+  scale_x_continuous(breaks = 2010:2022)+
+  scale_y_continuous(breaks = 63:70)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  scale_color_manual(values = c("black", "darkred"))+
+  labs(x="Year", y = "Male's LE at birth", colour = "")
 ```
 
 <img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
 ``` r
-
-
 ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.factor(year)))+
   geom_line()+geom_ribbon(aes(ymin = log10(mx_low95), ymax = log10(mx_high95)), alpha = 0)+
   theme_minimal()+
   labs(x = "Age", color = "Year:")
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
 ## Associated single decrement life table
 
@@ -526,7 +553,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
 
 ``` r
 
@@ -537,7 +564,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
   theme_classic()
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-19-2.png" width="100%" />
 
 # Fertility
 
@@ -606,7 +633,7 @@ plot_pyr(
   ages = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
 Also one can redesigned plot using
 [ggplot2](https://github.com/tidyverse/ggplot2) functions:
@@ -623,7 +650,7 @@ plot +
   theme_minimal()
 ```
 
-<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="100%" />
 
 # References
 
