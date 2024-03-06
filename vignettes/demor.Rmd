@@ -1,8 +1,10 @@
 ---
-title: "demor"
+title: "Get started with `demor`"
 output: rmarkdown::html_vignette
+toc: true
+toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{demor}
+  %\VignetteIndexEntry{Get started with `demor`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +19,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+# Installation
+
+You can install the development version of `demor` from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("vadvu/demor")
+```
+
+```{r setup, echo=FALSE}
 library(demor)
 ```
 
@@ -74,7 +85,7 @@ Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$
 
 ## Human Life Indicator (HLI)
 
-A good alternative to the *human development indicator* (HDI) is the *human life indicator* (HLI) proposed by Ghislandi, Sanderson and Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just $m_x$ (and it is based on *life table*). It is calculated as geometric mean of lifespans: $$HLI = \prod_x^\omega{(x+a_x)^{d_x}}$$ where *x* is age and *a*, *d* are functions from *life table*.   
+A good alternative to the *human development indicator* (HDI) is the *human life indicator* (HLI) proposed by Ghislandi, Sanderson and Scherbov ([2019](https://doi.org/10.1111/padr.12205)). It requires just $m_x$ (and it is based on *life table*). It is calculated as geometric mean of lifespans: $$HLI = \prod_x^\omega{(x+a_x)^{d_x}}$$ where *x* is age and *a*, *d* are functions from *life table*.
 
 Lets calculate it using our example data:
 
@@ -87,15 +98,15 @@ hli(
 
 ## Years of Life Lost (YLL)
 
-One of the most popular (and relatively young) measure of *lifespan inequality* is "*years of life lost*" (YLL) proposed by Martinez et al. ([2019](https://doi.org/10.1093/ije/dyy254)). As authors claim, "YLL is a valuable measure for public health surveillance, particularly for quantifying the level and trends of premature mortality, identification of leading causes of premature deaths and monitoring the progress of YLL as a key indicator of population health" (ibid., 1368).   
+One of the most popular (and relatively young) measure of *lifespan inequality* is "*years of life lost*" (YLL) proposed by Martinez et al. ([2019](https://doi.org/10.1093/ije/dyy254)). As authors claim, "YLL is a valuable measure for public health surveillance, particularly for quantifying the level and trends of premature mortality, identification of leading causes of premature deaths and monitoring the progress of YLL as a key indicator of population health" (ibid., 1368).
 
-Authors proposed different metrics of *YLL*:    
-1. Absolute number of *YLL*: $$YLL_{x,t,c}=D_{x,t,c}*SLE_x$$ that is calculated for age *x*, time *t* and cause of death *c*.  *YLL* for the whole population is just sum of $YLL_x$. *SLE* is the *standard life expectancy* that is invariant over time, sex and population (it's meaning is straightforward: it is the potential maximum life span of an individual, who is not exposed to avoidable health risks or severe injuries and receives appropriate health services), and $D_x$ is a number of deaths at age *x*. Of course, one can calculate *YLL* not for specific cause *c*, but for overall mortality that is called *all-causes YLL*.    
-2. *YLL* as proportion: $$YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$$ that is just *cause specific YLL* divided by *all-causes YLL*.   
-3. *YLL* rate: $$YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000$$ where $P_{x,t}$ is population.    
-4. Age-standardized *YLL* rate: $$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$ where $W_x$ is the standard population weight at age *x*, where $\omega$ is the oldest, closing age (for ex., 85+ or 100+). In other words, it's just direct standardization of $YLL^r_{x,t,c}$.    
+Authors proposed different metrics of *YLL*:\
+1. Absolute number of *YLL*: $$YLL_{x,t,c}=D_{x,t,c}*SLE_x$$ that is calculated for age *x*, time *t* and cause of death *c*. *YLL* for the whole population is just sum of $YLL_x$. *SLE* is the *standard life expectancy* that is invariant over time, sex and population (it's meaning is straightforward: it is the potential maximum life span of an individual, who is not exposed to avoidable health risks or severe injuries and receives appropriate health services), and $D_x$ is a number of deaths at age *x*. Of course, one can calculate *YLL* not for specific cause *c*, but for overall mortality that is called *all-causes YLL*.\
+2. *YLL* as proportion: $$YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}$$ that is just *cause specific YLL* divided by *all-causes YLL*.\
+3. *YLL* rate: $$YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000$$ where $P_{x,t}$ is population.\
+4. Age-standardized *YLL* rate: $$ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}$$ where $W_x$ is the standard population weight at age *x*, where $\omega$ is the oldest, closing age (for ex., 85+ or 100+). In other words, it's just direct standardization of $YLL^r_{x,t,c}$.
 
-Let's calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris data that we have downloaded. 
+Let's calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris data that we have downloaded.
 
 ```{r}
 #YLL
@@ -117,12 +128,11 @@ yll(rus2010$Dx, type = "asyr", pop = rus2010$N, w = rus2010$N/sum(rus2010$N))
 
 ```
 
-Also one can calculate different *YLL* measures using standards that are provided by `demor` as dataframe. 
+Also one can calculate different *YLL* measures using standards that are provided by `demor` as dataframe.
 
 ``` r
 demor::sle_stand
 ```
-
 
 ## Age decomposition of differences in life expectancies
 
@@ -163,7 +173,6 @@ ggplot(dec, aes( as.factor(age), ex12))+
   geom_text(aes(label = ex12), vjust = 1.5, color = "white", size = 3.5)
 
 ```
-
 
 ## Age and cause decomposition of differences in life expectancies
 
@@ -238,26 +247,48 @@ Also in the `demor` there is `leecart()` function that provides users with basic
 
 ```{r}
 leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 10, 
+                            n = 5, 
                             sex = "m", 
                             concise = T
                             )
 head(leecart_forecast)
 ```
 
-One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2):
+One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2) to comapare predicted data with actual that, however, requires some data handling:
 
 ```{r}
-ggplot(data = leecart_forecast[leecart_forecast$age=="0",], aes(year, ex))+
-  geom_line()+geom_ribbon(aes(ymin = ex_low95, ymax = ex_high95), alpha = 0.3, fill = "red")+
-  theme_classic()+
-  scale_x_continuous(breaks = seq(2020, 2030, 2))
+#LE data calculation
+ledata <- data.frame(year = 2010:2022, lem = NA, lem.predicted = NA, ci.low = NA, ci.high = NA)
+for(i in 2010:2022){
+  ledata[ledata$year==i,2] <- LT(age = unique(dbm$age), 
+                                 sex = "m", 
+                                 mx = dbm[dbm$year==i & 
+                                            dbm$territory == "t" & 
+                                            dbm$code == 1100 & 
+                                            dbm$sex == "m",]$mx)[1,"ex"]
+  if(i>=2019){
+    if(i==2019){
+      ledata[ledata$year==i,3:5] <- rep(ledata[ledata$year==i,2],3)
+    }else{
+      ledata[ledata$year==i,3:5] <- leecart_forecast[leecart_forecast$age=="0" & 
+                                                     leecart_forecast$year == i,6:8] %>% as.numeric()
+    }
+  }
+}
 
-
-ggplot(data = leecart_forecast, aes(as.numeric(age), log10(mx), color = as.factor(year)))+
-  geom_line()+geom_ribbon(aes(ymin = log10(mx_low95), ymax = log10(mx_high95)), alpha = 0)+
+ggplot(data = ledata, aes(x = year))+
+  geom_point(aes(y = lem, color = "Observed data"))+
+  geom_line(aes(y = lem, color = "Observed data"))+
+  geom_point(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_line(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_ribbon(aes(ymin = ci.low, ymax = ci.high), fill = "pink", alpha = 0.5)+
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+  scale_x_continuous(breaks = 2010:2022)+
+  scale_y_continuous(breaks = 63:70)+
   theme_minimal()+
-  labs(x = "Age", color = "Year:")
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  scale_color_manual(values = c("black", "darkred"))+
+  labs(x="Year", y = "Male's LE at birth", colour = "")
 ```
 
 ## Associated single decrement life table
@@ -298,7 +329,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 # Fertility
 
-For the analysis of fertility in the `demor` there are only a few (1...) functions, due to the author's preference for mortality analysis...   
+For the analysis of fertility in the `demor` there are only a few (1...) functions, due to the author's preference for mortality analysis...
 
 ## TFR
 
@@ -363,9 +394,10 @@ plot +
 ```
 
 # References
-* Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)    
-* Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.    
-* Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple measure of human development: The human life indicator. *Population and development review*, *45*(*1*), 219-233.   
-* Andreev, E. M., & Shkolnikov, V. M. (2012). *An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages*. MPIDR Technical Report TR-2012-002. [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)    
-* Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.   
-* Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. *Population and Development Review*, *45*, 219–233.
+
+-   Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)\
+-   Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.\
+-   Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple measure of human development: The human life indicator. *Population and development review*, *45*(*1*), 219-233.\
+-   Andreev, E. M., & Shkolnikov, V. M. (2012). *An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages*. MPIDR Technical Report TR-2012-002. [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)\
+-   Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.\
+-   Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. *Population and Development Review*, *45*, 219--233.
