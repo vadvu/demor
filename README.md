@@ -8,10 +8,11 @@ The goal of `demor` is to provide you with:
 2. some data
 
 Now, `demor` provides the ability to download Russian
-mortality/fertility data from Rosbris (РосБРиС) in a user-friendly
-format. It also includes functions for building life tables, age and
-cause decompositions, fitting Lee-Carter model, calculating years of
-life lost, and more.
+mortality/fertility data from [Rosbris
+(РосБРиС)](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) in a
+user-friendly format. It also includes functions for building life
+tables, age and cause decompositions, fitting Lee-Carter model,
+calculating years of life lost, and more.
 
 ## Installation
 
@@ -23,22 +24,27 @@ You can install the development version of `demor` from
 devtools::install_github("vadvu/demor")
 ```
 
-## Tutorial
+### Tutorial
 
 The examples of `demor` usage one can find on its
 [website](https://vadvu.github.io/demor/) in the [Get
 started](https://vadvu.github.io/demor/articles/demor.html) section. The
 detailed information about each function can be found on
 [this](https://vadvu.github.io/demor/reference/index.html) section of
+the website. Examples of how to use `demor` can be found on its
+[website](https://vadvu.github.io/demor/) in the [Get
+started](https://vadvu.github.io/demor/articles/demor.html) section. The
+detailed information about each function can be found in
+[this](https://vadvu.github.io/demor/reference/index.html) section of
 the website.
 
-## Contact Information
+### Contact Information
 
 If you have any comments on the `demor` (suggestions for development,
 bug fixes, etc.), please, feel free to contact me via email:
 <vvustiuzhanin@yandex.ru>
 
-## Acknowledgements
+### Acknowledgements
 
 This package is created with support of [Human Capital Multidisciplinary
 Center](https://ncmu.hse.ru/en/) within project [“Developing Multistate

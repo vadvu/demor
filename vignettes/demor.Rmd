@@ -76,12 +76,13 @@ LT(
   mx = rus2010$mx)
 ```
 
-Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$):\
+Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$) and interesting things:\
 1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: 1/e_x$.\
 2. Probability of surviving from age $x$ to age $y$: $p=l_y/l_x$.\
 3. Probability that a newborn will die between ages $x$ and $x+n$: $d_x^n/l_0$.\
 4. Probability that a newborn will die between ages $x$ and $y$: $(l_x-l_y)/l_0$.\
-5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$.
+5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$.\
+6. Crude estimate of the number of births needed to “replace” expected deaths: $P/e_0$ where $P$ is total population. 
 
 ## Human Life Indicator (HLI)
 
