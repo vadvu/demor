@@ -3,8 +3,5 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   demor: demor.html
-last_built: 2024-03-06T17:00Z
-urls:
-  reference: https://vadvu.github.io/demor/reference
-  article: https://vadvu.github.io/demor/articles
+last_built: 2024-03-06T19:02Z
 

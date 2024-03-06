@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vadvu.github.io/demor/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/articles/demor.html</loc>
+    <loc>/articles/demor.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/LT.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/asdt.html</loc>
+    <loc>/reference/LT.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/asdtex.html</loc>
+    <loc>/reference/asdt.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/decomp.html</loc>
+    <loc>/reference/asdtex.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/demor-package.html</loc>
+    <loc>/reference/decomp.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/get_rosbris.html</loc>
+    <loc>/reference/demor-package.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/hli.html</loc>
+    <loc>/reference/get_rosbris.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/index.html</loc>
+    <loc>/reference/hli.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/leecart.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/mdecomp.html</loc>
+    <loc>/reference/leecart.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/mdecompex.html</loc>
+    <loc>/reference/mdecomp.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/pipe.html</loc>
+    <loc>/reference/mdecompex.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/plot_pyr.html</loc>
+    <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/rosbris.codes.html</loc>
+    <loc>/reference/plot_pyr.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/sle_stand.html</loc>
+    <loc>/reference/rosbris.codes.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/tfr.html</loc>
+    <loc>/reference/sle_stand.html</loc>
   </url>
   <url>
-    <loc>https://vadvu.github.io/demor/reference/yll.html</loc>
+    <loc>/reference/tfr.html</loc>
+  </url>
+  <url>
+    <loc>/reference/yll.html</loc>
   </url>
 </urlset>
