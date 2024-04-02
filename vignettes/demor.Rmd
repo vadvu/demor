@@ -76,13 +76,14 @@ LT(
   mx = rus2010$mx)
 ```
 
-Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$) and interesting things:\
+Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$) and interesting things:\    
 1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: 1/e_x$.\
 2. Probability of surviving from age $x$ to age $y$: $p=l_y/l_x$.\
 3. Probability that a newborn will die between ages $x$ and $x+n$: $d_x^n/l_0$.\
 4. Probability that a newborn will die between ages $x$ and $y$: $(l_x-l_y)/l_0$.\
 5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$.\
-6. Crude estimate of the number of births needed to “replace” expected deaths: $P/e_0$ where $P$ is total population. 
+6. Crude estimate of the number of births needed to “replace” expected deaths: $P/e_0$ where $P$ is total population.\    
+See also Demography handbook by Preston, Heuveline and Guillot [(2001, p. 38-71)](https://gwern.net/doc/statistics/2001-preston-demography.pdf) 
 
 ## Human Life Indicator (HLI)
 
@@ -394,9 +395,24 @@ plot +
   theme_minimal()
 ```
 
+Another function is `ages` that converts continuous ages to age groups. For example, array with $\{ 0,1,2,3...100 \}$ it can convert to $\{<5,6-9,10-14 ... 85+ \}$ using user-specific lower boundaries.
+
+```{r}
+groups <- c(0, 1, 5, 10, 20, 45, 85) #lower boundaries of age groups
+age <- sample(0:100, 101) #simulated array with ages
+
+new.age <- ages(x = age, groups = groups, char = TRUE)
+
+table(new.age) #see new groups with the number of values in the group 
+```
+
+
+
+
 # References
 
 -   Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)\
+-   Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and modeling population processes. Blackwell Publishers. ([pdf](https://gwern.net/doc/statistics/2001-preston-demography.pdf))\
 -   Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.\
 -   Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple measure of human development: The human life indicator. *Population and development review*, *45*(*1*), 219-233.\
 -   Andreev, E. M., & Shkolnikov, V. M. (2012). *An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages*. MPIDR Technical Report TR-2012-002. [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)\
