@@ -4,8 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="demor">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get started with `demor` • demor</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -13,66 +12,70 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with `demor`">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Get started with `demor`">
 <meta property="og:description" content="demor">
-<meta property="og:image" content="https://vadvu.github.io/demor/logo.png">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+<body data-spy="scroll" data-target="#toc">
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
-    
-    <a class="navbar-brand me-2" href="../index.html">demor</a>
+    <div class="container template-article">
+      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">demor</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+      </span>
+    </div>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
-
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/demor.html">Get started</a>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/demor.html">Get started</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav"></ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
-
-    
+<!--/.nav-collapse -->
   </div>
-</nav><div class="container template-article">
+<!--/.container -->
+</div>
+<!--/.navbar -->
 
+      
 
-
-
-<div class="row">
-  <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Get started with `demor`</h1>
+      </header><div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header toc-ignore">
+      <h1 data-toc-skip>Get started with <code>demor</code>
+</h1>
             
       
       
-      <div class="d-none name"><code>demor.Rmd</code></div>
+      <div class="hidden name"><code>demor.Rmd</code></div>
+
     </div>
 
     
@@ -83,7 +86,7 @@
 <p>You can install the development version of <code>demor</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"vadvu/demor"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"vadvu/demor"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-rosbris-data">Get Rosbris data<a class="anchor" aria-label="anchor" href="#get-rosbris-data"></a>
@@ -98,7 +101,7 @@ In the chunk below mortality data for 5-age groups with population in
 “long” format is loading. For more function description use
 <code><a href="../reference/get_rosbris.html">?get_rosbris</a></code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vadvu.github.io/demor/">demor</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vadvu.github.io/demor/" class="external-link">demor</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span></span>
 <span>  <span class="co">#mortality data</span></span>
@@ -194,8 +197,9 @@ in Andreev &amp; Kingkade (<a href="https://doi.org/10.4054/DemRes.2015.33.13" c
 <span><span class="co">#&gt; [18,]  80 0.13804 0.500 0.51313 0.17349 0.08902 0.64489  1.07021  6.17</span></span>
 <span><span class="co">#&gt; [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04</span></span></code></pre></div>
 <p>Note, from life table one can compute other <em>functions</em> (not
-just <span class="math inline">\(e_x\)</span> or <span class="math inline">\(l_x\)</span>) and interesting <a href="things:%5C" class="uri">things:\</a> 1. <span class="math inline">\(CDR =
-\frac{1}{e_0}\)</span> or Death rate above some age <span class="math inline">\(x: 1/e_x\)</span>.<br>
+just <span class="math inline">\(e_x\)</span> or <span class="math inline">\(l_x\)</span>) and interesting <a href="things:%5C" class="uri">things:\</a><br>
+1. <span class="math inline">\(CDR = \frac{1}{e_0}\)</span> or Death
+rate above some age <span class="math inline">\(x: 1/e_x\)</span>.<br>
 2. Probability of surviving from age <span class="math inline">\(x\)</span> to age <span class="math inline">\(y\)</span>: <span class="math inline">\(p=l_y/l_x\)</span>.<br>
 3. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(x+n\)</span>: <span class="math inline">\(d_x^n/l_0\)</span>.<br>
 4. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>: <span class="math inline">\((l_x-l_y)/l_0\)</span>.<br>
@@ -204,7 +208,9 @@ just <span class="math inline">\(e_x\)</span> or <span class="math inline">\(l_x
 person-years lived from age <span class="math inline">\(x\)</span>
 onward: <span class="math inline">\(T_y/T_x\)</span>.<br>
 6. Crude estimate of the number of births needed to “replace” expected
-deaths: <span class="math inline">\(P/e_0\)</span> where <span class="math inline">\(P\)</span> is total population.</p>
+deaths: <span class="math inline">\(P/e_0\)</span> where <span class="math inline">\(P\)</span> is total population. <br>
+See also Demography handbook by Preston, Heuveline and Guillot <a href="https://gwern.net/doc/statistics/2001-preston-demography.pdf" class="external-link">(2001,
+p. 38-71)</a></p>
 </div>
 <div class="section level3">
 <h3 id="human-life-indicator-hli">Human Life Indicator (HLI)<a class="anchor" aria-label="anchor" href="#human-life-indicator-hli"></a>
@@ -640,6 +646,20 @@ mortality data. We already have data in <code>dbm</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"My y"</span>, x <span class="op">=</span> <span class="st">"Age"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="demor_files/figure-html/unnamed-chunk-23-1.png" width="100%"></p>
+<p>Another function is <code>ages</code> that converts continuous ages
+to age groups. For example, array with <span class="math inline">\(\{
+0,1,2,3...100 \}\)</span> it can convert to <span class="math inline">\(\{&lt;5,6-9,10-14 ... 85+ \}\)</span> using
+user-specific lower boundaries.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">45</span>, <span class="fl">85</span><span class="op">)</span> <span class="co">#lower boundaries of age groups</span></span>
+<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">101</span><span class="op">)</span> <span class="co">#simulated array with ages</span></span>
+<span></span>
+<span><span class="va">new.age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ages.html">ages</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, groups <span class="op">=</span> <span class="va">groups</span>, char <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">new.age</span><span class="op">)</span> <span class="co">#see new groups with the number of values in the group </span></span>
+<span><span class="co">#&gt; new.age</span></span>
+<span><span class="co">#&gt;     0   1-4   5-9 10-19 20-44 45-84   85+ </span></span>
+<span><span class="co">#&gt;     1     4     5    10    25    40    16</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -647,6 +667,9 @@ mortality data. We already have data in <code>dbm</code>.</p>
 <ul>
 <li>Center for Demographic Research (2023). <em>Russian Fertility and
 Mortality Database (Rosbris)</em>. <a href="http://www.demogr.nes.ru/en/demogr_indicat/data" class="external-link">URL</a><br>
+</li>
+<li>Preston, S. H., Heuveline, P., &amp; Guillot, M. (2001). Demography:
+Measuring and modeling population processes. Blackwell Publishers. (<a href="https://gwern.net/doc/statistics/2001-preston-demography.pdf" class="external-link">pdf</a>)<br>
 </li>
 <li>Andreev, E. M., &amp; Kingkade, W. W. (2015). Average age at death
 in infancy and infant mortality level: Reconsidering the Coale-Demeny
@@ -671,26 +694,33 @@ Measure of Human Development: The Human Life Indicator. <em>Population
 and Development Review</em>, <em>45</em>, 219–233.</li>
 </ul>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
+
 </div>
 
 
 
-    <footer><div class="pkgdown-footer-left">
+      <footer><div class="copyright">
   <p></p>
 <p>Developed by Vadim Ustyuzhanin.</p>
 </div>
 
-<div class="pkgdown-footer-right">
+<div class="pkgdown">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-    </footer>
+      </footer>
 </div>
 
   
+
 
   
 
