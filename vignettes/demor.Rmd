@@ -36,11 +36,9 @@ library(demor)
 
 For getting data from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there is a function `get_rosbris()` that can download data on mortality/fertility by 1/5-year age groups from 1989 to the last available year (in 2023 its 2022).\
 Worth noting: downloading and preparing the final file can get some time.\
-In the chunk below mortality data for 5-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
+In the chunk below mortality data (`type = "m"`, for fertility see [Fertility section](#get-fertility-data)) for 5-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
 
 ```{r}
-library(demor)
-
 dbm <- get_rosbris(
   #mortality data
   type = "m",
@@ -76,13 +74,13 @@ LT(
   mx = rus2010$mx)
 ```
 
-Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$) and interesting things:\    
-1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: 1/e_x$.\
-2. Probability of surviving from age $x$ to age $y$: $p=l_y/l_x$.\
-3. Probability that a newborn will die between ages $x$ and $x+n$: $d_x^n/l_0$.\
-4. Probability that a newborn will die between ages $x$ and $y$: $(l_x-l_y)/l_0$.\
-5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$.\
-6. Crude estimate of the number of births needed to “replace” expected deaths: $P/e_0$ where $P$ is total population.\    
+Note, from life table one can compute other *functions* (not just $e_x$ or $l_x$) and interesting things: \    
+1. $CDR = \frac{1}{e_0}$ or Death rate above some age $x: 1/e_x$ \
+2. Probability of surviving from age $x$ to age $y$: $p=l_y/l_x$ \
+3. Probability that a newborn will die between ages $x$ and $x+n$: $d_x^n/l_0$ \
+4. Probability that a newborn will die between ages $x$ and $y$: $(l_x-l_y)/l_0$ \
+5. Life course ratio from age $x$ to $y$ that is the fraction of person-years lived from age $x$ onward: $T_y/T_x$ \
+6. Crude estimate of the number of births needed to “replace” expected deaths: $P/e_0$ where $P$ is total population \    
 See also Demography handbook by Preston, Heuveline and Guillot [(2001, p. 38-71)](https://gwern.net/doc/statistics/2001-preston-demography.pdf) 
 
 ## Human Life Indicator (HLI)
@@ -331,9 +329,9 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 # Fertility
 
-For the analysis of fertility in the `demor` there are only a few (1...) functions, due to the author's preference for mortality analysis...
+For the analysis of fertility in the `demor` there are only a few (2...) functions, due to the author's preference for mortality analysis...
 
-## TFR
+## Get fertility data
 
 Lets get basic *fertility data* (asFR or $f_x$) from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using `get_rosbris()`
 
@@ -356,8 +354,9 @@ For the example Russia-2010 is gotten
 rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 rus2010f
 ```
+## TFR
 
-Now one can compute *TFR*:
+Now one can compute total fertility age (*TFR*) - the most popular measure of fertility - that is standardized measure of "the average number of children a woman would bear if she survived through the end of the reproductive age span and experienced at each age a particular set of age-specific fertility ages" [Preston et al, 2001, p. 95](https://gwern.net/doc/statistics/2001-preston-demography.pdf).
 
 ```{r}
 tfr(
@@ -367,6 +366,20 @@ tfr(
   age.int = 5
     )
 ```
+
+## MAC
+
+MAC is a mean age at childbearing. One can compute it using $f_x$
+
+```{r}
+mac(
+  #asFR
+  rus2010f$fx,
+  #array with ages
+  ages = seq(15, 50, 5)
+    )
+```
+
 
 # Other functions
 

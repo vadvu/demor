@@ -26,12 +26,7 @@ devtools::install_github("vadvu/demor")
 
 ### Tutorial
 
-The examples of `demor` usage one can find on its
-[website](https://vadvu.github.io/demor/) in the [Get
-started](https://vadvu.github.io/demor/articles/demor.html) section. The
-detailed information about each function can be found on
-[this](https://vadvu.github.io/demor/reference/index.html) section of
-the website. Examples of how to use `demor` can be found on its
+Examples of how to use `demor` can be found on its
 [website](https://vadvu.github.io/demor/) in the [Get
 started](https://vadvu.github.io/demor/articles/demor.html) section. The
 detailed information about each function can be found in
