@@ -97,13 +97,12 @@ mortality/fertility by 1/5-year age groups from 1989 to the last
 available year (in 2023 its 2022).<br>
 Worth noting: downloading and preparing the final file can get some
 time.<br>
-In the chunk below mortality data for 5-age groups with population in
-“long” format is loading. For more function description use
-<code><a href="../reference/get_rosbris.html">?get_rosbris</a></code></p>
+In the chunk below mortality data (<code>type = "m"</code>, for
+fertility see <a href="#get-fertility-data">Fertility section</a>) for
+5-age groups with population in “long” format is loading. For more
+function description use <code><a href="../reference/get_rosbris.html">?get_rosbris</a></code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vadvu.github.io/demor/" class="external-link">demor</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">dbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">dbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span></span>
 <span>  <span class="co">#mortality data</span></span>
 <span>  type <span class="op">=</span> <span class="st">"m"</span>,</span>
 <span>  <span class="co">#what age group download</span></span>
@@ -197,18 +196,18 @@ in Andreev &amp; Kingkade (<a href="https://doi.org/10.4054/DemRes.2015.33.13" c
 <span><span class="co">#&gt; [18,]  80 0.13804 0.500 0.51313 0.17349 0.08902 0.64489  1.07021  6.17</span></span>
 <span><span class="co">#&gt; [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04</span></span></code></pre></div>
 <p>Note, from life table one can compute other <em>functions</em> (not
-just <span class="math inline">\(e_x\)</span> or <span class="math inline">\(l_x\)</span>) and interesting <a href="things:%5C" class="uri">things:\</a><br>
+just <span class="math inline">\(e_x\)</span> or <span class="math inline">\(l_x\)</span>) and interesting things:  <br>
 1. <span class="math inline">\(CDR = \frac{1}{e_0}\)</span> or Death
-rate above some age <span class="math inline">\(x: 1/e_x\)</span>.<br>
-2. Probability of surviving from age <span class="math inline">\(x\)</span> to age <span class="math inline">\(y\)</span>: <span class="math inline">\(p=l_y/l_x\)</span>.<br>
-3. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(x+n\)</span>: <span class="math inline">\(d_x^n/l_0\)</span>.<br>
-4. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>: <span class="math inline">\((l_x-l_y)/l_0\)</span>.<br>
+rate above some age <span class="math inline">\(x: 1/e_x\)</span><br>
+2. Probability of surviving from age <span class="math inline">\(x\)</span> to age <span class="math inline">\(y\)</span>: <span class="math inline">\(p=l_y/l_x\)</span><br>
+3. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(x+n\)</span>: <span class="math inline">\(d_x^n/l_0\)</span><br>
+4. Probability that a newborn will die between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>: <span class="math inline">\((l_x-l_y)/l_0\)</span><br>
 5. Life course ratio from age <span class="math inline">\(x\)</span> to
 <span class="math inline">\(y\)</span> that is the fraction of
 person-years lived from age <span class="math inline">\(x\)</span>
-onward: <span class="math inline">\(T_y/T_x\)</span>.<br>
+onward: <span class="math inline">\(T_y/T_x\)</span><br>
 6. Crude estimate of the number of births needed to “replace” expected
-deaths: <span class="math inline">\(P/e_0\)</span> where <span class="math inline">\(P\)</span> is total population. <br>
+deaths: <span class="math inline">\(P/e_0\)</span> where <span class="math inline">\(P\)</span> is total population  <br>
 See also Demography handbook by Preston, Heuveline and Guillot <a href="https://gwern.net/doc/statistics/2001-preston-demography.pdf" class="external-link">(2001,
 p. 38-71)</a></p>
 </div>
@@ -577,10 +576,10 @@ from neoplasm (i)</p>
 <h2 id="fertility">Fertility<a class="anchor" aria-label="anchor" href="#fertility"></a>
 </h2>
 <p>For the analysis of fertility in the <code>demor</code> there are
-only a few (1…) functions, due to the author’s preference for mortality
+only a few (2…) functions, due to the author’s preference for mortality
 analysis…</p>
 <div class="section level3">
-<h3 id="tfr">TFR<a class="anchor" aria-label="anchor" href="#tfr"></a>
+<h3 id="get-fertility-data">Get fertility data<a class="anchor" aria-label="anchor" href="#get-fertility-data"></a>
 </h3>
 <p>Lets get basic <em>fertility data</em> (asFR or <span class="math inline">\(f_x\)</span>) from <a href="http://demogr.nes.ru/index.php/ru/demogr_indicat/data" class="external-link">RosBris</a>
 using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code></p>
@@ -608,7 +607,16 @@ using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code></p>
 <span><span class="co">#&gt; 3158 2010 1100         t  40 0.005904 4764028  28126.82 Российская Федерация</span></span>
 <span><span class="co">#&gt; 3159 2010 1100         t  45 0.000257 5738736   1474.86 Российская Федерация</span></span>
 <span><span class="co">#&gt; 3160 2010 1100         t  50 0.000014 6203597     86.85 Российская Федерация</span></span></code></pre></div>
-<p>Now one can compute <em>TFR</em>:</p>
+</div>
+<div class="section level3">
+<h3 id="tfr">TFR<a class="anchor" aria-label="anchor" href="#tfr"></a>
+</h3>
+<p>Now one can compute total fertility age (<em>TFR</em>) - the most
+popular measure of fertility - that is standardized measure of “the
+average number of children a woman would bear if she survived through
+the end of the reproductive age span and experienced at each age a
+particular set of age-specific fertility ages” <a href="https://gwern.net/doc/statistics/2001-preston-demography.pdf" class="external-link">Preston
+et al, 2001, p. 95</a>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tfr.html">tfr</a></span><span class="op">(</span></span>
 <span>  <span class="co">#asFR</span></span>
@@ -617,6 +625,19 @@ using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code></p>
 <span>  age.int <span class="op">=</span> <span class="fl">5</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.58417</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="mac">MAC<a class="anchor" aria-label="anchor" href="#mac"></a>
+</h3>
+<p>MAC is a mean age at childbearing. One can compute it using <span class="math inline">\(f_x\)</span></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mac.html">mac</a></span><span class="op">(</span></span>
+<span>  <span class="co">#asFR</span></span>
+<span>  <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>,</span>
+<span>  <span class="co">#array with ages</span></span>
+<span>  ages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">50</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 27.57012</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -628,14 +649,14 @@ One of them is <code>plot_pyr</code> that plots population pyramid using
 <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a><br>
 Lets create population pyramid using midyear population from Rosbris
 mortality data. We already have data in <code>dbm</code>.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_pyr.html">plot_pyr</a></span><span class="op">(</span></span>
 <span>  popm <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>,</span>
 <span>  popf <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>, </span>
 <span>  ages <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-22-1.png" width="100%"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-23-1.png" width="100%"></p>
 <p>Also one can redesigned plot using <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a> functions:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_pyr.html">plot_pyr</a></span><span class="op">(</span></span>
 <span>  popm <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>,</span>
@@ -645,12 +666,12 @@ mortality data. We already have data in <code>dbm</code>.</p>
 <span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"My y"</span>, x <span class="op">=</span> <span class="st">"Age"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-23-1.png" width="100%"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-24-1.png" width="100%"></p>
 <p>Another function is <code>ages</code> that converts continuous ages
 to age groups. For example, array with <span class="math inline">\(\{
 0,1,2,3...100 \}\)</span> it can convert to <span class="math inline">\(\{&lt;5,6-9,10-14 ... 85+ \}\)</span> using
 user-specific lower boundaries.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">45</span>, <span class="fl">85</span><span class="op">)</span> <span class="co">#lower boundaries of age groups</span></span>
 <span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">101</span><span class="op">)</span> <span class="co">#simulated array with ages</span></span>
 <span></span>
