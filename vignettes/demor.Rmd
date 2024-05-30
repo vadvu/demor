@@ -1,7 +1,6 @@
 ---
 title: "Get started with `demor`"
 output: rmarkdown::html_vignette
-toc: true
 toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Get started with `demor`}
@@ -241,56 +240,6 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
        )
 ```
 
-## Lee-Carter model
-
-Also in the `demor` there is `leecart()` function that provides users with basic *Lee-Carter model* (proposed by Lee and Carter in 1992 and that now has a lot of extensions) for mortality forecasting:
-
-```{r}
-leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 5, 
-                            sex = "m", 
-                            concise = T
-                            )
-head(leecart_forecast)
-```
-
-One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2) to comapare predicted data with actual that, however, requires some data handling:
-
-```{r}
-#LE data calculation
-ledata <- data.frame(year = 2010:2022, lem = NA, lem.predicted = NA, ci.low = NA, ci.high = NA)
-for(i in 2010:2022){
-  ledata[ledata$year==i,2] <- LT(age = unique(dbm$age), 
-                                 sex = "m", 
-                                 mx = dbm[dbm$year==i & 
-                                            dbm$territory == "t" & 
-                                            dbm$code == 1100 & 
-                                            dbm$sex == "m",]$mx)[1,"ex"]
-  if(i>=2019){
-    if(i==2019){
-      ledata[ledata$year==i,3:5] <- rep(ledata[ledata$year==i,2],3)
-    }else{
-      ledata[ledata$year==i,3:5] <- leecart_forecast[leecart_forecast$age=="0" & 
-                                                     leecart_forecast$year == i,6:8] %>% as.numeric()
-    }
-  }
-}
-
-ggplot(data = ledata, aes(x = year))+
-  geom_point(aes(y = lem, color = "Observed data"))+
-  geom_line(aes(y = lem, color = "Observed data"))+
-  geom_point(aes(y = lem.predicted, color = "Predicted data"))+
-  geom_line(aes(y = lem.predicted, color = "Predicted data"))+
-  geom_ribbon(aes(ymin = ci.low, ymax = ci.high), fill = "pink", alpha = 0.5)+
-  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
-  scale_x_continuous(breaks = 2010:2022)+
-  scale_y_continuous(breaks = 63:70)+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
-  scale_color_manual(values = c("black", "darkred"))+
-  labs(x="Year", y = "Male's LE at birth", colour = "")
-```
-
 ## Associated single decrement life table
 
 There is `asdt()` function that calculates *associated single decrement life table* (ASDT) for causes of death (*cause-deleted life table*). In other words, by this function one can answer the question "what will be the life expectancy if there is no mortality from cause i?"\
@@ -340,7 +289,7 @@ dbf <- get_rosbris(
   #fertility data
   type = "f",
   #what age group download
-  age =  5,
+  age =  1,
   #to get "long" data
   initial = F,
   #last available year
@@ -363,7 +312,7 @@ tfr(
   #asFR
   rus2010f$fx,
   #age interval
-  age.int = 5
+  age.int = 1
     )
 ```
 
@@ -376,15 +325,104 @@ mac(
   #asFR
   rus2010f$fx,
   #array with ages
-  ages = seq(15, 50, 5)
+  ages = 15:55
     )
 ```
+
+## Fertility models for ASFR approximation
+
+In `demor` there is a function `fert.approx` for modeling ASFR. Now "Hadwiger" and "Gamma" are supported (see Peristera & Kostaki, 2007 for more details on the functions). 
+
+Hadwiger model is as follows: $$f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]$$
+
+Gamma model is as follows: $$f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]$$
+
+Function returns list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
+
+The example below shows the model that try to approximate ASFR of russian women in 2010 using Gamma function. 
+
+```{r}
+approximation_2010 = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Gamma", boot = T)
+approximation_2010[[1]]
+```
+Lets plot the modeled and observed ASFR with bootstrapped 95% CI. One can see that model perfectly approximates real ASFR from 15 to 40 ages, while after the fit is not really good. Meanwhile, the model explains 99.7% of variance in observed ASFR. 
+
+```{r}
+data = approximation_2010[[2]]
+ggplot()+
+  theme_bw()+
+  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Gamma model"), linewidth = 1)+
+  geom_ribbon(data = data,
+              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
+  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
+  scale_color_manual(values = c("red", "red", "blue"))+
+  labs(y = "fx", x = "Age")
+```
+
+
+
+# Projections
+
+## Lee-Carter model
+
+In the `demor` there is `leecart()` function that provides users with basic *Lee-Carter model* (proposed by Lee and Carter in 1992 and that now has a lot of extensions) for mortality forecasting:
+
+```{r}
+leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
+                            n = 5, 
+                            sex = "m", 
+                            concise = T
+                            )
+head(leecart_forecast)
+```
+
+One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2) to comapare predicted data with actual that, however, requires some data handling:
+
+```{r}
+#LE data calculation
+ledata <- data.frame(year = 2010:2022, lem = NA, lem.predicted = NA, ci.low = NA, ci.high = NA)
+for(i in 2010:2022){
+  ledata[ledata$year==i,2] <- LT(age = unique(dbm$age), 
+                                 sex = "m", 
+                                 mx = dbm[dbm$year==i & 
+                                            dbm$territory == "t" & 
+                                            dbm$code == 1100 & 
+                                            dbm$sex == "m",]$mx)[1,"ex"]
+  if(i>=2019){
+    if(i==2019){
+      ledata[ledata$year==i,3:5] <- rep(ledata[ledata$year==i,2],3)
+    }else{
+      ledata[ledata$year==i,3:5] <- leecart_forecast[leecart_forecast$age=="0" & 
+                                                     leecart_forecast$year == i,6:8] %>% as.numeric()
+    }
+  }
+}
+
+ggplot(data = ledata, aes(x = year))+
+  geom_point(aes(y = lem, color = "Observed data"))+
+  geom_line(aes(y = lem, color = "Observed data"))+
+  geom_point(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_line(aes(y = lem.predicted, color = "Predicted data"))+
+  geom_ribbon(aes(ymin = ci.low, ymax = ci.high), fill = "pink", alpha = 0.5)+
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+  scale_x_continuous(breaks = 2010:2022)+
+  scale_y_continuous(breaks = 63:70)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  scale_color_manual(values = c("black", "darkred"))+
+  labs(x="Year", y = "Male's LE at birth", colour = "")
+```
+
+## Cohort-component model
+
+Soon
 
 
 # Other functions
 
-Also in the `demor` there are some additional functions.\
-One of them is `plot_pyr` that plots population pyramid using [ggplot2](https://github.com/tidyverse/ggplot2)\
+## Population pyramid
+
+`plot_pyr` plots population pyramid using [ggplot2](https://github.com/tidyverse/ggplot2)\
 Lets create population pyramid using midyear population from Rosbris mortality data. We already have data in `dbm`.
 
 ```{r}
@@ -408,7 +446,9 @@ plot +
   theme_minimal()
 ```
 
-Another function is `ages` that converts continuous ages to age groups. For example, array with $\{ 0,1,2,3...100 \}$ it can convert to $\{<5,6-9,10-14 ... 85+ \}$ using user-specific lower boundaries.
+## Recoding age
+
+`ages` converts continuous ages to age groups. For example, array with $\{ 0,1,2,3...100 \}$ it can convert to $\{<5,6-9,10-14 ... 85+ \}$ using user-specific lower boundaries.
 
 ```{r}
 groups <- c(0, 1, 5, 10, 20, 45, 85) #lower boundaries of age groups
@@ -420,8 +460,6 @@ table(new.age) #see new groups with the number of values in the group
 ```
 
 
-
-
 # References
 
 -   Center for Demographic Research (2023). *Russian Fertility and Mortality Database (Rosbris)*. [URL](http://www.demogr.nes.ru/en/demogr_indicat/data)\
@@ -430,4 +468,5 @@ table(new.age) #see new groups with the number of values in the group
 -   Ghislandi, S., Sanderson, W. C., & Scherbov, S. (2019). A simple measure of human development: The human life indicator. *Population and development review*, *45*(*1*), 219-233.\
 -   Andreev, E. M., & Shkolnikov, V. M. (2012). *An Excel spreadsheet for the decomposition of a difference between two values of an aggregate demographic measure by stepwise replacement running from young to old ages*. MPIDR Technical Report TR-2012-002. [URL](https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591)\
 -   Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.\
--   Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. *Population and Development Review*, *45*, 219--233.
+-   Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. *Population and Development Review*, *45*, 219--233.\
+-   Peristera, P., & Kostaki, A. (2007). Modeling fertility in modern populations. *Demographic Research*, *16*, 141-194.\
