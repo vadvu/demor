@@ -278,7 +278,7 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 # Fertility
 
-For the analysis of fertility in the `demor` there are only a few (2...) functions, due to the author's preference for mortality analysis...
+For the analysis of fertility in the `demor` there are only a few functions, due to the author's preference for mortality analysis...
 
 ## Get fertility data
 
