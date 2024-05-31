@@ -39,3 +39,6 @@ The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[
 # fert.approx(fx = ASFR. age = 15:55, model = "Hadwiger", boot= F)
 
 }
+\references{
+Peristera, P., & Kostaki, A. (2007). Modeling fertility in modern populations. \emph{Demographic Research}, \emph{16}, 141-194.
+}

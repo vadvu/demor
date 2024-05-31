@@ -29,6 +29,8 @@ devtools::install_github("vadvu/demor")
 
 ```{r setup, echo=FALSE}
 library(demor)
+library(ggplot2)
+library(dplyr)
 ```
 
 # Get Rosbris data
@@ -276,6 +278,44 @@ ggplot(data = asdt_neoplasm, aes(x = age))+
 
 ```
 
+## Mortality models for mx approximation
+
+In `demor` there is a function `mort.approx` for modeling mx. Now "Gompertz" and "Brass" are supported (see Preston, Heuveline & Guillot, 2001 for more details on the functions). 
+
+Function returns list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted mx.
+
+The example below shows the model that try to approximate mx of russian men in 2010 using Brass function and rissian mortality of 2000 as standard mortality. 
+
+```{r}
+rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
+rus2000 <- dbm[dbm$year==2000 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
+
+
+brass_2010 <- mort.approx(mx = rus2010$mx,
+                          age = rus2010$age,
+                          model = "Brass",
+                          standard.mx = rus2000$mx,
+                          boot = T)
+brass_2010[[1]]
+```
+
+Lets plot the modeled and observed mx with bootstrapped 95% CI.
+
+```{r}
+brass_2010[[2]] %>% 
+  mutate(mx = rus2010$mx) %>% 
+  ggplot(aes(x = age))+
+  geom_line(aes(y = log(mx), color = "Observed"), linewidth = 1)+
+  geom_line(aes(y = log(mx.pred), color = "Predicted"), linewidth = 1)+
+  geom_ribbon(aes(ymin = log(low_2.5prc), ymax = log(high_97.5prc)), 
+              alpha = 0, color = "red", linetype = "dashed")+
+  theme_classic()+
+  scale_color_manual(values = c("blue", "red"))+
+  labs(x = "Age", y = "ln mx")
+```
+
+
+
 # Fertility
 
 For the analysis of fertility in the `demor` there are only a few functions, due to the author's preference for mortality analysis...
@@ -345,6 +385,7 @@ The example below shows the model that try to approximate ASFR of russian women 
 approximation_2010 = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Gamma", boot = T)
 approximation_2010[[1]]
 ```
+
 Lets plot the modeled and observed ASFR with bootstrapped 95% CI. One can see that model perfectly approximates real ASFR from 15 to 40 ages, while after the fit is not really good. Meanwhile, the model explains 99.7% of variance in observed ASFR. 
 
 ```{r}
