@@ -1,6 +1,6 @@
 Package: demor
 Title: Basic functions for demographic analysis
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person("Vadim", "Ustyuzhanin", , "vvustiuzhanin@yandex.ru", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))

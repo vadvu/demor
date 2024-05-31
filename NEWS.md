@@ -1,3 +1,7 @@
+# demor 0.0.4
+ 
+ A few new functions
+ 
 # demor 0.0.2
 
 * Release of stable version. 
