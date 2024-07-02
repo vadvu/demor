@@ -5,7 +5,7 @@
 #' @param ages Numeric vector of unique ages
 #'
 #' @return plot as `ggplot2` object
-#' @import ggplot2
+#' @import ggplot2 scales
 #' @export
 plot_pyr <- function(popm, popf, ages){
   pyr = data.frame(age = rep(ages,2),
@@ -16,7 +16,8 @@ plot_pyr <- function(popm, popf, ages){
   pl <- ggplot(pyr, aes(as.factor(age), pop, fill = sex))+
     geom_bar(stat = "identity", alpha = 0.8)+
     coord_flip()+
-    scale_y_continuous(labels = abs)+
+    # scale_y_continuous(labels = abs, )+
+    scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3))+
     xlab("Age")+ylab("")+theme_classic()+
     scale_fill_manual(name = "Sex:", values=c("#ED0000B2","#00468BB2"))
   return(pl)
