@@ -688,7 +688,7 @@ e0f.proj <- ex1[[1]] %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-ggpubr::ggarrange(e0m.proj, e0f.proj)
+e0m.proj;e0f.proj
 ```
 
 Median age:
@@ -749,7 +749,7 @@ dep.all <- ex1[[1]] %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-ggpubr::ggarrange(dep.old, dep.all)
+dep.old; dep.all
 ```
 
 
