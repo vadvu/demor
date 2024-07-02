@@ -14,7 +14,9 @@ Imports:
     forecast,
     ggplot2,
     magrittr,
-    tidyr
+    tidyr,
+    vars,
+    MASS
 Depends: 
     R (>= 2.10)
 LazyData: true
