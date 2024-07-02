@@ -1,4 +1,4 @@
-#' Get data from RosBris
+#' Get data from RosBris (DEPRECATED)
 #'
 #' @param type Character. Type of data for downloading. "m" = mortality, f = "ferility"
 #' @param age Numeric. Age group. `1` for one-year data, `5` for five-year data

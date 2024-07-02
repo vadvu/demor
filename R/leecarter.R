@@ -14,6 +14,10 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
   if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){
     stop("Prepare data carefully")
   }
+  if(sum(data$mx == 0)>0){
+    data$mx <- ifelse(data$mx == 0, 1e-5, data$mx)
+    warning("0 are in mx vector, transform them to 1e-5")
+  }
   #1 step
   ax <- rep(0, length(unique(data$age)))
   names(ax)<-unique(data$age)
@@ -27,8 +31,7 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
   }
   ma <- data.frame(k = 1:length(unique(data$age)))
   for(i in min(data$year):max(data$year)){
-    ma[paste0(i)]<-NA
-    ma[,paste0(i)] <- data[data$year==i,]$Ax
+    ma[paste0(i)]<-data[data$year==i,]$Ax
   }
   ma <- as.matrix(ma[,-1])
   #3 step
@@ -72,7 +75,9 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
       mf1 <- merge(mf1,mf,by = c('year', 'age'))
     }
   }
-  ledata <- data.frame(year = rep(unique(mf1$year), length(unique(data$age))), age = rep(unique(data$age), length(unique(mf1$year))))
+  mf1 <- mf1 %>% mutate(age = as.numeric(age), year = as.numeric(year)) %>% arrange(year, age)
+  ledata <- data.frame(year = rep(unique(mf1$year), length(unique(data$age))),
+                       age = rep(unique(data$age), length(unique(mf1$year))))
   ledata <- ledata %>% dplyr::mutate(age = as.numeric(age)) %>%  dplyr::arrange(year, age)
   ledata$ex = NA
   ledata$ex_low95 = NA
@@ -87,7 +92,12 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
     return(allf)
   }else{
     return(
-      list(param = list("a,b" = as.matrix(svd), "k" = k), kdata = allk, mxdata = mf1, ledata = ledata, all_forecast = allf)
+      list(param = list("a, b" = as.matrix(svd), "k" = k),
+           model = ar,
+           kdata = allk,
+           mxdata = mf1,
+           ledata = ledata,
+           all_forecast = allf)
     )
   }
 }

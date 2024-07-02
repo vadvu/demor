@@ -54,3 +54,59 @@
 #' }
 #' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
 "rosbris.codes"
+
+#' Rosbris' Fertility and population (1-year interval)
+#'
+#'
+#' @format ## A dataframe
+#' \describe{
+#'   \item{year}{year}
+#'   \item{code}{number of Region}
+#'   \item{territory}{rural/urban/total}
+#'   \item{age}{age}
+#'   \item{fx}{ASFR}
+#'   \item{N}{Population}
+#'   \item{Bx}{Number of Births}
+#'   \item{name}{Region name}
+#' }
+#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+"rosbris_fertility_pop_1"
+
+#' Rosbris' Moertality and population (1-year interval)
+#'
+#'
+#' @format ## A dataframe
+#' \describe{
+#'   \item{year}{year}
+#'   \item{code}{number of Region}
+#'   \item{territory}{rural/urban/total}
+#'   \item{sex}{sex: both/male/femal}
+#'   \item{age}{age}
+#'   \item{mx}{ASMR}
+#'   \item{N}{Population}
+#'   \item{Dx}{Number of Deaths}
+#'   \item{name}{Region name}
+#' }
+#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+"rosbris_mortality_pop_1"
+
+#' Rosbris' Moertality and population (5-year interval)
+#'
+#'
+#' @format ## A dataframe
+#' \describe{
+#'   \item{year}{year}
+#'   \item{code}{number of Region}
+#'   \item{territory}{rural/urban/total}
+#'   \item{sex}{sex: both/male/femal}
+#'   \item{age}{age}
+#'   \item{mx}{ASMR}
+#'   \item{N}{Population}
+#'   \item{Dx}{Number of Deaths}
+#'   \item{name}{Region name}
+#' }
+#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+"rosbris_mortality_pop_5"
+
+
+

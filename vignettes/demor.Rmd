@@ -35,22 +35,36 @@ library(dplyr)
 
 # Get Rosbris data
 
+**DEPRECATED**
+
 For getting data from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) there is a function `get_rosbris()` that can download data on mortality/fertility by 1/5-year age groups from 1989 to the last available year (in 2023 its 2022).\
 Worth noting: downloading and preparing the final file can get some time.\
-In the chunk below mortality data (`type = "m"`, for fertility see [Fertility section](#get-fertility-data)) for 5-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
+In the chunk below mortality data (`type = "m"`, for fertility see [Fertility section](#get-fertility-data)) for 1-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
 
 ```{r}
-dbm <- get_rosbris(
-  #mortality data
-  type = "m",
-  #what age group download
-  age =  5,
-  #to get "long" data
-  initial = F,
-  #last available year (the name of the downloading file contains years, so for the downloading the last year is required)
-  lastyear = 2022
-)
+# dbm <- get_rosbris(
+#   #mortality data
+#   type = "m",
+#   #what age group download
+#   age =  1,
+#   #to get "long" data
+#   initial = F,
+#   #last available year (the name of the downloading file contains years, so for the downloading the last year is required)
+#   lastyear = 2022
+# )
 ```
+
+Recently RosBris has been switched to new website, so the function `get_rosbris` does not work now. I hope in a several months all mistakes due to new website will be fixed and function will work. 
+
+Now RosBris data is presented in the `demor` as datasets in the long-format. The example of usage that replicates the data from the previous chunk with `get_rosbris`:
+
+```{r}
+dbm <- demor::rosbris_mortality_pop_5
+
+# for 1-year age interval
+# dbm <- demor::rosbris_mortality_pop_1
+```
+
 
 Lets see the data for Russia in 2010 for males and for total population (both urban and rural)
 
@@ -148,19 +162,10 @@ dec <- decomp(mx1 = rus2000$mx,
               sex = "m", 
               age = rus2000$age, 
               method = "andreev")
-dec
+head(dec)
 ```
 
-Than let us plot the result of `decomp` using R basic plot.
-
-```{r}
-barplot(height=dec$ex12, 
-        names=dec$age,
-        xlab="Age-groups", 
-        ylab="Сontribution to the e0 difference")
-```
-
-Or using `ggplot2`
+Than let us plot the result of `decomp` using `ggplot2`: 
 
 ```{r}
 library(ggplot2)
@@ -256,7 +261,8 @@ asdt_neoplasm <- asdt(age = asdtex$age,
                       m_i = asdtex$neoplasms, 
                       full = F, 
                       method = "chiang1968")
-asdt_neoplasm[,c("age", "ex", "ex_without_i")]
+
+head(asdt_neoplasm[,c("age", "ex", "ex_without_i")])
 
 ```
 
@@ -322,20 +328,35 @@ For the analysis of fertility in the `demor` there are only a few functions, due
 
 ## Get fertility data
 
+**DEPRECATED**
+
 Lets get basic *fertility data* (asFR or $f_x$) from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using `get_rosbris()`
 
 ```{r}
-dbf <- get_rosbris(
-  #fertility data
-  type = "f",
-  #what age group download
-  age =  1,
-  #to get "long" data
-  initial = F,
-  #last available year
-  lastyear = 2022
-)
+# dbf <- get_rosbris(
+#   #fertility data
+#   type = "f",
+#   #what age group download
+#   age =  1,
+#   #to get "long" data
+#   initial = F,
+#   #last available year
+#   lastyear = 2022
+# )
 ```
+
+
+Recently RosBris has been switched to new website, so the function `get_rosbris` does not work now. I hope in a several months all mistakes due to new website will be fixed and function will work. 
+
+Now RosBris data is presented in the `demor` as datasets in the long-format. The example of usage that replicates the data from the previous chunk with `get_rosbris`:
+
+Also not that there is data only for 1-year age intervals now due to mistakes on the new RosBris website...
+
+
+```{r}
+dbf <- demor::rosbris_fertility_pop_1
+```
+
 
 For the example Russia-2010 is gotten
 
@@ -343,6 +364,8 @@ For the example Russia-2010 is gotten
 rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 rus2010f
 ```
+
+
 ## TFR
 
 Now one can compute total fertility age (*TFR*) - the most popular measure of fertility - that is standardized measure of "the average number of children a woman would bear if she survived through the end of the reproductive age span and experienced at each age a particular set of age-specific fertility ages" [Preston et al, 2001, p. 95](https://gwern.net/doc/statistics/2001-preston-demography.pdf).
@@ -371,11 +394,13 @@ mac(
 
 ## Fertility models for ASFR approximation
 
-In `demor` there is a function `fert.approx` for modeling ASFR. Now "Hadwiger" and "Gamma" are supported (see Peristera & Kostaki, 2007 for more details on the functions). 
+In `demor` there is a function `fert.approx` for modeling ASFR. Now "Hadwiger", "Gamma" and "Brass" are supported (see Peristera & Kostaki, 2007 for more details on the functions). 
 
-Hadwiger model is as follows: $$f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]$$
+Hadwiger model (optimal choice with balance of simplicity and accuracy) is as follows: $$f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]$$
 
-Gamma model is as follows: $$f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]$$
+Gamma model (sophisticated and accurate, but not really sustainable due to convergence issues) is as follows: $$f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]$$
+
+Brass model (the simplest and the most inaccurate) is as follows: $$f(age) = c(age-d)(d+w-age)$$
 
 Function returns list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
 
@@ -400,6 +425,35 @@ ggplot()+
   labs(y = "fx", x = "Age")
 ```
 
+Lets now do the same procedure but with Hadwiger function: 
+
+```{r}
+data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Hadwiger", boot = T)[[2]]
+ggplot()+
+  theme_bw()+
+  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Hadwiger model"), linewidth = 1)+
+  geom_ribbon(data = data,
+              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
+  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
+  scale_color_manual(values = c("red", "red", "blue"))+
+  labs(y = "fx", x = "Age")
+```
+
+
+Lets now do the same procedure but with Brass function: 
+
+```{r}
+data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Brass", boot = T)[[2]]
+ggplot()+
+  theme_bw()+
+  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Brass model"), linewidth = 1)+
+  geom_ribbon(data = data,
+              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
+  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
+  scale_color_manual(values = c("red", "red", "blue"))+
+  labs(y = "fx", x = "Age")
+```
+
 
 
 # Projections
@@ -409,7 +463,13 @@ ggplot()+
 In the `demor` there is `leecart()` function that provides users with basic *Lee-Carter model* (proposed by Lee and Carter in 1992 and that now has a lot of extensions) for mortality forecasting:
 
 ```{r}
-leecart_forecast <- leecart(data = dbm[dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m" & dbm$year %in% 2004:2019,c("year", "age", "mx")], 
+
+dbm.1 <- demor::rosbris_mortality_pop_1
+
+leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 & 
+                                           dbm.1$territory=="t" & 
+                                           dbm.1$sex=="m" & 
+                                           dbm.1$year %in% 2004:2019,c("year", "age", "mx")], 
                             n = 5, 
                             sex = "m", 
                             concise = T
@@ -454,9 +514,243 @@ ggplot(data = ledata, aes(x = year))+
   labs(x="Year", y = "Male's LE at birth", colour = "")
 ```
 
+
+## Leslie matrix
+
+In beta now. 
+
+```{r}
+les.matrix <- leslie(mx = dbm.1[dbm.1$code==1100 & 
+                                dbm.1$territory=="t" & 
+                                dbm.1$sex=="m" & 
+                                dbm.1$year == 2019,]$mx, 
+                     fx = dbf[dbm.1$code==1100 & 
+                                dbm.1$territory=="t" & 
+                                dbm.1$year == 2019,]$fx, 
+                     age1 = unique(dbm.1$age), 
+                     age2 = unique(dbf$age), 
+                     sex = "m")
+
+
+les.matrix[1:5, 1:5]
+```
+
+
+
 ## Cohort-component model
 
 Soon
+
+
+## Probabilistic model
+
+Soon, now beta version is done. 
+
+Data handling for the model. 
+
+```{r}
+mort.m <- dbm.1 %>% 
+  filter(territory == "t") %>% 
+  filter(name == "Российская Федерация") %>% 
+  filter(sex == "m") %>% 
+  select(year,age, mx)
+
+mort.f <- dbm.1 %>% 
+  filter(territory == "t") %>% 
+  filter(name == "Российская Федерация") %>% 
+  filter(sex == "f") %>% 
+  select(year,age, mx)
+
+fert <- dbf %>% 
+  filter(territory == "t") %>% 
+  filter(name == "Российская Федерация") %>%
+  select(year, age, fx)
+
+popm = dbm.1 %>% 
+  filter(territory == "t") %>% 
+  filter(name == "Российская Федерация") %>% 
+  filter(sex == "m") %>% 
+  select(year,age, pop = N)
+
+popf = dbm.1 %>% 
+  filter(territory == "t") %>% 
+  filter(name == "Российская Федерация") %>% 
+  filter(sex == "f") %>% 
+  select(year,age, pop = N)
+```
+
+The model: 
+
+```{r}
+ex1 <- prob.proj(mort.m, mort.f, fert, 
+                 time.n = 25, 
+                 sims = 250, #set low number for an example 
+                 popf, popm)
+```
+
+
+Population projection: 
+
+```{r}
+ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025popf` + `0.025popm`, ymax = `0.925popf` + `0.925popm`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125popf` + `0.125popm`, ymax = `0.825popf` + `0.825popm`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225popf` + `0.225popm`, ymax = `0.725popf` + `0.725popm`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425popf` + `0.425popm`, ymax = `0.625popf` + `0.625popm`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5popf` + `0.5popm`), color = "black", linewidth = 1)+
+  scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3))+
+  labs(y = "Population", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Net population growth:
+
+```{r}
+ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025net`, ymax = `0.925net`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125net`, ymax = `0.825net`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225net`, ymax = `0.725net`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425net`, ymax = `0.625net`),
+              alpha = 1, fill = "grey")+
+  geom_hline(yintercept = 0)+
+  geom_line(aes(y = `0.5net`), color = "black", linewidth = 1)+
+  scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3))+
+  labs(y = "Net population growth", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+TFR projection:
+
+```{r}
+ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025tfr`, ymax = `0.925tfr`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125tfr`, ymax = `0.825tfr`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225tfr`, ymax = `0.725tfr`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425tfr`, ymax = `0.625tfr`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5tfr`), color = "black", linewidth = 1)+
+  labs(y = "TFR", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Life expectancy at birth projections:
+
+```{r}
+e0m.proj <- ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025e0m`, ymax = `0.925e0m`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125e0m`, ymax = `0.825e0m`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225e0m`, ymax = `0.725e0m`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425e0m`, ymax = `0.625e0m`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5e0m`), color = "black", linewidth = 1)+
+  labs(y = "Life Expectancy at 0 (males)", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+e0f.proj <- ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025e0f`, ymax = `0.925e0f`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125e0f`, ymax = `0.825e0f`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225e0f`, ymax = `0.725e0f`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425e0f`, ymax = `0.625e0f`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5e0f`), color = "black", linewidth = 1)+
+  labs(y = "Life Expectancy at 0 (females)", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggpubr::ggarrange(e0m.proj, e0f.proj)
+```
+
+Median age:
+
+```{r}
+ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025med.age`, ymax = `0.925med.age`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125med.age`, ymax = `0.825med.age`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225med.age`, ymax = `0.725med.age`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425med.age`, ymax = `0.625med.age`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5med.age`), color = "black", linewidth = 1)+
+  labs(y = "Median age", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+Dependency ratios:
+
+```{r}
+dep.old <- ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025old.dependency`, ymax = `0.925old.dependency`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125old.dependency`, ymax = `0.825old.dependency`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225old.dependency`, ymax = `0.725old.dependency`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425old.dependency`, ymax = `0.625old.dependency`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5old.dependency`), color = "black", linewidth = 1)+
+  labs(y = "Old-age (65+) dependency ratio", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+dep.all <- ex1[[1]] %>% 
+  ggplot(aes(x = year))+
+  theme_linedraw()+
+  geom_ribbon(aes(ymin = `0.025dependency`, ymax = `0.925dependency`),
+              alpha = 1, fill = "forestgreen")+
+  geom_ribbon(aes(ymin = `0.125dependency`, ymax = `0.825dependency`),
+              alpha = 1, fill = "darkorange")+
+  geom_ribbon(aes(ymin = `0.225dependency`, ymax = `0.725dependency`),
+              alpha = 1, fill = "red")+
+  geom_ribbon(aes(ymin = `0.425dependency`, ymax = `0.625dependency`),
+              alpha = 1, fill = "grey")+
+  geom_line(aes(y = `0.5dependency`), color = "black", linewidth = 1)+
+  labs(y = "Dependency (<=20, 65+) Ratio", x = "Year")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggpubr::ggarrange(dep.old, dep.all)
+```
 
 
 # Other functions
@@ -486,6 +780,22 @@ plot +
   labs(y = "My y", x = "Age")+
   theme_minimal()
 ```
+
+## Median age
+
+```{r}
+#Using 1-year age interval
+med.age(N = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$N,
+        age = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$age,
+        int = 1)
+
+#Using 5-year age interval
+med.age(N = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+        age = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$age,
+        int = 5)
+```
+
+
 
 ## Recoding age
 

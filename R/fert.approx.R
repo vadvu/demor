@@ -14,6 +14,8 @@
 #' The model is as follows: \deqn{f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]}
 #' ## Gamma model
 #' The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
+#' ## Brass model
+#' The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
 #' @references
 #' Peristera, P., & Kostaki, A. (2007). Modeling fertility in modern populations. *Demographic Research*, *16*, 141-194.
 #' @export
@@ -27,13 +29,33 @@ fert.approx <- function(fx, age, model, boot = F){
   if(length(age) != length(fx)){
     stop("age and fx do not have the same length")
   }
-  if(!(model %in% c("Hadwiger", "Gamma"))){
-    stop("model can be only 'Hadwiger' or 'Gamma'")
+  if(!(model %in% c("Hadwiger", "Gamma", "Brass"))){
+    stop("model can be only 'Hadwiger', 'Gamma', or 'Brass'")
   }
 
   if(model == "Hadwiger"){
     form <- as.formula(paste0("fx ~ (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))"))
-    start.val = list(a = 0.1, b = 0.1, c = 0.1)
+
+    hadw <- function(pars){
+      a = pars[1]; b = pars[2]; c = pars[3]
+      pred.fx = (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))
+      sum((fx - pred.fx)^2)
+    }
+    m1 <- optim(par = c(tfr(fx, 1),
+                        (max(fx)*mac(fx, age))/tfr(fx, unique(diff(age))),
+                        mac(fx, age)
+    ),
+    fn = hadw, control =  list(maxit = 1e6))
+    m2 <- optim(par = m1$par,
+                fn = hadw, control =  list(maxit = 1e6))
+
+    while(m1$value - m2$value > 1e-06){
+      m1 <- m2
+      m2 <- optim(par = m1$par,
+                  fn = hadw, control =  list(maxit = 1e6))
+    }
+
+    start.val = list(a = m2$par[1], b = m2$par[2], c = m2$par[3])
     lower.val = c(0,0,0)
     upper.val = c(999,999,999)
   }
@@ -41,14 +63,46 @@ fert.approx <- function(fx, age, model, boot = F){
     form <- as.formula(paste0("fx ~ R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )"))
 
     mygamma2 <- function(pars){
-      R = pars[1]; b = pars[2]; c = pars[3]; d = pars[4];
+      R = pars[1]; b = pars[2]; c = pars[3]; d = pars[4]
       fx.pred = R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )
       sum((fx-fx.pred)^2)
     }
-    m1 <- optim(par = c(tfr(fx, unique(diff(age))), 1, 1, min(age)), fn = mygamma2)
-    start.val = list(R = m1$par[1], b = m1$par[2], c = m1$par[3], d = m1$par[4])
-    lower.val = c(0,0,0,0)
+    m1 <- optim(par = c(tfr(fx, unique(diff(age))), 1, 1, min(age)),
+                fn = mygamma2, control =  list(maxit = 1e6))
+    m2 <- optim(par = m1$par,
+                fn = mygamma2, control =  list(maxit = 1e6))
+    while(m1$value - m2$value > 1e-06){
+      m1 <- m2
+      m2 <- optim(par = m1$par,
+                  fn = mygamma2, control =  list(maxit = 1e6))
+    }
+
+    start.val = list(R = m2$par[1], b = m2$par[2], c = m2$par[3], d = m2$par[4])
+    lower.val = c(0, -100, -100, -100)
     upper.val = c(999,999,999,999)
+  }
+  if(model == "Brass"){
+    form <- as.formula(paste0("fx ~ c*(age - d)*(d+w-age)^2"))
+    start.val = list(c = 1, d = min(age), w = max(age)-min(age))
+    lower.val = c(0, min(age)-0.01, 0)
+    upper.val = c(999,100,999)
+
+  }
+  if(model == "Beta"){
+    #done, not checked
+    mybeta2 <- function(pars){
+      a = pars[1]; b = pars[2];
+      fx.pred = ( ( (age)^(a-1) ) * ( (1-age)^(b-1) ) ) / beta(a,b)
+      sum((fx-fx.pred)^2)
+    }
+    m1 <- optim(par = c(2,2), fn = mybeta2, method = "L-BFGS-B",
+                control =  list(maxit = 1e6),
+                lower = c(0.1, 0.1), upper = c(999, 999))
+
+    form <- as.formula(paste0("fx ~ ( ( (age)^(a-1) ) * ( (1-age)^(b-1) ) ) / beta(a,b)"))
+    start.val = list(a = m1$par[1], b = m1$par[2])
+    lower.val = c(0.01, 0.01)
+    upper.val = c(999, 999)
   }
 
   est <- nls(formula = form,
@@ -56,10 +110,10 @@ fert.approx <- function(fx, age, model, boot = F){
              lower = lower.val,
              upper = upper.val,
              algorithm = "port",
-             control = list(maxiter = 2000, tol = 1e-07)
+             control = list(maxiter = 1e6, tol = 1e-07)
   )
   predicted = predict(est)
-  Rsq = cor(fx, predict(est))
+  Rsq = cor(fx, predict(est))^2
 
   if(boot){
     for(i in 1:999){
@@ -85,6 +139,8 @@ fert.approx <- function(fx, age, model, boot = F){
   }else{
     predicted = data.frame(age = age, predicted = predicted)
   }
+  predicted$observed = fx
+  predicted$predicted <- ifelse(predicted$predicted < 0, 0, predicted$predicted)
 
   return(list(
     model = list(
