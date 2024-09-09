@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">demor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
       </span>
     </div>
 
@@ -35,13 +35,13 @@
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Probabilistic Projections of Population</h1>
-    
+
     <div class="hidden name"><code>prob.proj.Rd</code></div>
     </div>
 
@@ -50,44 +50,72 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prob.proj</span><span class="op">(</span><span class="va">mort.m</span>, <span class="va">mort.f</span>, <span class="va">fert</span>, <span class="va">time.n</span>, <span class="va">sims</span>, <span class="va">popf</span>, <span class="va">popm</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prob.proj</span><span class="op">(</span></span>
+<span>  <span class="va">mort.m</span>,</span>
+<span>  <span class="va">mort.f</span>,</span>
+<span>  <span class="va">fert</span>,</span>
+<span>  <span class="va">popf</span>,</span>
+<span>  <span class="va">popm</span>,</span>
+<span>  migr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  time.n <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  sims <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  tfr.boot <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  clusters <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  pp <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>mort.m</dt>
+
+
+<dl><dt id="arg-mort-m">mort.m<a class="anchor" aria-label="anchor" href="#arg-mort-m"></a></dt>
 <dd><p>Data.frame with columns year, age, mx for males.</p></dd>
 
 
-<dt>mort.f</dt>
+<dt id="arg-mort-f">mort.f<a class="anchor" aria-label="anchor" href="#arg-mort-f"></a></dt>
 <dd><p>Data.frame with columns year, age, mx for females</p></dd>
 
 
-<dt>fert</dt>
+<dt id="arg-fert">fert<a class="anchor" aria-label="anchor" href="#arg-fert"></a></dt>
 <dd><p>Data.frame with columns year, age, fx.</p></dd>
 
 
-<dt>time.n</dt>
+<dt id="arg-popf">popf<a class="anchor" aria-label="anchor" href="#arg-popf"></a></dt>
+<dd><p>Data.frame with columns year, age, pop for females</p></dd>
+
+
+<dt id="arg-popm">popm<a class="anchor" aria-label="anchor" href="#arg-popm"></a></dt>
+<dd><p>Data.frame with columns year, age, pop for females</p></dd>
+
+
+<dt id="arg-migr">migr<a class="anchor" aria-label="anchor" href="#arg-migr"></a></dt>
+<dd><p>migration data or <code>NULL</code> for closed population</p></dd>
+
+
+<dt id="arg-time-n">time.n<a class="anchor" aria-label="anchor" href="#arg-time-n"></a></dt>
 <dd><p>Numeric value of for how many years projection should be done.</p></dd>
 
 
-<dt>sims</dt>
+<dt id="arg-sims">sims<a class="anchor" aria-label="anchor" href="#arg-sims"></a></dt>
 <dd><p>Numeric values of number of simulations.</p></dd>
 
 
-<dt>popf</dt>
-<dd><p>Data.frame with columns year, age, pop for females</p></dd>
+<dt id="arg-tfr-boot">tfr.boot<a class="anchor" aria-label="anchor" href="#arg-tfr-boot"></a></dt>
+<dd><p>Logical. Should bootstrap be used to estimate TFR? Default is <code>FALSE</code> The number of replications is <code>sims</code></p></dd>
 
 
-<dt>popm</dt>
-<dd><p>Data.frame with columns year, age, pop for females</p></dd>
+<dt id="arg-clusters">clusters<a class="anchor" aria-label="anchor" href="#arg-clusters"></a></dt>
+<dd><p>Numeric. Number of engines for parallel computations</p></dd>
+
+
+<dt id="arg-pp">pp<a class="anchor" aria-label="anchor" href="#arg-pp"></a></dt>
+<dd><p>lag size</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>list with data.frame with projections and VAR model</p>
+    <p>list with data.frame with projections, VAR model, projected age structure and some tests.</p>
     </div>
 
   </div>
@@ -102,15 +130,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
