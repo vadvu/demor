@@ -4,6 +4,7 @@
 #' @param age Numeric vector of ages.
 #' @param model Character. Model name to be estimated. Now "Hadwiger" and "Gamma" are supported.
 #' @param boot Logical. Should bootstrapped 95% confidence intervals for ASFR approximation be calculated. Default is `FALSE` for no bootstrap.
+#' @param start Numeric vector with user-specific values of parameters for optimization. Default is `NULL` (choose automatically)
 #' @import dplyr
 #' @return list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
 #'
@@ -24,7 +25,7 @@
 #'
 #' # fert.approx(fx = ASFR. age = 15:55, model = "Hadwiger", boot= F)
 #'
-fert.approx <- function(fx, age, model, boot = F){
+fert.approx <- function(fx, age, model, boot = F, start = NULL){
 
   if(length(age) != length(fx)){
     stop("age and fx do not have the same length")
@@ -41,10 +42,14 @@ fert.approx <- function(fx, age, model, boot = F){
       pred.fx = (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))
       sum((fx - pred.fx)^2)
     }
-    m1 <- optim(par = c(tfr(fx, 1),
-                        (max(fx)*mac(fx, age))/tfr(fx, unique(diff(age))),
-                        mac(fx, age)
-    ),
+    if(!is.null(start)){
+      first.pars <- start
+    }else{
+      first.pars <- c(tfr(fx, unique(diff(age))),
+                      (max(fx)*mac(fx, age))/tfr(fx, unique(diff(age))),
+                      mac(fx, age))
+    }
+    m1 <- optim(par = first.pars,
     fn = hadw, control =  list(maxit = 1e6))
     m2 <- optim(par = m1$par,
                 fn = hadw, control =  list(maxit = 1e6))
@@ -67,7 +72,12 @@ fert.approx <- function(fx, age, model, boot = F){
       fx.pred = R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )
       sum((fx-fx.pred)^2)
     }
-    m1 <- optim(par = c(tfr(fx, unique(diff(age))), 1, 1, min(age)),
+    if(!is.null(start)){
+      first.pars <- start
+    }else{
+      first.pars <- c(tfr(fx, unique(diff(age))), 1, 1, min(age))
+    }
+    m1 <- optim(par = first.pars,
                 fn = mygamma2, control =  list(maxit = 1e6))
     m2 <- optim(par = m1$par,
                 fn = mygamma2, control =  list(maxit = 1e6))
@@ -83,7 +93,11 @@ fert.approx <- function(fx, age, model, boot = F){
   }
   if(model == "Brass"){
     form <- as.formula(paste0("fx ~ c*(age - d)*(d+w-age)^2"))
-    start.val = list(c = 1, d = min(age), w = max(age)-min(age))
+    if(!is.null(start)){
+      start.val <- list(c = start[1], d = start[2], w = start[3])
+    }else{
+      start.val <- list(c = 1, d = min(age), w = max(age)-min(age))
+    }
     lower.val = c(0, min(age)-0.01, 0)
     upper.val = c(999,100,999)
 

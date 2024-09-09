@@ -3,7 +3,7 @@
 \docType{data}
 \name{rosbris_mortality_pop_1}
 \alias{rosbris_mortality_pop_1}
-\title{Rosbris' Moertality and population (1-year interval)}
+\title{Rosbris' Mortality and population (1-year interval)}
 \format{
 \subsection{A dataframe}{
 
@@ -27,6 +27,6 @@ Rosbris \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{webpage}
 rosbris_mortality_pop_1
 }
 \description{
-Rosbris' Moertality and population (1-year interval)
+Rosbris' Mortality and population (1-year interval)
 }
 \keyword{datasets}

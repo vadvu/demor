@@ -13,8 +13,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE, 
   message = FALSE,
-  comment = "#>",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
 
@@ -524,9 +523,9 @@ les.matrix <- leslie(mx = dbm.1[dbm.1$code==1100 &
                                 dbm.1$territory=="t" & 
                                 dbm.1$sex=="m" & 
                                 dbm.1$year == 2019,]$mx, 
-                     fx = dbf[dbm.1$code==1100 & 
-                                dbm.1$territory=="t" & 
-                                dbm.1$year == 2019,]$fx, 
+                     fx = dbf[dbf$code==1100 & 
+                                dbf$territory=="t" & 
+                                dbf$year == 2019,]$fx, 
                      age1 = unique(dbm.1$age), 
                      age2 = unique(dbf$age), 
                      sex = "m")
@@ -582,53 +581,42 @@ popf = dbm.1 %>%
 The model: 
 
 ```{r}
-ex1 <- prob.proj(mort.m, mort.f, fert, 
-                 time.n = 25, 
-                 sims = 250, #set low number for an example 
-                 popf, popm)
+ex1 <- prob.proj(mort.m, 
+                 mort.f, 
+                 fert, 
+                 popf, 
+                 popm,
+                 migr = NULL,
+                 time.n = 10, 
+                 sims = 100, #this is toy example, better to use at least 1000
+                 tfr.boot = F, 
+                 clusters = 1,
+                 pp = 1
+                 )
 ```
 
 
-Population projection: 
+Population projection (closed population): 
 
 ```{r}
 ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025popf` + `0.025popm`, ymax = `0.925popf` + `0.925popm`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125popf` + `0.125popm`, ymax = `0.825popf` + `0.825popm`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225popf` + `0.225popm`, ymax = `0.725popf` + `0.725popm`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425popf` + `0.425popm`, ymax = `0.625popf` + `0.625popm`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5popf` + `0.5popm`), color = "black", linewidth = 1)+
-  scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3))+
-  labs(y = "Population", x = "Year")+
-  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-Net population growth:
-
-```{r}
-ex1[[1]] %>% 
-  ggplot(aes(x = year))+
-  theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025net`, ymax = `0.925net`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125net`, ymax = `0.825net`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225net`, ymax = `0.725net`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425net`, ymax = `0.625net`),
-              alpha = 1, fill = "grey")+
-  geom_hline(yintercept = 0)+
-  geom_line(aes(y = `0.5net`), color = "black", linewidth = 1)+
-  scale_y_continuous(labels = scales::unit_format(unit = "k", scale = 1e-3))+
-  labs(y = "Net population growth", x = "Year")+
-  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  geom_ribbon(aes(ymin = `0.025pop`, ymax = `0.975pop`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05pop`, ymax = `0.95pop`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1pop`, ymax = `0.9pop`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25pop`, ymax = `0.75pop`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5pop`), #point = median
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5pop`, ymax = `0.5pop`, fill = "Median"))+
+  scale_y_continuous(labels = scales::unit_format(unit = "mln", scale = 1e-6))+
+  labs(y = "Population", x = "Year", fill = "Percentile:")+
+  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 4))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -638,17 +626,20 @@ TFR projection:
 ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025tfr`, ymax = `0.925tfr`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125tfr`, ymax = `0.825tfr`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225tfr`, ymax = `0.725tfr`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425tfr`, ymax = `0.625tfr`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5tfr`), color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.025tfr`, ymax = `0.975tfr`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05tfr`, ymax = `0.95tfr`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1tfr`, ymax = `0.9tfr`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25tfr`, ymax = `0.75tfr`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5tfr`), 
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5tfr`, ymax = `0.5tfr`, fill = "Median"))+
   labs(y = "TFR", x = "Year")+
   scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -658,60 +649,44 @@ Life expectancy at birth projections:
 e0m.proj <- ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025e0m`, ymax = `0.925e0m`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125e0m`, ymax = `0.825e0m`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225e0m`, ymax = `0.725e0m`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425e0m`, ymax = `0.625e0m`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5e0m`), color = "black", linewidth = 1)+
-  labs(y = "Life Expectancy at 0 (males)", x = "Year")+
+  geom_ribbon(aes(ymin = `0.025e0m`, ymax = `0.975e0m`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05e0m`, ymax = `0.95e0m`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1e0m`, ymax = `0.9e0m`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25e0m`, ymax = `0.75e0m`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5e0m`), 
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5e0m`, ymax = `0.5e0m`, fill = "Median"))+
+  labs(y = "Le male", x = "Year")+
   scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 e0f.proj <- ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025e0f`, ymax = `0.925e0f`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125e0f`, ymax = `0.825e0f`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225e0f`, ymax = `0.725e0f`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425e0f`, ymax = `0.625e0f`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5e0f`), color = "black", linewidth = 1)+
-  labs(y = "Life Expectancy at 0 (females)", x = "Year")+
+  geom_ribbon(aes(ymin = `0.025e0f`, ymax = `0.975e0f`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05e0f`, ymax = `0.95e0f`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1e0f`, ymax = `0.9e0f`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25e0f`, ymax = `0.75e0f`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5e0f`), 
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5e0f`, ymax = `0.5e0f`, fill = "Median"))+
+  labs(y = "LE female", x = "Year")+
   scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
 e0m.proj;e0f.proj
 ```
-
-Median age:
-
-```{r}
-ex1[[1]] %>% 
-  ggplot(aes(x = year))+
-  theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025med.age`, ymax = `0.925med.age`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125med.age`, ymax = `0.825med.age`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225med.age`, ymax = `0.725med.age`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425med.age`, ymax = `0.625med.age`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5med.age`), color = "black", linewidth = 1)+
-  labs(y = "Median age", x = "Year")+
-  scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-```
-
 
 Dependency ratios:
 
@@ -719,33 +694,39 @@ Dependency ratios:
 dep.old <- ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025old.dependency`, ymax = `0.925old.dependency`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125old.dependency`, ymax = `0.825old.dependency`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225old.dependency`, ymax = `0.725old.dependency`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425old.dependency`, ymax = `0.625old.dependency`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5old.dependency`), color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.025old.dependency`, ymax = `0.975old.dependency`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05old.dependency`, ymax = `0.95old.dependency`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1old.dependency`, ymax = `0.9old.dependency`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25old.dependency`, ymax = `0.75old.dependency`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5old.dependency`), 
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5old.dependency`, ymax = `0.5old.dependency`, fill = "Median"))+
   labs(y = "Old-age (65+) dependency ratio", x = "Year")+
   scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 dep.all <- ex1[[1]] %>% 
   ggplot(aes(x = year))+
   theme_linedraw()+
-  geom_ribbon(aes(ymin = `0.025dependency`, ymax = `0.925dependency`),
-              alpha = 1, fill = "forestgreen")+
-  geom_ribbon(aes(ymin = `0.125dependency`, ymax = `0.825dependency`),
-              alpha = 1, fill = "darkorange")+
-  geom_ribbon(aes(ymin = `0.225dependency`, ymax = `0.725dependency`),
-              alpha = 1, fill = "red")+
-  geom_ribbon(aes(ymin = `0.425dependency`, ymax = `0.625dependency`),
-              alpha = 1, fill = "grey")+
-  geom_line(aes(y = `0.5dependency`), color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.025dependency`, ymax = `0.975dependency`, fill = "95%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.05dependency`, ymax = `0.95dependency`, fill = "90%"), 
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.1dependency`, ymax = `0.9dependency`, fill = "80%"),
+              alpha = 1)+
+  geom_ribbon(aes(ymin = `0.25dependency`, ymax = `0.75dependency`, fill = "50%"),
+              alpha = 1)+
+  geom_line(aes(y = `0.5dependency`), 
+            color = "black", linewidth = 1)+
+  geom_ribbon(aes(ymin = `0.5dependency`, ymax = `0.5dependency`, fill = "Median"))+
   labs(y = "Dependency (<=20, 65+) Ratio", x = "Year")+
   scale_x_continuous(breaks = seq(min(ex1[[1]]$year), max(ex1[[1]]$year), 2))+
+  scale_fill_manual(values = c("grey", "red", "darkorange", "forestgreen", "black"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 

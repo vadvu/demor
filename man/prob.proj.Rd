@@ -4,7 +4,19 @@
 \alias{prob.proj}
 \title{Probabilistic Projections of Population}
 \usage{
-prob.proj(mort.m, mort.f, fert, time.n, sims, popf, popm)
+prob.proj(
+  mort.m,
+  mort.f,
+  fert,
+  popf,
+  popm,
+  migr = NULL,
+  time.n = 25,
+  sims = 500,
+  tfr.boot = F,
+  clusters = 6,
+  pp = 1
+)
 }
 \arguments{
 \item{mort.m}{Data.frame with columns year, age, mx for males.}
@@ -13,16 +25,24 @@ prob.proj(mort.m, mort.f, fert, time.n, sims, popf, popm)
 
 \item{fert}{Data.frame with columns year, age, fx.}
 
+\item{popf}{Data.frame with columns year, age, pop for females}
+
+\item{popm}{Data.frame with columns year, age, pop for females}
+
+\item{migr}{migration data or \code{NULL} for closed population}
+
 \item{time.n}{Numeric value of for how many years projection should be done.}
 
 \item{sims}{Numeric values of number of simulations.}
 
-\item{popf}{Data.frame with columns year, age, pop for females}
+\item{tfr.boot}{Logical. Should bootstrap be used to estimate TFR? Default is \code{FALSE} The number of replications is \code{sims}}
 
-\item{popm}{Data.frame with columns year, age, pop for females}
+\item{clusters}{Numeric. Number of engines for parallel computations}
+
+\item{pp}{lag size}
 }
 \value{
-list with data.frame with projections and VAR model
+list with data.frame with projections, VAR model, projected age structure and some tests.
 }
 \description{
 Probabilistic Projections of Population

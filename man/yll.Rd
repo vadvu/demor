@@ -7,6 +7,7 @@
 yll(
   Dx,
   type = c("yll", "yll.p", "yll.r", "asyr"),
+  age.int = 5,
   Dx_all = NULL,
   pop = NULL,
   w = NULL
@@ -16,6 +17,8 @@ yll(
 \item{Dx}{Array with the number of deaths.}
 
 \item{type}{Character. Type of YLL to calculate. See details section.}
+
+\item{age.int}{Numeric. Age interval of Dx. Can be \code{1} or \code{5}.}
 
 \item{Dx_all}{Array with the number of all deaths. Used only with \code{yll.p} type, where \code{Dx} is array with cause-specific deaths.}
 

@@ -4,7 +4,7 @@
 \alias{fert.approx}
 \title{Fertility models for ASFR approximation}
 \usage{
-fert.approx(fx, age, model, boot = F)
+fert.approx(fx, age, model, boot = F, start = NULL)
 }
 \arguments{
 \item{fx}{Numeric vector of age specific fertility rates.}
@@ -14,6 +14,8 @@ fert.approx(fx, age, model, boot = F)
 \item{model}{Character. Model name to be estimated. Now "Hadwiger" and "Gamma" are supported.}
 
 \item{boot}{Logical. Should bootstrapped 95\% confidence intervals for ASFR approximation be calculated. Default is \code{FALSE} for no bootstrap.}
+
+\item{start}{Numeric vector with user-specific values of parameters for optimization. Default is \code{NULL} (choose automatically)}
 }
 \value{
 list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.

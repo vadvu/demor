@@ -9,7 +9,7 @@
 #' @import forecast dplyr tidyr
 #' @export
 leecart <- function(data, n=10, sex = "m", concise = TRUE){
-  #data = year, age, mx
+  #data: year, age, mx
   `%notin%` <- Negate(`%in%`)
   if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){
     stop("Prepare data carefully")
@@ -22,7 +22,7 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
   ax <- rep(0, length(unique(data$age)))
   names(ax)<-unique(data$age)
   for(i in 1:length(ax)){
-    ax[i]<- mean(log(data[data$age== as.numeric(names(ax)[i]), ]$mx))
+    ax[i]<- mean(log(data[data$age == as.numeric(names(ax)[i]), ]$mx))
   }
   #2 step
   data$Ax <- NA
@@ -30,7 +30,7 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
     data[data$age == i,]$Ax <- log(data[data$age == i,]$mx) - ax[paste0(i)]
   }
   ma <- data.frame(k = 1:length(unique(data$age)))
-  for(i in min(data$year):max(data$year)){
+  for(i in unique(data$year)){
     ma[paste0(i)]<-data[data$year==i,]$Ax
   }
   ma <- as.matrix(ma[,-1])
@@ -50,6 +50,7 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
   kh[,1]<-k
   allk <- rbind(kh,fk)[,c(6,1:5)]
   colnames(fk)[2]<-"k"
+  colnames(allk)[2]<-"k"
   #m forecast
   for (i in c(1,4,5)){
     if(i==1){

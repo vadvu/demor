@@ -2,6 +2,7 @@
 #'
 #' @param Dx Array with the number of deaths.
 #' @param type Character. Type of YLL to calculate. See details section.
+#' @param age.int Numeric. Age interval of Dx. Can be `1` or `5`.
 #' @param Dx_all Array with the number of all deaths. Used only with `yll.p` type, where `Dx` is array with cause-specific deaths.
 #' @param pop Array with population. Used only with `yll.r` and `asyr` types.
 #' @param w Array with population weights for direct standardization. Used only with `asyr` type.
@@ -17,14 +18,29 @@
 #' @return list with values.
 #' @export
 #'
-yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), Dx_all = NULL, pop = NULL, w = NULL){
+yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), age.int = 5, Dx_all = NULL, pop = NULL, w = NULL){
+
+  `%notin%` <- Negate(`%in%`)
 
   ndx = length(Dx)
   ndx_o = ndx
   sle <- demor::sle_stand
 
-  if(ndx == 19){
+  if(age.int %notin% c(1,5)){
+    stop("Age interval (age.int) should be 1 or 5")
+  }
+  if(type %notin% c("yll", "yll.p", "yll.r", "asyr")){
+    stop("type should be one of the following: 'yll', 'yll.p', 'yll.r', 'asyr'")
+  }
+
+  if(age.int == 5){
     sle = sle[sle$stand==5,]$ex
+    if(ndx != 19){
+      excess = sum(Dx[length(sle):ndx])
+      Dx <- Dx[1:length(sle)]
+      ndx = length(Dx)
+      Dx[ndx] = excess
+    }
   }else{
     sle = sle[sle$stand==1,]$ex
     if(ndx > length(sle)){
@@ -33,10 +49,6 @@ yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), Dx_all = NULL, po
       ndx = length(Dx)
       Dx[ndx] <- excess
     }
-  }
-  `%notin%` <- Negate(`%in%`)
-  if(type %notin% c("yll", "yll.p", "yll.r", "asyr")){
-    stop("type should be one of the following: 'yll', 'yll.p', 'yll.r', 'asyr'")
   }
 
   if(type == "yll"){
