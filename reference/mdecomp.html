@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">demor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mdecomp</span><span class="op">(</span><span class="va">mx1</span>, <span class="va">mx2</span>, <span class="va">age</span>, <span class="va">sex</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mdecomp</span><span class="op">(</span><span class="va">mx1</span>, <span class="va">mx2</span>, <span class="va">age</span>, <span class="va">sex</span>, ax1 <span class="op">=</span> <span class="cn">NULL</span>, ax2 <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -58,19 +58,27 @@
 
 
 <dl><dt id="arg-mx-">mx1<a class="anchor" aria-label="anchor" href="#arg-mx-"></a></dt>
-<dd><p>List of arrays. 1st array should be all-cause nmx in the 1st population, other arrays are cause-specific nmx in the 1st population</p></dd>
+<dd><p>List of numeric arrays. 1st array should be all-cause nmx in the 1st population, other arrays are cause-specific nmx in the 1st population</p></dd>
 
 
 <dt id="arg-mx-">mx2<a class="anchor" aria-label="anchor" href="#arg-mx-"></a></dt>
-<dd><p>List of arrays. 1st array should be all-cause nmx in the 2nd population, other arrays are cause-specific nmx in the 2nd population</p></dd>
+<dd><p>List of numeric arrays. 1st array should be all-cause nmx in the 2nd population, other arrays are cause-specific nmx in the 2nd population</p></dd>
 
 
 <dt id="arg-age">age<a class="anchor" aria-label="anchor" href="#arg-age"></a></dt>
-<dd><p>Array of age intervals; for full life table = <code>0:100</code>; for concise life table = <code>c(0:1, seq(5,85,5))</code></p></dd>
+<dd><p>Numeric array of age intervals; for full life table = <code>0:100</code>; for concise life table = <code>c(0:1, seq(5,85,5))</code></p></dd>
 
 
 <dt id="arg-sex">sex<a class="anchor" aria-label="anchor" href="#arg-sex"></a></dt>
-<dd><p>Sex. "m" for males and "f" for females</p></dd>
+<dd><p>Character. Sex. "m" for males and "f" for females</p></dd>
+
+
+<dt id="arg-ax-">ax1<a class="anchor" aria-label="anchor" href="#arg-ax-"></a></dt>
+<dd><p>Optional. Numeric array with ax for the 1st population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev &amp; Kingkade (2015).</p></dd>
+
+
+<dt id="arg-ax-">ax2<a class="anchor" aria-label="anchor" href="#arg-ax-"></a></dt>
+<dd><p>Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev &amp; Kingkade (2015).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -90,7 +98,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>

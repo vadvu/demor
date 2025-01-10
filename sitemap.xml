@@ -7,13 +7,16 @@
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
 <url><loc>/reference/LT.html</loc></url>
+<url><loc>/reference/MLT.html</loc></url>
 <url><loc>/reference/ages.html</loc></url>
 <url><loc>/reference/asdt.html</loc></url>
 <url><loc>/reference/asdtex.html</loc></url>
 <url><loc>/reference/decomp.html</loc></url>
 <url><loc>/reference/demor-package.html</loc></url>
+<url><loc>/reference/edagger.html</loc></url>
 <url><loc>/reference/fert.approx.html</loc></url>
 <url><loc>/reference/get_rosbris.html</loc></url>
+<url><loc>/reference/gini.html</loc></url>
 <url><loc>/reference/hli.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/leecart.html</loc></url>
@@ -23,6 +26,7 @@
 <url><loc>/reference/mdecompex.html</loc></url>
 <url><loc>/reference/med.age.html</loc></url>
 <url><loc>/reference/mort.approx.html</loc></url>
+<url><loc>/reference/msm.table.html</loc></url>
 <url><loc>/reference/pipe.html</loc></url>
 <url><loc>/reference/plot_pyr.html</loc></url>
 <url><loc>/reference/prob.proj.html</loc></url>

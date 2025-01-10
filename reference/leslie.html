@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">demor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">leslie</span><span class="op">(</span><span class="va">mx</span>, <span class="va">fx</span>, <span class="va">age1</span>, <span class="va">age2</span>, <span class="va">sex</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">leslie</span><span class="op">(</span><span class="va">mx</span>, <span class="va">fx</span>, <span class="va">age1</span>, <span class="va">age2</span>, <span class="va">sex</span>, fin <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -58,23 +58,31 @@
 
 
 <dl><dt id="arg-mx">mx<a class="anchor" aria-label="anchor" href="#arg-mx"></a></dt>
-<dd><p>Vector of age specific mortality rates.</p></dd>
+<dd><p>Numeric array of age specific mortality rates.</p></dd>
 
 
 <dt id="arg-fx">fx<a class="anchor" aria-label="anchor" href="#arg-fx"></a></dt>
-<dd><p>Vector of age specific fertility rates.</p></dd>
+<dd><p>Numeric array of age specific fertility rates.</p></dd>
 
 
 <dt id="arg-age-">age1<a class="anchor" aria-label="anchor" href="#arg-age-"></a></dt>
-<dd><p>Vector of ages for mx.</p></dd>
+<dd><p>Numeric array of ages for mx.</p></dd>
 
 
 <dt id="arg-age-">age2<a class="anchor" aria-label="anchor" href="#arg-age-"></a></dt>
-<dd><p>Vector of ages for fx.</p></dd>
+<dd><p>Numeric array of ages for fx.</p></dd>
 
 
 <dt id="arg-sex">sex<a class="anchor" aria-label="anchor" href="#arg-sex"></a></dt>
-<dd><p>Sex. "m" for males or "f" for females.</p></dd>
+<dd><p>Character. Sex. "m" for males or "f" for females.</p></dd>
+
+
+<dt id="arg-fin">fin<a class="anchor" aria-label="anchor" href="#arg-fin"></a></dt>
+<dd><p>Logical. Should the survival rate for the last age-group be not 0? By default it is <code>FALSE</code>, so the last survival rate is 0 as in classical model. Otherwise, it is $$T_{x}/T_{x-1}$$</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Optional. Additional arguements for <code>LT</code> function.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -94,7 +102,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>

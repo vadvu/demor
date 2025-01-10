@@ -1,6 +1,6 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   demor: demor.html
-last_built: 2024-09-09T22:12Z
+last_built: 2025-01-10T12:19Z
