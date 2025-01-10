@@ -17,13 +17,15 @@
 #' The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
 #' ## Brass model
 #' The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
+#'
 #' @references
 #' Peristera, P., & Kostaki, A. (2007). Modeling fertility in modern populations. *Demographic Research*, *16*, 141-194.
+#'
 #' @export
 #'
 #' @examples
 #'
-#' # fert.approx(fx = ASFR. age = 15:55, model = "Hadwiger", boot= F)
+#' # fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", boot = FALSE)
 #'
 fert.approx <- function(fx, age, model, boot = F, start = NULL){
 

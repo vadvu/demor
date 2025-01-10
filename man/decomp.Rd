@@ -4,18 +4,22 @@
 \alias{decomp}
 \title{Age decomposition of mortality: single decrement}
 \usage{
-decomp(mx1, mx2, sex, age, method = "andreev")
+decomp(mx1, mx2, sex, age, method = "andreev", ax1 = NULL, ax2 = NULL)
 }
 \arguments{
-\item{mx1}{Age specific mortality rates of population 1 (basic population).}
+\item{mx1}{Numeric array with age specific mortality rates of population 1 (basic population).}
 
-\item{mx2}{Age specific mortality rates of population 2 (compared population).}
+\item{mx2}{Numeric array with age specific mortality rates of population 2 (compared population).}
 
-\item{sex}{Sex. "m" for males and "f" for females}
+\item{sex}{Character. Sex. "m" for males and "f" for females}
 
-\item{age}{Array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
+\item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
-\item{method}{Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.}
+\item{method}{Character. Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.}
+
+\item{ax1}{Optional. Numeric array with ax for the 1st population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
+
+\item{ax2}{Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
 }
 \value{
 dataframe with some parameters of decomposition (depends on method) and decomposition in years or percents.

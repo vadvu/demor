@@ -43,7 +43,7 @@ The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[
 }
 \examples{
 
-# fert.approx(fx = ASFR. age = 15:55, model = "Hadwiger", boot= F)
+# fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", boot = FALSE)
 
 }
 \references{

@@ -4,14 +4,14 @@
 \alias{hli}
 \title{The Human Life Indicator (HLI)}
 \usage{
-hli(age, sex, mx)
+hli(age, mx, ...)
 }
 \arguments{
-\item{age}{Array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
+\item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
-\item{sex}{Sex. "m" for males or "f" for females.}
+\item{mx}{Numeric array with age specific mortality rates.}
 
-\item{mx}{Age specific mortality rates.}
+\item{...}{Optional. Additional arguments for \code{LT} function.}
 }
 \value{
 HLI value

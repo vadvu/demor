@@ -4,23 +4,29 @@
 \alias{LT}
 \title{Life table}
 \usage{
-LT(age, sex, mx)
+LT(age, sex = "m", mx, ax = NULL, w = NULL, l0 = 1)
 }
 \arguments{
-\item{age}{Array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
+\item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
-\item{sex}{Sex. "m" for males or "f" for females.}
+\item{sex}{Character. Sex. \code{"m"} for males or \code{"f"} for females. By default = \code{"m"}.}
 
-\item{mx}{Age specific mortality rates.}
+\item{mx}{Numeric array with age specific mortality rates.}
+
+\item{ax}{Optional. Numeric array with ax. By default, it is the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
+
+\item{w}{Optional. Numeric array with weights for each age interval for calculating weighted life expectancy (\code{wex}).}
+
+\item{l0}{Numeric. Life table radix. By default, = \code{1} but it can be any positive real number. In "human" demography tradition it is 100'000, in "ecological" and "evolutionary" demography tradition it is 1.}
 }
 \value{
-Matrix
+Matrix of (age x 9). Columns are: age, mx, ax, qx, lx, dx, Lx, Tx, ex
 }
 \description{
 Life table
 }
 \details{
-ax for age 0 is modeled as in Andreev & Kingkade (2015).
+By default, ax for age 0 is modeled as in Andreev & Kingkade (2015, p. 390, see table 3-2).
 }
 \references{
 Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. \emph{Demographic Research}, \emph{33}, 363-390.

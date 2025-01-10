@@ -1,18 +1,20 @@
 #' Basic Lee-Carter model
 #'
-#' @param data Dataframe with following columns: age, year, mx
+#' @param data Dataframe with the following columns: age, year, mx
 #' @param n Numeric. Forecasted horizon
-#' @param sex Sex. "m" for males or "f" for females.
-#' @param concise Should results be restricted? `TRUE` for just forecast, `FALSE` for full data
+#' @param sex Character. Sex. "m" for males or "f" for females.
+#' @param concise Logical. Should results be restricted? `TRUE` for just forecast, `FALSE` for full data
 #' @references Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.
-#' @return Dataframe with projected mx and ex for t+n periods with mean, low95 and high 95 values
+#' @return Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr
 #' @export
 leecart <- function(data, n=10, sex = "m", concise = TRUE){
   #data: year, age, mx
   `%notin%` <- Negate(`%in%`)
   if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){
-    stop("Prepare data carefully")
+    stop("Please, prepare your data carefully")
+  }else{
+    data <- data %>% arrange(year, age)
   }
   if(sum(data$mx == 0)>0){
     data$mx <- ifelse(data$mx == 0, 1e-5, data$mx)

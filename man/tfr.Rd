@@ -7,7 +7,7 @@
 tfr(fx, age.int = 1)
 }
 \arguments{
-\item{fx}{Vector of age specific fertility rates.}
+\item{fx}{Numeric array of age specific fertility rates.}
 
 \item{age.int}{Numeric. Age group: \code{1} for one-year, \code{5} for five-year. Any age groups are allowed.}
 }

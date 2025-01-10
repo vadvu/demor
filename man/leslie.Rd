@@ -4,18 +4,22 @@
 \alias{leslie}
 \title{Leslie Matrix}
 \usage{
-leslie(mx, fx, age1, age2, sex)
+leslie(mx, fx, age1, age2, sex, fin = FALSE, ...)
 }
 \arguments{
-\item{mx}{Vector of age specific mortality rates.}
+\item{mx}{Numeric array of age specific mortality rates.}
 
-\item{fx}{Vector of age specific fertility rates.}
+\item{fx}{Numeric array of age specific fertility rates.}
 
-\item{age1}{Vector of ages for mx.}
+\item{age1}{Numeric array of ages for mx.}
 
-\item{age2}{Vector of ages for fx.}
+\item{age2}{Numeric array of ages for fx.}
 
-\item{sex}{Sex. "m" for males or "f" for females.}
+\item{sex}{Character. Sex. "m" for males or "f" for females.}
+
+\item{fin}{Logical. Should the survival rate for the last age-group be not 0? By default it is \code{FALSE}, so the last survival rate is 0 as in classical model. Otherwise, it is \deqn{T_{x}/T_{x-1}}}
+
+\item{...}{Optional. Additional arguements for \code{LT} function.}
 }
 \value{
 Matrix.

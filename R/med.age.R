@@ -18,6 +18,7 @@ med.age <- function(N, age, int = 1){
     }
   }
   ages <- age[which(inter %in% c(1,2))]
-  int/2 + (ages[1]+int/2) + (m-cN[which(age == ages[1])])/
+  fin <- int/2 + (ages[1]+int/2) + (m-cN[which(age == ages[1])])/
     (cN[which(age == ages[2])]-cN[which(age == ages[1])])
+  return(round(fin, 2))
 }

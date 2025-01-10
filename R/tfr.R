@@ -1,6 +1,6 @@
 #' Total Fertility Rate (TFR)
 #'
-#' @param fx Vector of age specific fertility rates.
+#' @param fx Numeric array of age specific fertility rates.
 #' @param age.int Numeric. Age group: `1` for one-year, `5` for five-year. Any age groups are allowed.
 #'
 #' @return Numeric value.

@@ -4,12 +4,12 @@
 \alias{mac}
 \title{Mean Age at Childbearing (MAC)}
 \usage{
-mac(fx, ages)
+mac(fx, age)
 }
 \arguments{
-\item{fx}{Vector of age specific fertility rates.}
+\item{fx}{Numeric array of age specific fertility rates.}
 
-\item{ages}{Vector of ages. For example, \code{15:55} for 1-year age-groups}
+\item{age}{Numeric array of ages. For example, \code{15:55} for 1-year age-groups}
 }
 \value{
 Numeric value.
