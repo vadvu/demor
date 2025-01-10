@@ -5,9 +5,9 @@
 ^data-raw$
 ^\.RData$
 ^\.RHistory$
-^doc$
+^docs$
 ^Meta$
 ^_pkgdown\.yml$
-^docs$
 ^pkgdown$
 ^\.github$
+^inst/web$
