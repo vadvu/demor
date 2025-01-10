@@ -1,6 +1,6 @@
 Package: demor
 Title: Basic functions for demographic analysis
-Version: 0.1.2
+Version: 1.0.0
 Authors@R: 
     person("Vadim", "Ustyuzhanin", , "vvustiuzhanin@yandex.ru", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))
@@ -8,7 +8,7 @@ Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     forecast,
@@ -20,7 +20,8 @@ Imports:
     scales,
     parallel,
     foreach,
-    doParallel
+    doParallel,
+    msm
 Depends: 
     R (>= 2.10)
 LazyData: true
