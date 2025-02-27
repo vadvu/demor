@@ -4,16 +4,18 @@
 \alias{leecart}
 \title{Basic Lee-Carter model}
 \usage{
-leecart(data, n = 10, sex = "m", concise = TRUE)
+leecart(data, n = 10, concise = TRUE, ...)
 }
 \arguments{
 \item{data}{Dataframe with the following columns: age, year, mx}
 
 \item{n}{Numeric. Forecasted horizon}
 
-\item{sex}{Character. Sex. "m" for males or "f" for females.}
-
 \item{concise}{Logical. Should results be restricted? \code{TRUE} for just forecast, \code{FALSE} for full data}
+
+\item{...}{Optional. Additional arguments for \code{LT} function.}
+
+\item{sex}{Character. Sex. "m" for males or "f" for females.}
 }
 \value{
 Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values

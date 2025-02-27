@@ -1,17 +1,16 @@
 #' Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
 #'
 #' @param age Numeric array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
-#' @param sex Character. Sex. "m" for males or "f" for females.
 #' @param m_all Numeric array with age specific mortality rates of all causes of death (usual mx).
 #' @param m_i Numeric array with age specific mortality rates of some cause of death (i)
-#' @param full Logical. Is full table needed? TRUE = full, FALSE = concise
+#' @param full Logical. Is full table needed? `TRUE` for full, `FALSE` for concise. By default, `FALSE`
 #' @param method Character. The method of ASDT construction to use. Now just "chiang1968" is supported.
-#' @param ax Optional. Numeric array with ax. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).
+#' @param ... Optional. Additional arguments for `LT` function.
 #' @references Chiang, L. (1968). *Introduction to Stochastic Processes in Biostatistics*. New York: John Wiley and Sons.
 #' @return dataframe.
 #' @export
-asdt <- function(age, sex, m_all, m_i, full = F, method = "chiang1968", ax = NULL){
-  lt <- as.data.frame(LT(age = age, sex = sex, mx = m_all, ax = ax))
+asdt <- function(age, m_all, m_i, full = FALSE, method = "chiang1968", ...){
+  lt <- as.data.frame(LT(age = age, mx = m_all, ...))
   lt$r_not_i <- 1-m_i/m_all
   lt$p_not_i <- (1-lt$qx)^lt$r_not_i
   lt$l_not_i <- 1

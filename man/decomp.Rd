@@ -2,34 +2,35 @@
 % Please edit documentation in R/decomp.R
 \name{decomp}
 \alias{decomp}
-\title{Age decomposition of mortality: single decrement}
+\title{Age decomposition of mortality: single decrement process}
 \usage{
-decomp(mx1, mx2, sex, age, method = "andreev", ax1 = NULL, ax2 = NULL)
+decomp(mx1, mx2, sex = "m", age, method = "andreev", ax1 = NULL, ax2 = NULL)
 }
 \arguments{
-\item{mx1}{Numeric array with age specific mortality rates of population 1 (basic population).}
+\item{mx1}{Numeric array with age specific mortality rates of population 1 (base population).}
 
 \item{mx2}{Numeric array with age specific mortality rates of population 2 (compared population).}
 
-\item{sex}{Character. Sex. "m" for males and "f" for females}
+\item{sex}{Character. Sex. "m" for males and "f" for females. By default, \code{sex = "m"}.}
 
 \item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
-\item{method}{Character. Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results.}
+\item{method}{Character. Decomposition method. "andreev" (1982), "arriaga" (1984) or "pollard" (1982) - slightly different in their results. By default, \code{method = "andreev"}.}
 
 \item{ax1}{Optional. Numeric array with ax for the 1st population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
 
 \item{ax2}{Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
 }
 \value{
-dataframe with some parameters of decomposition (depends on method) and decomposition in years or percents.
+dataframe with parameters of decomposition (depends on method) and decomposition in years (ex12) and percents (ex12_prc).
 }
 \description{
-Age decomposition of mortality: single decrement
+Age decomposition of mortality: single decrement process
 }
 \references{
 \enumerate{
 \item Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. \emph{Demography}, \emph{21}, 83-96.
 \item Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. \emph{Вестник статистики}, \emph{9}, 42-47.
+\item Pollard, J. H. (1982). The expectation of life and its relationship to mortality. \emph{Journal of the Institute of Actuaries}, \emph{109(2)}, 225–240.
 }
 }

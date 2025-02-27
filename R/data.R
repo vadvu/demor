@@ -82,8 +82,18 @@
 #'   \item{territory}{rural/urban/total}
 #'   \item{age}{age}
 #'   \item{fx}{ASFR}
+#'   \item{fx1}{ASFR, 1 order}
+#'   \item{fx2}{ASFR, 2 order}
+#'   \item{fx3}{ASFR, 3 order}
+#'   \item{fx4}{ASFR, 4 order}
+#'   \item{fx5}{ASFR, 5+ order}
 #'   \item{N}{Population}
 #'   \item{Bx}{Number of Births}
+#'   \item{Bx1}{Number of Births, 1 order}
+#'   \item{Bx2}{Number of Births, 2 order}
+#'   \item{Bx3}{Number of Births, 3 order}
+#'   \item{Bx4}{Number of Births, 4 order}
+#'   \item{Bx5}{Number of Births, 5+ order}
 #'   \item{name}{Region name}
 #' }
 #' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)

@@ -4,7 +4,7 @@
 \alias{mort.approx}
 \title{Mortality models for mx approximation}
 \usage{
-mort.approx(mx, age, model, standard.mx = NULL, boot = F)
+mort.approx(mx, age, model = c("Brass", "Gompertz"), standard.mx = NULL, ...)
 }
 \arguments{
 \item{mx}{Numeric vector of age specific mortality rates.}
@@ -15,10 +15,10 @@ mort.approx(mx, age, model, standard.mx = NULL, boot = F)
 
 \item{standard.mx}{Numeric vector of age specific mortality rates for standard population. Default is \code{NULL}.}
 
-\item{boot}{Logical. Should bootstrapped 95\% confidence intervals for mx approximation be calculated. Default is \code{FALSE} for no bootstrap. Do not work for \code{Gompertz} model.}
+\item{...}{Used only for \code{Brass} model. Other parameters for the function \code{LT()} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
 }
 \value{
-list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted mortality rates.
+list with estimated model and dataframe with predicted mortality rates.
 }
 \description{
 Mortality models for mx approximation
@@ -31,7 +31,7 @@ and 1e-07 as tolerance parameter. For "Gompertz" usual OLS estimator is used.
 The model is as follows: \deqn{m(age) = \alpha e^{\beta age}}
 }
 
-\subsection{Gamma model}{
+\subsection{Brass model}{
 
 The model is as follows: \deqn{y(age) = \alpha + \beta y^{S}(age)}
 where \deqn{y(age) = \frac{1}{2} ln[\frac{q(age)}{1-q(age)}]}
@@ -41,7 +41,7 @@ and subscript S defines that function is for standard population. To get mx from
 }
 \examples{
 
-# mort.approx(mx = mx, age = 0:100, model = "Brass", standard.mx = standard.mx, boot = T)
+# mort.approx(mx = mx, age = 0:100, model = "Brass", standard.mx = standard.mx, sex = "m")
 
 }
 \references{

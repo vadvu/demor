@@ -138,8 +138,8 @@ yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), age.int = 5, Dx_a
 
     return(
       list(
-        asyr =  w * (100000 * (sle[1:ndx] * Dx) / pop),
-        asyr_all = sum( w * (100000 * (sle[1:ndx] * Dx) / pop) )
+        asyr_all = sum( w * (100000 * (sle[1:ndx] * Dx) / pop) ),
+        asyr =  w * (100000 * (sle[1:ndx] * Dx) / pop)
       )
     )
   }

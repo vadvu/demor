@@ -4,22 +4,20 @@
 \alias{asdt}
 \title{Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)}
 \usage{
-asdt(age, sex, m_all, m_i, full = F, method = "chiang1968", ax = NULL)
+asdt(age, m_all, m_i, full = FALSE, method = "chiang1968", ...)
 }
 \arguments{
 \item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
-
-\item{sex}{Character. Sex. "m" for males or "f" for females.}
 
 \item{m_all}{Numeric array with age specific mortality rates of all causes of death (usual mx).}
 
 \item{m_i}{Numeric array with age specific mortality rates of some cause of death (i)}
 
-\item{full}{Logical. Is full table needed? TRUE = full, FALSE = concise}
+\item{full}{Logical. Is full table needed? \code{TRUE} for full, \code{FALSE} for concise. By default, \code{FALSE}}
 
 \item{method}{Character. The method of ASDT construction to use. Now just "chiang1968" is supported.}
 
-\item{ax}{Optional. Numeric array with ax. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
+\item{...}{Optional. Additional arguments for \code{LT} function.}
 }
 \value{
 dataframe.

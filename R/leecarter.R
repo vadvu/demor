@@ -4,14 +4,15 @@
 #' @param n Numeric. Forecasted horizon
 #' @param sex Character. Sex. "m" for males or "f" for females.
 #' @param concise Logical. Should results be restricted? `TRUE` for just forecast, `FALSE` for full data
+#' @param ... Optional. Additional arguments for `LT` function.
 #' @references Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. *Journal of the American statistical association*, *87*(*419*), 659-671.
 #' @return Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr
 #' @export
-leecart <- function(data, n=10, sex = "m", concise = TRUE){
+leecart <- function(data, n = 10, concise = TRUE, ...){
   #data: year, age, mx
   `%notin%` <- Negate(`%in%`)
-  if("year" %notin% colnames(data) & "age" %notin% colnames(data) & "mx"  %notin% colnames(data)){
+  if("year" %notin% colnames(data) | "age" %notin% colnames(data) | "mx"  %notin% colnames(data)){
     stop("Please, prepare your data carefully")
   }else{
     data <- data %>% arrange(year, age)
@@ -86,9 +87,9 @@ leecart <- function(data, n=10, sex = "m", concise = TRUE){
   ledata$ex_low95 = NA
   ledata$ex_high95 = NA
   for (i in unique(ledata$year)){
-    ledata[ledata$year==i,"ex"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,3])[,"ex"]
-    ledata[ledata$year==i,"ex_high95"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,4])[,"ex"]
-    ledata[ledata$year==i,"ex_low95"] <- LT(unique(ledata$age), sex = sex, mx = mf1[mf1$year==i,5])[,"ex"]
+    ledata[ledata$year==i,"ex"] <- LT(unique(ledata$age), mx = mf1[mf1$year==i,3], ...)[,"ex"]
+    ledata[ledata$year==i,"ex_high95"] <- LT(unique(ledata$age), mx = mf1[mf1$year==i,4], ...)[,"ex"]
+    ledata[ledata$year==i,"ex_low95"] <- LT(unique(ledata$age), mx = mf1[mf1$year==i,5], ...)[,"ex"]
   }
   allf <- cbind(mf1, ledata[,-c(1:2)])
   if(concise){

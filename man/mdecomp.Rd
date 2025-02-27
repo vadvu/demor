@@ -4,7 +4,7 @@
 \alias{mdecomp}
 \title{Age and cause decomposition of differences in life expectancies}
 \usage{
-mdecomp(mx1, mx2, age, sex, ax1 = NULL, ax2 = NULL)
+mdecomp(mx1, mx2, age, method = "andreev", ...)
 }
 \arguments{
 \item{mx1}{List of numeric arrays. 1st array should be all-cause nmx in the 1st population, other arrays are cause-specific nmx in the 1st population}
@@ -13,11 +13,9 @@ mdecomp(mx1, mx2, age, sex, ax1 = NULL, ax2 = NULL)
 
 \item{age}{Numeric array of age intervals; for full life table = \code{0:100}; for concise life table = \code{c(0:1, seq(5,85,5))}}
 
-\item{sex}{Character. Sex. "m" for males and "f" for females}
+\item{method}{Character. Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results. By default, \code{method = "andreev"}.}
 
-\item{ax1}{Optional. Numeric array with ax for the 1st population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
-
-\item{ax2}{Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
+\item{...}{Optional. Additional arguments for \code{decomp} function.}
 }
 \value{
 Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decompositions by causes (\code{cause(i)})

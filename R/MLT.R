@@ -21,6 +21,9 @@ MLT <- function(age, mx, ...){
     lx_i = round(rev(cumsum(rev(lt[,paste0("dx_", i)]))),5)
     lt <- cbind(lt, lx_i)
     colnames(lt)[ncol(lt)] <- paste0("lx_", i)
+    ex_i = asdt(age = age, m_all = mx[[1]], m_i = mx[[i]], full = F, ...)[,"ex_without_i"]
+    lt <- cbind(lt, ex_i)
+    colnames(lt)[ncol(lt)] <- paste0("ex_no_", i)
   }
   return(lt)
 }
