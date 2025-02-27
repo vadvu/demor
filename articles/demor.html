@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -310,14 +310,16 @@ be interpreted as in other fields
 higher
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>0</mn></msub><annotation encoding="application/x-tex">G_0</annotation></semantics></math>,
 higher inequality and vice versa). Also one can be interested in
-“absolute” Gini coefficient that is
+“absolute” Gini coefficient (aka AID - Absolute Inter-individual
+Difference) that is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>G</mi><mn>0</mn><mrow><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msubsup><mo>=</mo><msub><mi>G</mi><mn>0</mn></msub><mo>×</mo><msub><mi>e</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">G_0^{abs} = G_0 \times e_0</annotation></semantics></math>
 which “is equal to the average inter-individual difference in length of
 life and is measured in years.” <span class="citation">(<a href="#ref-Shkolnikov_gini">Shkolnikov, Andreev, and Begun 2003,
 312</a>)</span></p>
 <p>Below is the function <code>gini</code> that computes Gini index as
 well as produces data for Lorenz curve - the graphical representation of
-inequality. The formulas for the calculations are derived from <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span>.</p>
+inequality. The formulas for the calculations are derived from <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span> (that is based on the <span class="citation">Hanada (<a href="#ref-hanada_gini">1983</a>)</span>
+formulation).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_mortality_pop_1.html">rosbris_mortality_pop_1</a></span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1995</span>,<span class="op">]</span><span class="op">$</span><span class="va">mx</span></span>
@@ -354,6 +356,14 @@ and <code>gini</code> output.</p>
 <span>                            <span class="st">"e0 = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">Gini</span><span class="op">$</span><span class="va">G0_abs</span><span class="op">/</span><span class="va">res</span><span class="op">$</span><span class="va">Gini</span><span class="op">$</span><span class="va">G0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
 <p><img src="demor_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>Note, one can calculate not only Gini <em>inequality</em> index, but
+also Drewnowski’s index of <em>equality</em> that is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>G</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">D_0 = 1 - G_0</annotation></semantics></math>
+proposed by <span class="citation">Aburto et al. (<a href="#ref-Drewnowski">2022</a>)</span> (so, for Russian 1995 females it
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mn>0.13</mn><mo>=</mo><mn>0.87</mn></mrow><annotation encoding="application/x-tex">1-0.13=0.87</annotation></semantics></math>)
+that also can serve as an indicator of the shape of mortality
+patterns.</p>
 </div>
 <div class="section level3">
 <h3 id="e-dagger">e-dagger<a class="anchor" aria-label="anchor" href="#e-dagger"></a>
@@ -376,10 +386,23 @@ calculation “e-dagger” for age
 <span><span class="co">#&gt; 12.719536 10.968361  9.137110  5.201578</span></span></code></pre></div>
 <p>Hence,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>e</mi><mn>0</mn><mo>†</mo></msubsup><annotation encoding="application/x-tex">e_0^{\dagger}</annotation></semantics></math>
-for russian female population in 1995 is 12.72.</p>
+for Russian female population in 1995 is 12.72. From
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>e</mi><mi>x</mi><mo>†</mo></msubsup><annotation encoding="application/x-tex">e^{\dagger}_x</annotation></semantics></math>
+one can also calculate life table entropy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>x</mi></msub><annotation encoding="application/x-tex">H_x</annotation></semantics></math><span class="citation">(see, for ex., <a href="#ref-comp_ineq2">Wrycza,
+Missov, and Baudisch 2015</a>)</span> that is simply
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>x</mi></msub><mo>=</mo><msubsup><mi>e</mi><mi>x</mi><mo>†</mo></msubsup><mi>/</mi><msub><mi>e</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">H_x = e^{\dagger}_x/e_x</annotation></semantics></math>.
+Usually only one quantity as entropy is presented that is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>,
+which sometimes is denoted as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>H</mi><mo accent="true">‾</mo></mover><annotation encoding="application/x-tex">\bar H</annotation></semantics></math>,
+and it is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>e</mi><mn>0</mn><mo>†</mo></msubsup><mi>/</mi><msub><mi>e</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">e^{\dagger}_0/e_0</annotation></semantics></math>.</p>
 <p>Note that the larger the age interval, the less accurate the estimate
 will be, since it is based on a discrete approximation of a continuous
 function.</p>
+<p>For more inequality indicators and their comparisons, see <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span>, <span class="citation">Wrycza, Missov, and Baudisch (<a href="#ref-comp_ineq2">2015</a>)</span> and <span class="citation">Wilmoth and Horiuchi (<a href="#ref-comp_ineq1">1999</a>)</span> as well as <a href="https://github.com/alysonvanraalte/LifeIneq" class="external-link"><code>LifeIneq</code></a>
+package.</p>
 </div>
 <div class="section level3">
 <h3 id="years-of-life-lost-yll">Years of Life Lost (YLL)<a class="anchor" aria-label="anchor" href="#years-of-life-lost-yll"></a>
@@ -457,13 +480,13 @@ rate</em> because we use 2010 mortality).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#ASYR</span></span>
 <span><span class="fu"><a href="../reference/yll.html">yll</a></span><span class="op">(</span><span class="va">rus2010</span><span class="op">$</span><span class="va">Dx</span>, type <span class="op">=</span> <span class="st">"asyr"</span>, pop <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">N</span>, w <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">N</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">rus2010</span><span class="op">$</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $asyr_all</span></span>
+<span><span class="co">#&gt; [1] 50945.02</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $asyr</span></span>
 <span><span class="co">#&gt;  [1] 1067.8879  263.5407  164.1824  158.4227  582.8220 1661.2803 2637.1149</span></span>
 <span><span class="co">#&gt;  [8] 3317.2939 3266.8132 3289.1646 4658.1245 5845.6793 6041.6326 5304.2289</span></span>
-<span><span class="co">#&gt; [15] 3032.7590 4638.9202 2618.5841 1867.7751  528.7928</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $asyr_all</span></span>
-<span><span class="co">#&gt; [1] 50945.02</span></span></code></pre></div>
+<span><span class="co">#&gt; [15] 3032.7590 4638.9202 2618.5841 1867.7751  528.7928</span></span></code></pre></div>
 <p>Also one can calculate different <em>YLL</em> measures using
 standards that are provided by <code>demor</code> as dataframe.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -476,24 +499,23 @@ standards that are provided by <code>demor</code> as dataframe.</p>
 Lets use Russia-2000 as <em>base population</em> and Russia-2010 as
 <em>compared population</em>. This function implements two almost
 identical discrete methods that were proposed almost simultaneously:
-first in <span class="citation">Arriaga (<a href="#ref-arriaga_dec">1984</a>)</span> and the second in <span class="citation">Андреев (<a href="#ref-andreev_dec">1982</a>)</span>.</p>
+first in <span class="citation">Андреев (<a href="#ref-andreev_dec">1982</a>)</span> and the second in <span class="citation">Arriaga (<a href="#ref-arriaga_dec">1984</a>)</span>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rus2010</span> <span class="op">&lt;-</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span>,<span class="op">]</span></span>
 <span><span class="va">rus2000</span> <span class="op">&lt;-</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2000</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span>,<span class="op">]</span></span>
 <span></span>
 <span><span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/decomp.html">decomp</a></span><span class="op">(</span>mx1 <span class="op">=</span> <span class="va">rus2000</span><span class="op">$</span><span class="va">mx</span>, </span>
 <span>              mx2 <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">mx</span>, </span>
-<span>              sex <span class="op">=</span> <span class="st">"m"</span>, </span>
 <span>              age <span class="op">=</span> <span class="va">rus2000</span><span class="op">$</span><span class="va">age</span>, </span>
 <span>              method <span class="op">=</span> <span class="st">"andreev"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dec</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   age   ex1   ex2     lx2  dex ex12  ex12_prc</span></span>
-<span><span class="co">#&gt; 1   0 58.99 63.04 1.00000 4.05 0.53 13.022113</span></span>
-<span><span class="co">#&gt; 2   1 59.04 62.59 0.99124 3.55 0.11  2.702703</span></span>
-<span><span class="co">#&gt; 3   5 55.29 58.74 0.98885 3.45 0.07  1.719902</span></span>
-<span><span class="co">#&gt; 4  10 50.45 53.84 0.98710 3.39 0.05  1.228501</span></span>
-<span><span class="co">#&gt; 5  15 45.59 48.94 0.98519 3.35 0.21  5.159705</span></span>
-<span><span class="co">#&gt; 6  20 41.05 44.21 0.97937 3.16 0.45 11.056511</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   0 58.99 63.04 1.00000 4.05 0.54 13.235294</span></span>
+<span><span class="co">#&gt; 2   1 59.04 62.59 0.99124 3.55 0.11  2.696078</span></span>
+<span><span class="co">#&gt; 3   5 55.29 58.74 0.98885 3.45 0.07  1.715686</span></span>
+<span><span class="co">#&gt; 4  10 50.45 53.84 0.98710 3.39 0.05  1.225490</span></span>
+<span><span class="co">#&gt; 5  15 45.59 48.94 0.98519 3.35 0.22  5.392157</span></span>
+<span><span class="co">#&gt; 6  20 41.05 44.21 0.97937 3.16 0.46 11.274510</span></span></code></pre></div>
 <p>Than let us plot the result of <code>decomp</code> using
 <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -532,29 +554,25 @@ England and Wales men mortality by some causes are presented.</p>
 required.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#US men</span></span>
-<span><span class="va">mx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>all <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">all</span>, </span>
-<span>            neoplasm <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">neoplasms</span>, </span>
-<span>            circulatory <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">circulatory</span>, </span>
-<span>            respiratory <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">respiratory</span>,</span>
-<span>            digestive <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">digestive</span>,</span>
-<span>            accident <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">accident</span>,</span>
-<span>            other <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"usa"</span>,<span class="op">]</span><span class="op">$</span><span class="va">other</span><span class="op">)</span></span>
+<span><span class="va">mx1</span> <span class="op">&lt;-</span> <span class="va">mdecompex</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnt</span> <span class="op">==</span> <span class="st">"usa"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">cnt</span>, <span class="op">-</span><span class="va">age</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">all</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">#England and Wales men</span></span>
-<span><span class="va">mx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>all <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">all</span>, </span>
-<span>            neoplasm <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">neoplasms</span>, </span>
-<span>            circulatory <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">circulatory</span>, </span>
-<span>            respiratory <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">respiratory</span>,</span>
-<span>            digestive <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">digestive</span>,</span>
-<span>            accident <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">accident</span>,</span>
-<span>            other <span class="op">=</span> <span class="va">mdecompex</span><span class="op">[</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">cnt</span><span class="op">==</span><span class="st">"eng"</span>,<span class="op">]</span><span class="op">$</span><span class="va">other</span><span class="op">)</span></span>
+<span><span class="va">mx2</span> <span class="op">&lt;-</span> <span class="va">mdecompex</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnt</span> <span class="op">==</span> <span class="st">"eng"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">cnt</span>, <span class="op">-</span><span class="va">age</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">all</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">decm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mdecomp.html">mdecomp</a></span><span class="op">(</span>mx1 <span class="op">=</span> <span class="va">mx1</span>, </span>
 <span>              mx2 <span class="op">=</span> <span class="va">mx2</span>, </span>
 <span>              sex <span class="op">=</span> <span class="st">"m"</span>, </span>
-<span>              age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<span>              age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>, </span>
+<span>              method <span class="op">=</span> <span class="st">"andreev"</span></span>
 <span>              <span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">decm</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   age ex12      neoplasm  circulatory   respiratory     digestive   accident</span></span>
+<span><span class="co">#&gt;   age ex12     neoplasms  circulatory   respiratory     digestive   accident</span></span>
 <span><span class="co">#&gt; 1   0 0.13  0.0009474709 7.090137e-03  0.0042212672  7.167768e-03 0.02282901</span></span>
 <span><span class="co">#&gt; 2   1 0.03 -0.0025030458 5.483996e-04  0.0020247182  6.245908e-04 0.03637029</span></span>
 <span><span class="co">#&gt; 3   5 0.02 -0.0016468368 8.262058e-05 -0.0001300012  9.929857e-05 0.02178479</span></span>
@@ -615,7 +633,7 @@ and
 from neoplasm.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">mx1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"neoplasm"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">mx1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"neoplasms"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">age</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">mdecompex</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
 <span><span class="va">mlt.res</span> <span class="op">=</span> <span class="fu"><a href="../reference/MLT.html">MLT</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">mx</span><span class="op">)</span></span>
 <span><span class="va">mlt.res</span></span>
@@ -639,26 +657,26 @@ from neoplasm.</p>
 <span><span class="co">#&gt; [17,]  75 0.05524 2.500 0.24269 0.58827 0.14277 2.58445  6.18111 10.51</span></span>
 <span><span class="co">#&gt; [18,]  80 0.08654 2.500 0.35575 0.44551 0.15849 1.83131  3.59666  8.07</span></span>
 <span><span class="co">#&gt; [19,]  85 0.16258 6.151 1.00000 0.28702 0.28702 1.76535  1.76535  6.15</span></span>
-<span><span class="co">#&gt;       qx_neoplasm dx_neoplasm lx_neoplasm</span></span>
-<span><span class="co">#&gt;  [1,]     0.00003     0.00003     0.24395</span></span>
-<span><span class="co">#&gt;  [2,]     0.00012     0.00012     0.24392</span></span>
-<span><span class="co">#&gt;  [3,]     0.00015     0.00015     0.24380</span></span>
-<span><span class="co">#&gt;  [4,]     0.00015     0.00015     0.24365</span></span>
-<span><span class="co">#&gt;  [5,]     0.00021     0.00021     0.24350</span></span>
-<span><span class="co">#&gt;  [6,]     0.00030     0.00030     0.24329</span></span>
-<span><span class="co">#&gt;  [7,]     0.00037     0.00036     0.24299</span></span>
-<span><span class="co">#&gt;  [8,]     0.00059     0.00057     0.24263</span></span>
-<span><span class="co">#&gt;  [9,]     0.00102     0.00098     0.24206</span></span>
-<span><span class="co">#&gt; [10,]     0.00218     0.00208     0.24108</span></span>
-<span><span class="co">#&gt; [11,]     0.00451     0.00424     0.23900</span></span>
-<span><span class="co">#&gt; [12,]     0.00855     0.00785     0.23476</span></span>
-<span><span class="co">#&gt; [13,]     0.01529     0.01359     0.22691</span></span>
-<span><span class="co">#&gt; [14,]     0.02537     0.02149     0.21332</span></span>
-<span><span class="co">#&gt; [15,]     0.03829     0.03012     0.19183</span></span>
-<span><span class="co">#&gt; [16,]     0.05411     0.03800     0.16171</span></span>
-<span><span class="co">#&gt; [17,]     0.06992     0.04113     0.12371</span></span>
-<span><span class="co">#&gt; [18,]     0.08265     0.03682     0.08258</span></span>
-<span><span class="co">#&gt; [19,]     0.15944     0.04576     0.04576</span></span></code></pre></div>
+<span><span class="co">#&gt;       qx_neoplasms dx_neoplasms lx_neoplasms ex_no_neoplasms</span></span>
+<span><span class="co">#&gt;  [1,]      0.00003      0.00003      0.24395           84.29</span></span>
+<span><span class="co">#&gt;  [2,]      0.00012      0.00012      0.24392           83.93</span></span>
+<span><span class="co">#&gt;  [3,]      0.00015      0.00015      0.24380           80.03</span></span>
+<span><span class="co">#&gt;  [4,]      0.00015      0.00015      0.24365           75.08</span></span>
+<span><span class="co">#&gt;  [5,]      0.00021      0.00021      0.24350           70.14</span></span>
+<span><span class="co">#&gt;  [6,]      0.00030      0.00030      0.24329           65.40</span></span>
+<span><span class="co">#&gt;  [7,]      0.00037      0.00036      0.24299           60.76</span></span>
+<span><span class="co">#&gt;  [8,]      0.00059      0.00057      0.24263           56.06</span></span>
+<span><span class="co">#&gt;  [9,]      0.00102      0.00098      0.24206           51.37</span></span>
+<span><span class="co">#&gt; [10,]      0.00218      0.00208      0.24108           46.73</span></span>
+<span><span class="co">#&gt; [11,]      0.00451      0.00424      0.23900           42.18</span></span>
+<span><span class="co">#&gt; [12,]      0.00855      0.00785      0.23476           37.72</span></span>
+<span><span class="co">#&gt; [13,]      0.01529      0.01359      0.22691           33.34</span></span>
+<span><span class="co">#&gt; [14,]      0.02537      0.02149      0.21332           29.02</span></span>
+<span><span class="co">#&gt; [15,]      0.03829      0.03012      0.19183           24.82</span></span>
+<span><span class="co">#&gt; [16,]      0.05411      0.03800      0.16171           20.73</span></span>
+<span><span class="co">#&gt; [17,]      0.06992      0.04113      0.12371           16.72</span></span>
+<span><span class="co">#&gt; [18,]      0.08265      0.03682      0.08258           12.54</span></span>
+<span><span class="co">#&gt; [19,]      0.15944      0.04576      0.04576            7.32</span></span></code></pre></div>
 <p>From this table one can calculate, for ex.,</p>
 <ul>
 <li>Proportion of newborn that will eventually die from cause i:
@@ -707,15 +725,15 @@ if there is no deaths from neoplasm (i).</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">asdt_neoplasm</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">ex</span>, color <span class="op">=</span> <span class="st">"ex"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">ex</span>, color <span class="op">=</span> <span class="st">"ex all"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">ex_without_i</span>, color <span class="op">=</span> <span class="st">"ex without neoplasms"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="demor_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">asdt_neoplasm</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">lx</span>, color <span class="op">=</span> <span class="st">"ex"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">l_not_i</span>, color <span class="op">=</span> <span class="st">"ex without neoplasms"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">lx</span>, color <span class="op">=</span> <span class="st">"lx all"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">l_not_i</span>, color <span class="op">=</span> <span class="st">"lx without neoplasms"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.5</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="demor_files/figure-html/unnamed-chunk-20-2.png" width="700"></p>
@@ -726,9 +744,8 @@ if there is no deaths from neoplasm (i).</p>
 <p>In <code>demor</code> there is a function <code>mort.approx</code>
 for modeling mx. Now “Gompertz” and “Brass” are supported (see Preston,
 Heuveline &amp; Guillot, 2001 for more details on the functions).</p>
-<p>Function returns list with estimated model (parameters, R-squared,
-variance-covariance matrix of parameters) and dataframe with predicted
-mx.</p>
+<p>Function returns list with estimated model and dataframe with
+predicted mx.</p>
 <p>The example below shows the model that try to approximate mx of
 russian men in 2010 using Brass function and russian mortality of 2000
 as standard mortality.</p>
@@ -741,28 +758,24 @@ as standard mortality.</p>
 <span>                          age <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">age</span>,</span>
 <span>                          model <span class="op">=</span> <span class="st">"Brass"</span>,</span>
 <span>                          standard.mx <span class="op">=</span> <span class="va">rus2000</span><span class="op">$</span><span class="va">mx</span>,</span>
-<span>                          boot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span>                          sex <span class="op">=</span> <span class="st">"m"</span><span class="op">)</span></span>
 <span><span class="va">brass_2010</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; $type</span></span>
-<span><span class="co">#&gt; [1] "Brass"</span></span>
+<span><span class="co">#&gt; Nonlinear regression model</span></span>
+<span><span class="co">#&gt;   model: 0.5 * log((qx/(1 - qx))) ~ a + b * stand.logit</span></span>
+<span><span class="co">#&gt;    data: parent.frame()</span></span>
+<span><span class="co">#&gt;        a        b </span></span>
+<span><span class="co">#&gt; -0.06074  1.07357 </span></span>
+<span><span class="co">#&gt;  residual sum-of-squares: 0.09628</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $params</span></span>
-<span><span class="co">#&gt;           a           b </span></span>
-<span><span class="co">#&gt; -0.06074055  1.07357088 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $covmat</span></span>
-<span><span class="co">#&gt;              a            b</span></span>
-<span><span class="co">#&gt; a 0.0011738655 0.0005893843</span></span>
-<span><span class="co">#&gt; b 0.0005893843 0.0004137586</span></span></code></pre></div>
-<p>Lets plot the modeled and observed mx with bootstrapped 95% CI.</p>
+<span><span class="co">#&gt; Number of iterations to convergence: 1 </span></span>
+<span><span class="co">#&gt; Achieved convergence tolerance: 1.178e-08</span></span></code></pre></div>
+<p>Lets plot the modeled and observed mx.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brass_2010</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>mx <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">mx</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">mx</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"Observed"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">mx.pred</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"Predicted"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">low_2.5prc</span><span class="op">)</span>, ymax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">high_97.5prc</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>              alpha <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Age"</span>, y <span class="op">=</span> <span class="st">"ln mx"</span><span class="op">)</span></span></code></pre></div>
@@ -819,7 +832,8 @@ the previous chunk with <code>get_rosbris</code>:</p>
 popular measure of fertility - that is standardized measure of “the
 average number of children a woman would bear if she survived through
 the end of the reproductive age span and experienced at each age a
-particular set of age-specific fertility ages” (<span class="citation">Preston, Heuveline, and Guillot (<a href="#ref-preston">2001</a>)</span>, p. 95).</p>
+particular set of age-specific fertility ages” <span class="citation">(<a href="#ref-preston">Preston, Heuveline, and Guillot
+2001, 95</a>)</span>.</p>
 <p>Surely, using <code>tfr</code> function one can compute TFR by parity
 whereby using
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>f</mi><mi>x</mi><mi>p</mi></msubsup><annotation encoding="application/x-tex">f_x^p</annotation></semantics></math>
@@ -833,6 +847,33 @@ instead of overall
 <span>  age.int <span class="op">=</span> <span class="fl">1</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.565588</span></span></code></pre></div>
+<p>However, period “TFR is a very problematic measure for assessing both
+the need for and the impact of policy changes and, more generally, for
+studying fertility trends in conjunction with selected social and
+economic trends” <span class="citation">(<a href="#ref-sobotka2010misleading">Sobotka and Lutz 2010,
+639</a>)</span>. One correction to usual TFR is a tempo (meaning
+fertility schedule) adjusted TFR, TFR’, proposed by <span class="citation">Bongaarts and Feeney (<a href="#ref-bongaarts_tfr1">1998</a>)</span> (see also <span class="citation">Bongaarts and Feeney (<a href="#ref-bongaarts_tfr2">2000</a>)</span>). To calculate it, one can
+use <code>tatfr</code> function:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">dbf5</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_fertility_pop_5.html">rosbris_fertility_pop_5</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">code</span> <span class="op">==</span> <span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2009</span><span class="op">:</span><span class="fl">2011</span> <span class="op">&amp;</span> <span class="va">territory</span> <span class="op">==</span> <span class="st">"t"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">past_fx</span> <span class="op">=</span> <span class="va">dbf5</span><span class="op">[</span><span class="va">dbf5</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2009</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">present_fx</span> <span class="op">=</span> <span class="va">dbf5</span><span class="op">[</span><span class="va">dbf5</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2010</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">post_fx</span> <span class="op">=</span> <span class="va">dbf5</span><span class="op">[</span><span class="va">dbf5</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2011</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tatfr.html">tatfr</a></span><span class="op">(</span>past_fx <span class="op">=</span> <span class="va">past_fx</span>, present_fx <span class="op">=</span> <span class="va">present_fx</span>, post_fx <span class="op">=</span> <span class="va">post_fx</span>, age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">50</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $tatfr</span></span>
+<span><span class="co">#&gt; [1] 1.726415</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tatfr_i</span></span>
+<span><span class="co">#&gt; [1] 0.91379429 0.57933163 0.16968478 0.04180952 0.02179487</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tfr</span></span>
+<span><span class="co">#&gt; [1] 1.584185</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tfr_i</span></span>
+<span><span class="co">#&gt; [1] 0.799570 0.567745 0.156110 0.039510 0.021250</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="mac">MAC<a class="anchor" aria-label="anchor" href="#mac"></a>
@@ -844,7 +885,7 @@ childbearing by parity whereby using
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>f</mi><mi>x</mi><mi>p</mi></msubsup><annotation encoding="application/x-tex">f_x^p</annotation></semantics></math>
 instead of overall
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>x</mi></msub><annotation encoding="application/x-tex">f_x</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mac.html">mac</a></span><span class="op">(</span></span>
 <span>  <span class="co">#asFR</span></span>
 <span>  <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>,</span>
@@ -873,7 +914,7 @@ variance-covariance matrix of parameters) and dataframe with predicted
 ASFR.</p>
 <p>The example below shows the model that try to approximate ASFR of
 russian women in 2010 using Gamma function.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">approximation_2010</span> <span class="op">=</span> <span class="fu"><a href="../reference/fert.approx.html">fert.approx</a></span><span class="op">(</span>fx <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span>, model <span class="op">=</span> <span class="st">"Gamma"</span>, boot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">approximation_2010</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -896,7 +937,7 @@ russian women in 2010 using Gamma function.</p>
 <p>Lets plot the modeled and observed ASFR with bootstrapped 95% CI. One
 can see that model perfectly approximates real ASFR from 15 to 40 ages,
 while after the fit is not really good.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">=</span> <span class="va">approximation_2010</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
@@ -906,9 +947,9 @@ while after the fit is not really good.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>real <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">real</span>, color <span class="op">=</span> <span class="st">"Observed fx"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"fx"</span>, x <span class="op">=</span> <span class="st">"Age"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 <p>Lets now do the same procedure but with Hadwiger function:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="../reference/fert.approx.html">fert.approx</a></span><span class="op">(</span>fx <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span>, model <span class="op">=</span> <span class="st">"Hadwiger"</span>, boot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
@@ -918,9 +959,9 @@ while after the fit is not really good.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>real <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">real</span>, color <span class="op">=</span> <span class="st">"Observed fx"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"fx"</span>, x <span class="op">=</span> <span class="st">"Age"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 <p>Lets now do the same procedure but with Brass function:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="../reference/fert.approx.html">fert.approx</a></span><span class="op">(</span>fx <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span>, model <span class="op">=</span> <span class="st">"Brass"</span>, boot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
@@ -930,7 +971,7 @@ while after the fit is not really good.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>real <span class="op">=</span> <span class="va">rus2010f</span><span class="op">$</span><span class="va">fx</span>, age <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">55</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">real</span>, color <span class="op">=</span> <span class="st">"Observed fx"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"fx"</span>, x <span class="op">=</span> <span class="st">"Age"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -944,7 +985,7 @@ that provides users with basic <em>Lee-Carter model</em> (proposed by
 <span class="citation">Lee and Carter (<a href="#ref-leecarter">1992</a>)</span> and that now has a lot of
 extensions, which are not yet implemented in the <code>demor</code>) for
 mortality forecasting:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_mortality_pop_1.html">rosbris_mortality_pop_1</a></span></span>
 <span></span>
@@ -967,7 +1008,7 @@ mortality forecasting:</p>
 <p>One can plot the results using <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a> to compare
 predicted data with actual that, however, requires some data
 handling:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#LE data calculation</span></span>
 <span><span class="va">ledata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2022</span>, lem <span class="op">=</span> <span class="cn">NA</span>, lem.predicted <span class="op">=</span> <span class="cn">NA</span>, ci.low <span class="op">=</span> <span class="cn">NA</span>, ci.high <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2022</span><span class="op">)</span><span class="op">{</span></span>
@@ -1000,7 +1041,7 @@ handling:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"darkred"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Male's LE at birth"</span>, colour <span class="op">=</span> <span class="st">"Data:"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="leslie-matrix-cohort-component-model">Leslie matrix &amp; Cohort-component model<a class="anchor" aria-label="anchor" href="#leslie-matrix-cohort-component-model"></a>
@@ -1008,14 +1049,15 @@ handling:</p>
 <p>Leslie matrix is a powerful tool for demographic analysis that was
 introduced by <span class="citation">Leslie (<a href="#ref-Leslie">1945</a>)</span>. For a nice and detailed
 introduction to it and matrix projections in general, see <span class="citation">Wachter (<a href="#ref-ess_demor">2014</a>)</span>,
-p. 98-122. Also see R package <code>demogR</code> and its tutorial <span class="citation">(<a href="#ref-demogR">Jones 2007</a>)</span> for more
-on “matrix methods” in demography.</p>
+p. 98-122. Also see R package <a href="https://cran.r-project.org/web/packages/demogR/index.html" class="external-link"><code>demogR</code></a>
+and its tutorial <span class="citation">(<a href="#ref-demogR">Jones
+2007</a>)</span> for more on “matrix methods” in demography.</p>
 <p>In the <code>demor</code> one can compute its using
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>x</mi></msub><annotation encoding="application/x-tex">m_x</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>x</mi></msub><annotation encoding="application/x-tex">f_x</annotation></semantics></math>
 that is age-specific mortality and fertility rates respectively.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span>,<span class="op">]</span><span class="op">$</span><span class="va">mx</span></span>
 <span><span class="va">fx</span> <span class="op">&lt;-</span> <span class="va">dbf</span><span class="op">[</span><span class="va">dbf</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span>,<span class="op">]</span><span class="op">$</span><span class="va">fx</span></span>
 <span></span>
@@ -1061,7 +1103,7 @@ is a column vector of size
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 of 1.</p>
 <p>So, in the R it is</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">les</span></span>
 <span><span class="va">M</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">E</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html" class="external-link">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">-</span><span class="va">M</span><span class="op">)</span></span>
@@ -1088,20 +1130,20 @@ and then the
 from life table and Leslie matrix will be identical (in
 <code>leslie</code> one can write <code>fin = TRUE</code> to get this;
 by default, it is <code>FALSE</code> as in this example).</p>
-<p><img src="demor_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 <p>Also from
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐋</mi><annotation encoding="application/x-tex">\pmb L</annotation></semantics></math>
 one can compute stable population properties: stable age distribution,
 asymptotic growth rate, etc. For more details, references and functions
-see <span class="citation">Jones (<a href="#ref-demogR">2007</a>)</span>, p. 10-24 where R package
-<code>demogR</code> for matrix demographic models and their analysis was
-introduced. Below is some simple example how to do it “by hand”:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+see <span class="citation">Jones (<a href="#ref-demogR">2007</a>)</span>, p. 10-24 where R package <a href="https://cran.r-project.org/web/packages/demogR/index.html" class="external-link"><code>demogR</code></a>
+for matrix demographic models and their analysis was introduced. Below
+is some simple example how to do it “by hand”:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">les</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">)</span> <span class="co"># largest real eigenvalue</span></span>
 <span><span class="va">lvector</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">les</span><span class="op">)</span><span class="op">$</span><span class="va">vectors</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">lambda</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="co"># corresponding eigenvector</span></span>
-<span><span class="va">stable_age</span> <span class="op">=</span> <span class="va">lvector</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lvector</span><span class="op">)</span> <span class="co"># stable age distribution</span></span></code></pre></div>
+<span><span class="va">stable_age</span> <span class="op">=</span> <span class="va">lvector</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lvector</span><span class="op">)</span> <span class="co"># stable age distribution (normalized to sum to 1) </span></span></code></pre></div>
 <p>The graph below compares observable and stable age distributions
-<img src="demor_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<img src="demor_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 <p>Finally, one of the most important implications of Leslie matrix is
 the demographic projection in a concise and efficient matrix form.
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>𝐋</mi><mo>×</mo><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
@@ -1126,10 +1168,11 @@ it is easier (and more accurate) to use iterative procedure since the
 modern computers are able to do it in a second (for reasonable horizon),
 but one surely can diagonalize
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐋</mi><annotation encoding="application/x-tex">\pmb L</annotation></semantics></math>
-and find its transition matrix to reach more efficient calculations.</p>
+and find its transition matrix to reach more efficient (though less
+accurate) calculations.</p>
 <p>Below is a small function to produce such constant-rates projections
 assuming closed population and using iterative procedure:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">constant.proj</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">les</span>, <span class="va">h</span>, <span class="va">N</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span></span>
 <span>  <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">h</span><span class="op">)</span><span class="op">{</span></span>
@@ -1155,11 +1198,11 @@ assuming closed population and using iterative procedure:</p>
 <p>And two graphs below show dynamics of total female population (in
 mln) and female population age structure (in %) that converges to stable
 population age structure.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">:</span><span class="fl">2100</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">Nt</span><span class="op">)</span><span class="op">/</span><span class="fl">1e6</span>, type <span class="op">=</span> <span class="st">"l"</span>, </span>
 <span>     xlab <span class="op">=</span> <span class="st">"year"</span>, ylab <span class="op">=</span> <span class="st">"Female Population (mln)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<p><img src="demor_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Nt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -1178,7 +1221,7 @@ population age structure.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"longdash"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"age"</span>, y <span class="op">=</span> <span class="st">"Age structure (%)"</span>, color <span class="op">=</span> <span class="st">"Year:"</span>, linetype <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1190,15 +1233,15 @@ population age structure.</p>
 <p><code>plot_pyr</code> plots population pyramid using <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a></p>
 <p>Lets create population pyramid using midyear population from Rosbris
 mortality data. We already have data in <code>dbm</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plot_pyr.html">plot_pyr</a></span><span class="op">(</span></span>
 <span>  popm <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2022</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>,</span>
 <span>  popf <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2022</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>, </span>
 <span>  age <span class="op">=</span> <span class="va">dbm</span><span class="op">[</span><span class="va">dbm</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2022</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 <p>Also one can redesigned plot using <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a> commands:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">plot</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_pyr.html">plot_pyr</a></span><span class="op">(</span></span>
@@ -1213,22 +1256,22 @@ mortality data. We already have data in <code>dbm</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Rissian population in 2010"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"f"</span>, <span class="st">"m"</span><span class="op">)</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pink"</span>, <span class="st">"lightblue"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<p><img src="demor_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plot_pyr.html">plot_pyr</a></span><span class="op">(</span></span>
 <span>  popm <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>,</span>
 <span>  popf <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>, </span>
 <span>  age <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span>,<span class="op">]</span><span class="op">$</span><span class="va">age</span>, </span>
 <span>  age.cont <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="demor_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
+<p><img src="demor_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="median-age">Median age<a class="anchor" aria-label="anchor" href="#median-age"></a>
 </h3>
 <p>Also one can compute median age of some population, using vectors of
 population sizes in the age groups and that age groups.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Using 1-year age interval</span></span>
 <span><span class="fu"><a href="../reference/med.age.html">med.age</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">N</span>,</span>
 <span>        age <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span>,<span class="op">]</span><span class="op">$</span><span class="va">age</span>,</span>
@@ -1250,7 +1293,7 @@ example, array with
 it can convert to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>&lt;</mo><mn>5</mn><mo>,</mo><mn>6</mn><mo>−</mo><mn>9</mn><mo>,</mo><mn>10</mn><mo>−</mo><mn>14</mn><mi>.</mi><mi>.</mi><mi>.</mi><mn>85</mn><mo>+</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{&lt;5,6-9,10-14 ... 85+ \}</annotation></semantics></math>
 using user-specific lower boundaries.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">45</span>, <span class="fl">85</span><span class="op">)</span> <span class="co">#lower boundaries of age groups</span></span>
 <span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span> <span class="co">#array with ages</span></span>
 <span></span>
@@ -1266,6 +1309,12 @@ using user-specific lower boundaries.</p>
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Drewnowski" class="csl-entry">
+Aburto, José Manuel, Ugofilippo Basellini, Annette Baudisch, and
+Francisco Villavicencio. 2022. <span>“Drewnowski’s Index to Measure
+Lifespan Variation: Revisiting the Gini Coefficient of the Life
+Table.”</span> <em>Theoretical Population Biology</em> 148: 1–10. <a href="https://doi.org/10.1016/j.tpb.2022.08.003" class="external-link">https://doi.org/10.1016/j.tpb.2022.08.003</a>.
+</div>
 <div id="ref-and_sch_mdecomp" class="csl-entry">
 Andreev, E. M., and V. M. Shkolnikov. 2012. <span>“An Excel Spreadsheet
 for the Decomposition of a Difference Between Two Values of an Aggregate
@@ -1282,11 +1331,25 @@ mortality</span>.”</span> <em>Demographic Research</em> 33 (13): 363–90.
 Arriaga, Eduardo E. 1984. <span>“Measuring and Explaining the Change in
 Life Expectancies.”</span> <em>Demography</em> 21 (1): 83–96. <a href="https://doi.org/10.2307/2061029" class="external-link">https://doi.org/10.2307/2061029</a>.
 </div>
+<div id="ref-bongaarts_tfr1" class="csl-entry">
+Bongaarts, John, and Griffith Feeney. 1998. <span>“On the Quantum and
+Tempo of Fertility.”</span> <em>Population and Development Review</em>,
+271–91.
+</div>
+<div id="ref-bongaarts_tfr2" class="csl-entry">
+———. 2000. <span>“On the Quantum and Tempo of Fertility: Reply.”</span>
+<em>Population and Development Review</em> 26 (3): 560–64.
+</div>
 <div id="ref-hli" class="csl-entry">
 Ghislandi, Simone, Warren C. Sanderson, and Sergei Scherbov. 2019.
 <span>“A Simple Measure of Human Development: The Human Life
 Indicator.”</span> <em>Population and Development Review</em> 45 (1):
 219–33. <a href="https://doi.org/10.1111/padr.12205" class="external-link">https://doi.org/10.1111/padr.12205</a>.
+</div>
+<div id="ref-hanada_gini" class="csl-entry">
+Hanada, Kyo. 1983. <span>“A Formula of Gini’s Concentration Ratio and
+Its Application to Life Tables.”</span> <em>Journal of the Japan
+Statistical Society, Japanese Issue</em> 13 (2): 95–98. <a href="https://doi.org/10.11329/jjss1970.13.95" class="external-link">https://doi.org/10.11329/jjss1970.13.95</a>.
 </div>
 <div id="ref-demogR" class="csl-entry">
 Jones, James Holland. 2007. <span>“demogR: A Package for the
@@ -1326,6 +1389,11 @@ Computation from discrete data, decomposition of differences and
 empirical examples</span>.”</span> <em>Demographic Research</em> 8 (11):
 305–58. <a href="https://doi.org/10.4054/DemRes.2003.8.11" class="external-link">https://doi.org/10.4054/DemRes.2003.8.11</a>.
 </div>
+<div id="ref-sobotka2010misleading" class="csl-entry">
+Sobotka, Tomáš, and Wolfgang Lutz. 2010. <span>“Misleading Policy
+Messages Derived from the Period TFR: Should We Stop Using It?”</span>
+<em>Comparative Population Studies</em> 35 (3).
+</div>
 <div id="ref-rosbris" class="csl-entry">
 <span>“<span class="nocase">The Russian Fertility and Mortality
 database</span>.”</span> 2024. <em>Database</em>. The Centre for
@@ -1339,6 +1407,16 @@ Keyfitz’s 90th Birthday.”</span> <em>Demography</em> 40: 201–16. <a href="
 <div id="ref-ess_demor" class="csl-entry">
 Wachter, Kenneth W. 2014. <em>Essential Demographic Methods</em>.
 Harvard University Press.
+</div>
+<div id="ref-comp_ineq1" class="csl-entry">
+Wilmoth, John R, and Shiro Horiuchi. 1999. <span>“Rectangularization
+Revisited: Variability of Age at Death Within Human Populations.”</span>
+<em>Demography</em> 36 (4): 475–95. <a href="https://doi.org/10.2307/2648085" class="external-link">https://doi.org/10.2307/2648085</a>.
+</div>
+<div id="ref-comp_ineq2" class="csl-entry">
+Wrycza, Tomasz F, Trifon I Missov, and Annette Baudisch. 2015.
+<span>“Quantifying the Shape of Aging.”</span> <em>PloS One</em> 10 (3):
+e0119163. <a href="https://doi.org/10.1371/journal.pone.0119163" class="external-link">https://doi.org/10.1371/journal.pone.0119163</a>.
 </div>
 <div id="ref-andreev_dec" class="csl-entry">
 Андреев, ЕМ. 1982. <span>“Метод Компонент в Анализе Продолжительности
