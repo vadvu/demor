@@ -2,15 +2,15 @@
 #'
 #' @param fx Numeric vector of age specific fertility rates.
 #' @param age Numeric vector of ages.
-#' @param model Character. Model name to be estimated. Now "Hadwiger" and "Gamma" are supported.
-#' @param boot Logical. Should bootstrapped 95% confidence intervals for ASFR approximation be calculated. Default is `FALSE` for no bootstrap.
+#' @param model Character. Model name to be estimated. Now "Hadwiger", "Gamma", "Brass" and "Beta" are supported.
+#' @param se Logical. Should bootstrapped variance for ASFR approximation be calculated. Default is `FALSE` for no bootstrap.
 #' @param start Numeric vector with user-specific values of parameters for optimization. Default is `NULL` (choose automatically)
-#' @import dplyr
-#' @return list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
+#' @param alpha Numeric. Used if `se = TRUE`, the level of uncertainty. By default, `alpha = 0.05` for 95% CI.
+#' @param bn Numeric. Used if `se = TRUE`, number of bootstrap samples. By default, `bn = 1000`.
+#' @return list with estimated model (parameters, variance-covariance matrix, percentiles of parameters) and dataframe with predicted and observed ASFR as well as SE and percentile of predictions
 #'
 #' @details
-#' This function runs least squares optimization of the selected fertility function using Port algorithm with 2000 maximum iterations
-#' and 1e-07 as tolerance parameter.
+#' This function runs least squares optimization of the selected fertility function with 1e-06 as tolerance parameter.
 #' ## Hadwiger model
 #' The model is as follows: \deqn{f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]}
 #' ## Gamma model
@@ -25,147 +25,146 @@
 #'
 #' @examples
 #'
-#' # fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", boot = FALSE)
+#' # fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", se = FALSE)
 #'
-fert.approx <- function(fx, age, model, boot = F, start = NULL){
+fert.approx <- function(fx, age, model, start = NULL, se = F, alpha = 0.05, bn = 1000){
+
+  ##### Checks
 
   if(length(age) != length(fx)){
     stop("age and fx do not have the same length")
   }
-  if(!(model %in% c("Hadwiger", "Gamma", "Brass"))){
+  if(!(model %in% c("Hadwiger", "Gamma", "Brass", "Beta"))){
     stop("model can be only 'Hadwiger', 'Gamma', or 'Brass'")
   }
 
-  if(model == "Hadwiger"){
-    form <- as.formula(paste0("fx ~ (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))"))
+  ##### Models
 
-    hadw <- function(pars){
-      a = pars[1]; b = pars[2]; c = pars[3]
-      pred.fx = (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))
-      sum((fx - pred.fx)^2)
-    }
-    if(!is.null(start)){
-      first.pars <- start
-    }else{
-      first.pars <- c(tfr(fx, unique(diff(age))),
-                      (max(fx)*mac(fx, age))/tfr(fx, unique(diff(age))),
-                      mac(fx, age))
-    }
-    m1 <- optim(par = first.pars,
-    fn = hadw, control =  list(maxit = 1e6))
-    m2 <- optim(par = m1$par,
-                fn = hadw, control =  list(maxit = 1e6))
-
-    while(m1$value - m2$value > 1e-06){
-      m1 <- m2
-      m2 <- optim(par = m1$par,
-                  fn = hadw, control =  list(maxit = 1e6))
-    }
-
-    start.val = list(a = m2$par[1], b = m2$par[2], c = m2$par[3])
-    lower.val = c(0,0,0)
-    upper.val = c(999,999,999)
+  hadw <- function(pars, age){
+    a = pars[1]; b = pars[2]; c = pars[3]
+    fx.pred = (a*b/c)*(c/age)^(1.5) * exp(-b^2*(c/age + age/c - 2))
+    fx.pred
   }
-  if(model == "Gamma"){
-    form <- as.formula(paste0("fx ~ R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )"))
+  mygamma <- function(pars, age){
+    R = pars[1]; b = pars[2]; c = pars[3]; d = pars[4]
+    fx.pred = R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )
+    fx.pred
+  }
+  brass <- function(pars, age){
+    c = pars[1]; d = pars[2]; w = pars[3]
+    fx.pred = c*(age - d)*(d+w-age)^2
+    fx.pred
+  }
+  mybeta <- function(pars, age){
+    a = pars[1]; b = pars[2]; v = pars[3]; tau.sq = pars[4]; R = pars[5]
+    B = ((v-a)*(b-v)/tau.sq - 1)*((b-v)/(b-a))
+    A = B*(v - a)/(b-v)
+    fx.pred =  R*(1/beta(A, B)) * (b - a)^-(A+B-1) * (age-a)^(A-1) * (b-age)^(B-1)
+    fx.pred
+  }
 
-    mygamma2 <- function(pars){
-      R = pars[1]; b = pars[2]; c = pars[3]; d = pars[4]
-      fx.pred = R*( 1/( gamma(b)*c^b ) ) * (age-d)^(b-1) * exp( -1*( (age-d)/c ) )
+  ##### Starting parameters
+
+  if(!is.null(start)){
+    first.pars <- start
+  }else if (model == "Hadwiger"){
+    first.pars <- c(tfr(fx, unique(diff(age))),
+                    (max(fx)*mac(fx, age))/tfr(fx, unique(diff(age))),
+                    mac(fx, age)) #a, b, c
+  }else if(model == "Gamma"){
+    first.pars <- c(tfr(fx, unique(diff(age))), 1, 1, min(age)) #R, b, c ,d
+  }else if(model == "Brass"){
+    first.pars <- c(1, min(age), max(age)-min(age)) #c, d, w
+  }else if(model == "Beta"){
+    first.pars <- c(min(age), max(age), mac(fx, age), mac(fx, age)+2, tfr(fx, unique(diff(age)))) #a, b, v, tau.sq, R
+  }
+
+  ##### Estimator
+
+  estimate <- function(mf, pars, fx, age){
+
+    objective <- function(pars, fx, age) {
+      fx.pred <- mf(pars, age = age)
       sum((fx-fx.pred)^2)
     }
-    if(!is.null(start)){
-      first.pars <- start
-    }else{
-      first.pars <- c(tfr(fx, unique(diff(age))), 1, 1, min(age))
-    }
-    m1 <- optim(par = first.pars,
-                fn = mygamma2, control =  list(maxit = 1e6))
+
+    m1 <- optim(par = pars,
+                fn = objective, fx = fx, age = age,
+                control =  list(maxit = 1e6))
     m2 <- optim(par = m1$par,
-                fn = mygamma2, control =  list(maxit = 1e6))
+                fn = objective, fx = fx, age = age,
+                control =  list(maxit = 1e6))
+
     while(m1$value - m2$value > 1e-06){
       m1 <- m2
       m2 <- optim(par = m1$par,
-                  fn = mygamma2, control =  list(maxit = 1e6))
+                  fn = objective, fx = fx, age = age,
+                  control =  list(maxit = 1e6))
     }
-
-    start.val = list(R = m2$par[1], b = m2$par[2], c = m2$par[3], d = m2$par[4])
-    lower.val = c(0, -100, -100, -100)
-    upper.val = c(999,999,999,999)
+    m2
   }
+
+
+  ##### Results
   if(model == "Brass"){
-    form <- as.formula(paste0("fx ~ c*(age - d)*(d+w-age)^2"))
-    if(!is.null(start)){
-      start.val <- list(c = start[1], d = start[2], w = start[3])
-    }else{
-      start.val <- list(c = 1, d = min(age), w = max(age)-min(age))
-    }
-    lower.val = c(0, min(age)-0.01, 0)
-    upper.val = c(999,100,999)
-
+    ffn <- brass
+    nms <- c("c", "d", "w")
+  }else if(model == "Hadwiger"){
+    ffn <- hadw
+    nms <- c("a", "b", "c")
+  }else if(model == "Gamma"){
+    ffn <- mygamma
+    nms <- c("R", "b", "c" ,"d")
+  }else if(model == "Beta"){
+    ffn <- mybeta
+    nms <- c("a", "b", "v", "tau.sq", "R")
   }
-  if(model == "Beta"){
-    #done, not checked
-    mybeta2 <- function(pars){
-      a = pars[1]; b = pars[2];
-      fx.pred = ( ( (age)^(a-1) ) * ( (1-age)^(b-1) ) ) / beta(a,b)
-      sum((fx-fx.pred)^2)
-    }
-    m1 <- optim(par = c(2,2), fn = mybeta2, method = "L-BFGS-B",
-                control =  list(maxit = 1e6),
-                lower = c(0.1, 0.1), upper = c(999, 999))
+  est <- estimate(mf = ffn, first.pars, fx = fx, age = age)
+  names(est$par) <- nms
 
-    form <- as.formula(paste0("fx ~ ( ( (age)^(a-1) ) * ( (1-age)^(b-1) ) ) / beta(a,b)"))
-    start.val = list(a = m1$par[1], b = m1$par[2])
-    lower.val = c(0.01, 0.01)
-    upper.val = c(999, 999)
-  }
-
-  est <- nls(formula = form,
-             start=start.val,
-             lower = lower.val,
-             upper = upper.val,
-             algorithm = "port",
-             control = list(maxiter = 1e6, tol = 1e-07)
-  )
-  predicted = predict(est)
-  Rsq = cor(fx, predict(est))^2
-
-  if(boot){
-    for(i in 1:999){
-      bs = sample(resid(est), size = length(age), replace = T)
-      bs = ifelse(predicted + bs < 0, 0, predicted + bs)
+  #### SE
+  if(se == T){
+    for(i in 1:bn){
+      samplei <- sample(1:length(fx), length(fx), replace = T)
+      esti = estimate(mf = ffn, first.pars, fx = fx[samplei], age = age[samplei])$par
       if(i == 1){
-        pred.boot = data.frame(age = age, pred = bs, i = i)
+        bootpars = matrix(esti, nrow = 1)
+        bootpred = matrix(ffn(esti, age = age), ncol = 1)
       }else{
-        pred.boot = rbind(pred.boot, data.frame(age = age, pred = bs, i = i))
+        bootpars = rbind(bootpars, esti)
+        bootpred = cbind(bootpred, ffn(esti, age = age))
       }
     }
+    covmat = cov(bootpars)
+    prc.pars = apply(bootpars, 2, quantile, probs = alpha/2, na.rm = TRUE)
+    prc.pars = t(rbind(prc.pars, apply(bootpars, 2, quantile, probs = 1-alpha/2, na.rm = TRUE)))
+    rownames(prc.pars) <- nms
+    colnames(prc.pars) <- c("prc.low", "prc.high")
+    se.pred = diag(var(t(bootpred), na.rm = T))^0.5
 
-    ci <- pred.boot %>% dplyr::group_by(age) %>%
-      dplyr::mutate(low_2.5prc = quantile(pred, 0.025),
-                    high_97.5prc = quantile(pred, 0.975)) %>%
-      as.data.frame() %>%
-      dplyr::distinct(age, .keep_all = T) %>%
-      dplyr::mutate(predicted = predicted) %>%
-      dplyr::select(age, predicted, low_2.5prc, high_97.5prc)
-
-    predicted = ci
-
+    return(list(
+      model = list(
+        type = model,
+        params = est$par,
+        covmat = covmat,
+        prc = prc.pars,
+        rmse = sqrt(sum((ffn(est$par, age = age) - fx)^2) / (length(age) - length(est$par)))
+      ),
+      predicted = data.frame(age = age, fx.model = ffn(est$par, age = age), fx = fx, se = se.pred,
+                             prc.low = apply(t(bootpred), 2, quantile, probs = alpha/2, na.rm = TRUE),
+                             prc.high = apply(t(bootpred), 2, quantile, probs = 1-alpha/2, na.rm = TRUE)
+      )
+    )
+    )
   }else{
-    predicted = data.frame(age = age, predicted = predicted)
+    return(list(
+      model = list(
+        type = model,
+        params = est$par,
+        rmse = sqrt(sum((ffn(est$par, age = age) - fx)^2) / (length(age) - length(est$par)))
+      ),
+      predicted = data.frame(age = age, fx.model = ffn(est$par, age = age), fx = fx)
+    )
+    )
   }
-  predicted$observed = fx
-  predicted$predicted <- ifelse(predicted$predicted < 0, 0, predicted$predicted)
-
-  return(list(
-    model = list(
-      type = model,
-      params = coef(est),
-      Rsq = Rsq,
-      covmat = vcov(est)
-    ),
-    predicted = predicted
-  )
-  )
 }

@@ -4,28 +4,31 @@
 \alias{fert.approx}
 \title{Fertility models for ASFR approximation}
 \usage{
-fert.approx(fx, age, model, boot = F, start = NULL)
+fert.approx(fx, age, model, start = NULL, se = F, alpha = 0.05, bn = 1000)
 }
 \arguments{
 \item{fx}{Numeric vector of age specific fertility rates.}
 
 \item{age}{Numeric vector of ages.}
 
-\item{model}{Character. Model name to be estimated. Now "Hadwiger" and "Gamma" are supported.}
-
-\item{boot}{Logical. Should bootstrapped 95\% confidence intervals for ASFR approximation be calculated. Default is \code{FALSE} for no bootstrap.}
+\item{model}{Character. Model name to be estimated. Now "Hadwiger", "Gamma", "Brass" and "Beta" are supported.}
 
 \item{start}{Numeric vector with user-specific values of parameters for optimization. Default is \code{NULL} (choose automatically)}
+
+\item{se}{Logical. Should bootstrapped variance for ASFR approximation be calculated. Default is \code{FALSE} for no bootstrap.}
+
+\item{alpha}{Numeric. Used if \code{se = TRUE}, the level of uncertainty. By default, \code{alpha = 0.05} for 95\% CI.}
+
+\item{bn}{Numeric. Used if \code{se = TRUE}, number of bootstrap samples. By default, \code{bn = 1000}.}
 }
 \value{
-list with estimated model (parameters, R-squred, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
+list with estimated model (parameters, variance-covariance matrix, percentiles of parameters) and dataframe with predicted and observed ASFR as well as SE and percentile of predictions
 }
 \description{
 Fertility models for ASFR approximation
 }
 \details{
-This function runs least squares optimization of the selected fertility function using Port algorithm with 2000 maximum iterations
-and 1e-07 as tolerance parameter.
+This function runs least squares optimization of the selected fertility function with 1e-06 as tolerance parameter.
 \subsection{Hadwiger model}{
 
 The model is as follows: \deqn{f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]}
@@ -43,7 +46,7 @@ The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[
 }
 \examples{
 
-# fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", boot = FALSE)
+# fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", se = FALSE)
 
 }
 \references{

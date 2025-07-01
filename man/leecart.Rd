@@ -2,27 +2,48 @@
 % Please edit documentation in R/leecarter.R
 \name{leecart}
 \alias{leecart}
-\title{Basic Lee-Carter model}
+\title{Lee-Carter model}
 \usage{
-leecart(data, n = 10, concise = TRUE, ...)
+leecart(
+  data,
+  n = 10,
+  alpha = 0.05,
+  model = "RWwD",
+  ax_method = "classic",
+  bx_method = "classic",
+  boot = FALSE,
+  bn = 1000,
+  ...
+)
 }
 \arguments{
 \item{data}{Dataframe with the following columns: age, year, mx}
 
 \item{n}{Numeric. Forecasted horizon}
 
-\item{concise}{Logical. Should results be restricted? \code{TRUE} for just forecast, \code{FALSE} for full data}
+\item{alpha}{Numeric. The level of uncertainty. By default, \code{alpha = 0.05} for 95\% CI.}
+
+\item{model}{Character. Model type for kt forecasting. Can be "RWwD" for random walk with drift (by default, for original Lee-Carter model) or "ARIMA" for ARIMA model which parameters are chosen automatically by \code{forecast::auto.arima()}.}
+
+\item{ax_method}{Character. Method for ax calculation. Can be "classic" from original Lee-Carter model (by default), "last" for using only last available mortality (R. Lee & Miller, 2001) and "last_smooth" for using smoothed last available mortality (Ševčíková et al., 2016, p. 288).}
+
+\item{bx_method}{Character. Method for bx calculation. Can be "classic" from original Lee-Carter model (by default) and "rotate" for rotating bx (Li et al., 2013).}
+
+\item{boot}{Logical. Should bootstrap estimates for uncertainty be used? \code{FALSE} by default.}
+
+\item{bn}{Numeric. Used if \code{boot = TRUE}, number of bootstrap samples. By default, \code{bn = 1000}.}
 
 \item{...}{Optional. Additional arguments for \code{LT} function.}
-
-\item{sex}{Character. Sex. "m" for males or "f" for females.}
 }
 \value{
 Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
 }
 \description{
-Basic Lee-Carter model
+Lee-Carter model
 }
 \references{
-Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. \emph{Journal of the American statistical association}, \emph{87}(\emph{419}), 659-671.
+Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. https://doi.org/10.1080/01621459.1992.10475265
+Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. https://doi.org/10.1353/dem.2001.0036
+Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. https://doi.org/10.1007/s13524-013-0232-2
+Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. https://doi.org/10.1007/978-3-319-26603-9_15
 }

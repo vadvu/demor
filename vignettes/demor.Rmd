@@ -331,7 +331,7 @@ Also one can construct the Multiple Decrement Life Table that expands the usual 
 mx <- mx1[c("all", "neoplasms")]
 age = unique(mdecompex$age)
 mlt.res = MLT(age, mx)
-mlt.res
+head(mlt.res)
 
 ```
 
@@ -398,6 +398,7 @@ brass_2010 <- mort.approx(mx = rus2010$mx,
 brass_2010[[1]]
 ```
 
+
 Lets plot the modeled and observed mx.
 
 ```{r}
@@ -410,6 +411,50 @@ brass_2010[[2]] %>%
   scale_color_manual(values = c("blue", "red"))+
   labs(x = "Age", y = "ln mx")
 ```
+
+
+```{r}
+model1 <- mort.approx(mx = rus2010$mx[-c(1:6)], age = rus2010$age[-c(1:6)], model = "Gompertz")
+```
+
+
+```{r, echo=FALSE}
+model1.comp <- model1$predicted %>% 
+  as.data.frame() %>% 
+  mutate(type = "pred") %>% 
+  rbind(data.frame(age = seq(90, 100, 5)) %>% 
+          mutate(mx.pred = exp(predict(model1$model, data.frame(age = seq(90, 100, 5)))),
+                 type = "pred"
+                 )
+        ) %>% 
+  filter(age > 85) %>% 
+  rbind(data.frame(age = rus2010$age, mx.pred = rus2010$mx, type = "obs5")) %>% 
+  arrange(age)
+
+
+model1.comp$lx <- NA
+model1.comp[model1.comp$type == "obs5",]$lx <- 
+  LT(age = rus2010$age, mx = rus2010$mx)[,"lx"]
+model1.comp[model1.comp$type == "pred",]$lx <- 
+  LT(age = model1.comp$age, mx = model1.comp$mx)[model1.comp$age > 85,"lx"]
+
+
+model1.comp %>% 
+  rbind(x = ., y = model1.comp[model1.comp$age == 85,] %>% mutate(type = "pred")) %>% 
+  mutate(mx.pred = log(mx.pred)) %>% 
+  pivot_longer(cols = c("mx.pred", "lx"), names_to = "indic", values_to = "count") %>% 
+  mutate(indic = ifelse(indic == "lx", "lx", "mx (ln)"),
+         type = ifelse(type == "obs5", "Observed", "Model")
+         ) %>% 
+  ggplot(aes(age, count, color = type))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(~indic, scales = "free")+
+  theme_linedraw()+
+  scale_color_manual(values = c("red", "black"))+
+  labs(x = "", y = "", color = "")
+```
+
 
 
 # Fertility
@@ -480,6 +525,49 @@ post_fx = dbf5[dbf5$year == 2011,] %>% select(6:10) %>% as.list()
 tatfr(past_fx = past_fx, present_fx = present_fx, post_fx = post_fx, age = seq(15, 50, 5))
 ```
 
+
+```{r, echo=FALSE}
+fpall <- demor::rosbris_fertility_pop_5 %>% filter(code == 1100 & territory == "t")
+da <- data.frame(year = 1990:2022, tfrA = NA, tatfrA = NA)
+for(i in 1:5){
+  da[paste0("tfr", i)] <- da[paste0("tatfr", i)] <- NA
+}
+for(y in 1991:2021){
+  past_fx = fpall[fpall$year == y-1,] %>% select(6:10) %>% as.list()
+  present_fx = fpall[fpall$year == y,] %>% select(6:10) %>% as.list()
+  post_fx = fpall[fpall$year == y+1,] %>% select(6:10) %>% as.list()
+  resik <- tatfr(past_fx = past_fx, present_fx = present_fx, post_fx = post_fx, age = seq(15, 50, 5))
+  da[da$year == y,"tfrA"] <- resik$tfr
+  da[da$year == y,"tatfrA"] <- resik$tatfr
+  for(i in 1:5){
+    da[da$year == y, paste0("tfr", i)] <- resik$tfr_i[i]
+    da[da$year == y, paste0("tatfr", i)] <- resik$tatfr_i[i]
+  }
+}
+
+library(stringr)
+
+da %>% 
+  pivot_longer(cols = -year, names_to = "ind", values_to = "count") %>% 
+  mutate(indic = str_sub(ind, end = -2),
+         parity = str_sub(ind, start = -1)
+         ) %>% 
+  mutate(parity = ifelse(parity == "5", "5+", parity)) %>% 
+  mutate(parity = ifelse(parity == "A", "Parity: All", paste("Parity: ", parity)),
+         indic = ifelse(indic == "tfr", "TFR", "TFR*")
+         ) %>% 
+  ggplot(aes(x = year, y = count, color = indic, linetype = indic, shape = indic))+
+  geom_line()+
+  geom_point()+
+  scale_color_manual(values = c("black", "red"))+
+  scale_linetype_manual(values = c("solid", "longdash"))+
+  labs(color = "Index:", linetype = "Index:", shape = "Index:", y = "Births per woman", x = "Year")+
+  theme_linedraw()+
+  facet_wrap(~parity, scales = "free")
+```
+
+
+
 ## MAC
 
 MAC is a mean age at childbearing. One can compute it using $f_x$. Surely, using `mac` function one can compute mean age at childbearing by parity whereby using $f_x^p$ instead of overall $f_x$. 
@@ -495,25 +583,34 @@ mac(
 
 ## Fertility models for ASFR approximation
 
-In `demor` there is a function `fert.approx` for modeling ASFR. Now "Hadwiger", "Gamma" and "Brass" are supported (see @peristera2007modeling for more details on the functions). 
+In `demor` there is a function `fert.approx` for modeling ASFR. Now "Hadwiger", "Gamma", "Beta" and "Brass" are supported (see @peristera2007modeling for more details on the functions). 
 
 Hadwiger model (optimal choice with balance of simplicity and accuracy) is as follows: 
 
-$$f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]$$
+$$f(age) = \frac{ab}{c} (\frac{c}{age})^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]$$
+where $a,b,c$ - parameters. 
 
 Gamma model (sophisticated and accurate, but not really sustainable due to convergence issues) is as follows: 
 $$f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]$$
+where $R,b,c,d$ - parameters. 
+
+Beta model (sophisticated and even more accurate than Gamma, but not really sustainable due to convergence issues) is as follows: 
+$$f(age) = \frac{R}{B(A,C)}(\beta - \alpha)^{-(A+C-1)}(age - \alpha)^{(A-1)}(\beta - age)^{(B-1)}$$
+where $B(.)$ is a beta function, $R, \beta, \alpha$ - parameters and
+$$C = (\frac{(v-\alpha)(\beta-v)}{\tau^2} -1)\frac{\beta - v}{\beta -\alpha}, \ \ \ A = C\frac{v-\alpha}{\beta - v}$$
+where $v, \tau^2$ - parameters.
 
 Brass model (the simplest and the most inaccurate) is as follows: 
 
 $$f(age) = c(age-d)(d+w-age)$$
+where $c,d,w$ - parameters.
 
-Function returns list with estimated model (parameters, R-squared, variance-covariance matrix of parameters) and dataframe with predicted ASFR.
+Function returns list with estimated model and dataframe with predicted ASFR.
 
 The example below shows the model that try to approximate ASFR of russian women in 2010 using Gamma function. 
 
 ```{r}
-approximation_2010 = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Gamma", boot = T)
+approximation_2010 = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Gamma", se = T)
 
 approximation_2010[[1]]
 
@@ -523,104 +620,184 @@ Lets plot the modeled and observed ASFR with bootstrapped 95% CI. One can see th
 
 ```{r}
 data = approximation_2010[[2]]
-ggplot()+
-  theme_linedraw()+
-  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Gamma model"), linewidth = 1)+
-  geom_ribbon(data = data,
-              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
-  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
-  scale_color_manual(values = c("red", "red", "blue"))+
-  labs(y = "fx", x = "Age")
+ggplot(data = data, aes(x = age))+
+  geom_point(aes(y = fx, color = "Observed fx"), linewidth = 1)+
+  geom_line(aes(y = fx.model, color = "fx from Gamma model"), linewidth = 1)+
+  geom_ribbon(aes(ymin = prc.low, ymax = prc.high, x = age, color = "95% CI"), 
+              alpha = 0, linetype = "dashed")+
+  scale_color_manual(values = c("red", "red", "black"))+
+  labs(y = "fx", x = "Age")+
+  theme_linedraw()
+
 ```
 
 Lets now do the same procedure but with Hadwiger function: 
 
 ```{r}
-data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Hadwiger", boot = T)[[2]]
-ggplot()+
-  theme_linedraw()+
-  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Hadwiger model"), linewidth = 1)+
-  geom_ribbon(data = data,
-              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
-  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
-  scale_color_manual(values = c("red", "red", "blue"))+
-  labs(y = "fx", x = "Age")
+data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Hadwiger", se = T)[[2]]
+ggplot(data = data, aes(x = age))+
+  geom_point(aes(y = fx, color = "Observed fx"), linewidth = 1)+
+  geom_line(aes(y = fx.model, color = "fx from Hadwiger model"), linewidth = 1)+
+  geom_ribbon(aes(ymin = prc.low, ymax = prc.high, x = age, color = "95% CI"), 
+              alpha = 0, linetype = "dashed")+
+  scale_color_manual(values = c("red", "red", "black"))+
+  labs(y = "fx", x = "Age")+
+  theme_linedraw()
 ```
 
 
 Lets now do the same procedure but with Brass function: 
 
 ```{r}
-data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Brass", boot = T)[[2]]
-ggplot()+
-  theme_linedraw()+
-  geom_line(data = data, aes(x = age, y = predicted, color = "fx from Brass model"), linewidth = 1)+
-  geom_ribbon(data = data,
-              aes(ymin = low_2.5prc, ymax = high_97.5prc, x = age, color = "95% CI"), alpha = 0, linetype = "dashed")+
-  geom_line(data = data.frame(real = rus2010f$fx, age = 15:55), aes(x = age, y = real, color = "Observed fx"), linewidth = 1)+
-  scale_color_manual(values = c("red", "red", "blue"))+
-  labs(y = "fx", x = "Age")
+data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Brass", se = T)[[2]]
+ggplot(data = data, aes(x = age))+
+  geom_point(aes(y = fx, color = "Observed fx"), linewidth = 1)+
+  geom_line(aes(y = fx.model, color = "fx from Brass model"), linewidth = 1)+
+  geom_ribbon(aes(ymin = prc.low, ymax = prc.high, x = age, color = "95% CI"), 
+              alpha = 0, linetype = "dashed")+
+  scale_color_manual(values = c("red", "red", "black"))+
+  labs(y = "fx", x = "Age")+
+  theme_linedraw()
 ```
 
+Lets now do the same procedure but with Beta function: 
+
+```{r}
+data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Beta", se = T)[[2]]
+ggplot(data = data, aes(x = age))+
+  geom_point(aes(y = fx, color = "Observed fx"), linewidth = 1)+
+  geom_line(aes(y = fx.model, color = "fx from Beta model"), linewidth = 1)+
+  geom_ribbon(aes(ymin = prc.low, ymax = prc.high, x = age, color = "95% CI"), 
+              alpha = 0, linetype = "dashed")+
+  scale_color_manual(values = c("red", "red", "black"))+
+  labs(y = "fx", x = "Age")+
+  theme_linedraw()
+```
 
 # Projections
 
 ## Lee-Carter model
 
-In the `demor` there is `leecart()` function that provides users with basic *Lee-Carter model* (proposed by @leecarter and that now has a lot of extensions, which are not yet implemented in the `demor`) for mortality forecasting:
+In the `demor` there is `leecart()` function that provides users with basic *Lee-Carter model* (proposed by @leecarter and that now has a lot of extensions, which are partially implemented in the `demor`, see documentation) for mortality forecasting:
 
 ```{r}
-
 dbm.1 <- demor::rosbris_mortality_pop_1
 
 leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 & 
                                            dbm.1$territory=="t" & 
                                            dbm.1$sex=="m" & 
-                                           dbm.1$year %in% 2004:2019,c("year", "age", "mx")], 
-                            n = 5, 
+                                           dbm.1$year %in% 2000:2019,c("year", "age", "mx")], 
+                            n = 3, 
                             sex = "m", 
-                            concise = T
+                            ax_method = "classic",
+                            bx_method = "classic", 
+                            model = "RWwD"
                             )
-head(leecart_forecast)
-
 ```
+
+
+```{r}
+leecart_forecast$ex0 %>% filter(year >= 2018)
+```
+
 
 One can plot the results using [ggplot2](https://github.com/tidyverse/ggplot2) to compare predicted data with actual that, however, requires some data handling:
 
 ```{r}
 #LE data calculation
-ledata <- data.frame(year = 2010:2022, lem = NA, lem.predicted = NA, ci.low = NA, ci.high = NA)
-for(i in 2010:2022){
-  ledata[ledata$year==i,2] <- LT(age = unique(dbm$age), 
-                                 sex = "m", 
-                                 mx = dbm[dbm$year==i & 
-                                            dbm$territory == "t" & 
-                                            dbm$code == 1100 & 
-                                            dbm$sex == "m",]$mx)[1,"ex"]
-  if(i>=2019){
-    if(i==2019){
-      ledata[ledata$year==i,3:5] <- rep(ledata[ledata$year==i,2],3)
-    }else{
-      ledata[ledata$year==i,3:5] <- leecart_forecast[leecart_forecast$age=="0" & 
-                                                     leecart_forecast$year == i,6:8] %>% as.numeric()
-    }
-  }
+for(i in 2020:2022){
+  leecart_forecast$ex0[leecart_forecast$ex0$year ==i,]$e0.obs <- 
+    LT(age = unique(dbm$age), sex = "m",
+       mx = dbm[dbm$year==i & dbm$territory == "t" & dbm$code == 1100 & dbm$sex == "m",]$mx)[1,"ex"]
 }
 
-ggplot(data = ledata, aes(x = year))+
-  geom_point(aes(y = lem, color = "Observed"))+
-  geom_line(aes(y = lem, color = "Observed"))+
-  geom_point(aes(y = lem.predicted, color = "Predicted\n(counterfactual)"))+
-  geom_line(aes(y = lem.predicted, color = "Predicted\n(counterfactual)"))+
-  geom_ribbon(aes(ymin = ci.low, ymax = ci.high), fill = "pink", alpha = 0.5)+
+leecart_forecast$ex0 %>% 
+  filter(year >= 2010) %>% 
+  ggplot(aes(x = year)) + 
+  geom_point(aes(y = e0.obs, color = "Observed")) +
+  geom_line(aes(y = e0.obs, color = "Observed")) +
+  geom_point(aes(y = e0.hat, color = "Predicted\n(counterfactual)")) + 
+  geom_line(aes(y = e0.hat, color = "Predicted\n(counterfactual)")) + 
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "pink", alpha = 0.5)+
   geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
-  scale_x_continuous(breaks = 2010:2022)+
-  scale_y_continuous(breaks = 63:70)+
+  scale_x_continuous(breaks = 2010:2024) +
+  scale_y_continuous(breaks = 58:74) +
   theme_linedraw()+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
   scale_color_manual(values = c("black", "darkred"))+
   labs(x="Year", y = "Male's LE at birth", colour = "Data:")
 ```
+
+
+The comparison between different methods for Lee-Carter is presented below.
+
+
+```{r}
+data = demor::rosbris_mortality_pop_1 %>% filter(territory == "t" & sex == "m" & code == 1100 & year <= 2019)
+
+leecart_forecast <- leecart(data = data, 
+                            n = 3, 
+                            sex = "m", 
+                            ax_method = "classic",
+                            bx_method = "classic", 
+                            model = "RWwD")
+
+leecart_forecast_2000 <- leecart(data = data %>% filter(year >= 2000), 
+                            n = 3, 
+                            sex = "m", 
+                            ax_method = "classic",
+                            bx_method = "classic", 
+                            model = "RWwD")
+
+
+leecart_forecast_2000_last <- leecart(data = data %>% filter(year >= 2000), 
+                                 n = 3, 
+                                 sex = "m", 
+                                 ax_method = "last",
+                                 bx_method = "classic", 
+                                 model = "RWwD")
+
+leecart_forecast_last <- leecart(data = data, 
+                                      n = 3, 
+                                      sex = "m", 
+                                      ax_method = "last",
+                                      bx_method = "classic", 
+                                      model = "RWwD")
+
+
+lc_plot <- leecart_forecast$ex0 %>% mutate(model = "Original\n1989-2019\n") %>% 
+  rbind(x = ., y = leecart_forecast_2000$ex0 %>% mutate(model = "Original\n2000-2019\n")) %>% 
+  rbind(x = ., y = leecart_forecast_2000_last$ex0 %>% mutate(model = "ax correction\n2000-2019\n")) %>% 
+  rbind(x = ., y = leecart_forecast_last$ex0 %>% mutate(model = "ax correction\n1989-2019\n"))
+
+data = demor::rosbris_mortality_pop_1 %>% filter(territory == "t" & sex == "m" & code == 1100)
+
+for(i in 2020:2022){
+  lc_plot[lc_plot$year ==i,]$e0.obs <- 
+    LT(age = unique(data$age), sex = "m",
+       mx = data[data$year==i,]$mx)[1,"ex"]
+}
+
+
+lc_plot %>% 
+  filter(year >= 2010) %>% 
+  ggplot(aes(x = year)) + 
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+  geom_point(aes(y = e0.obs, color = "Observed")) +
+  geom_line(aes(y = e0.obs, color = "Observed")) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, color = model), alpha = 0.3, fill = "pink", linetype = "dashed")+
+  geom_point(aes(y = e0.hat, color = model), shape = 15) + 
+  geom_line(aes(y = e0.hat, color = model), linetype = "dashed") + 
+  scale_x_continuous(breaks = 2010:2024) +
+  scale_y_continuous(breaks = 58:74) +
+  theme_linedraw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  facet_wrap(~model) +
+  scale_color_manual(values = c("steelblue", "darkred", "black", "orange", "forestgreen"))+
+  labs(x="Year", y = "e0, males", colour = "Data:")
+```
+
+
 
 ## Leslie matrix & Cohort-component model
 
@@ -632,7 +809,7 @@ In the `demor` one can compute its using $m_x$ and $f_x$ that is age-specific mo
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$mx
 fx <- dbf[dbf$code==1100 & dbf$territory=="t" & dbf$year == 2022,]$fx
 
-les <- leslie(mx = mx, fx = fx, age1 = 0:100, age2 = 15:55, sex = "f")
+les <- leslie(mx = mx, fx = fx, age.mx = 0:100, age.fx = 15:55, sex = "f")
 
 les[1:5, 1:5]
 ```
@@ -697,23 +874,18 @@ $$
 
 Usually to calculate the $\pmb L^h$ it is easier (and more accurate) to use iterative procedure since the modern computers are able to do it in a second (for reasonable horizon), but one surely can diagonalize $\pmb L$ and find its transition matrix to reach more efficient (though less accurate) calculations. 
 
-Below is a small function to produce such constant-rates projections assuming closed population and using iterative procedure:
+Below a function for the cohort-component model `ccm()` is presented. It requires matrix or dataframe of future $m_x$ and $f_x$; and a vector with initial population. Optionally, one can provide the function with matrix or dataframe of future net number of migrants, by default it is NULL (closed population model without external migration). To produce constant rates model, one need to make matrices with identical columns, where each row is an age-specific rate and each column in a period. 
+
 
 ```{r}
-constant.proj <- function(les, h, N){
-  dat <- cbind(N)
-  for(i in 1:h){
-    dat <- cbind(dat, N) 
-  }
-  colnames(dat) <- paste0("t", 0:h)
-  for(i in 1:h){
-    dat[,i+1] <- les %*% dat[,i]
-  }
-  return(round(dat))
-}
-
 N0 <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$N
-Nt <- constant.proj(les, 78, N0)
+
+const.mx = matrix(rep(mx, each = 78), nrow = length(mx), byrow = TRUE)
+const.fx = matrix(rep(fx, each = 78), nrow = length(fx), byrow = TRUE)
+
+Nt <- ccm(Mx = const.mx, Fx = const.fx, age.mx = 0:100, age.fx = 15:55, N0 = N0, sex = "f")
+colnames(Nt) <- 2022:2100
+
 head(Nt)[,1:10]
 ```
 
@@ -728,14 +900,13 @@ plot(2022:2100, colSums(Nt)/1e6, type = "l",
 Nt %>% 
   as.data.frame() %>% 
   mutate(age = 0:100) %>% 
-  pivot_longer(!age, names_to = "time", values_to = "pop") %>% 
-  mutate(time = as.numeric(sub('.', '', time))) %>% 
-  group_by(time) %>% 
+  pivot_longer(!age, names_to = "year", values_to = "pop") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  group_by(year) %>% 
   mutate(pop.s = 100*pop / sum(pop)) %>% 
   as.data.frame() %>% 
-  mutate(time = time + 2022) %>% 
   ggplot(aes(x = age, y = pop.s))+
-  geom_line(aes(group = time, color = time))+
+  geom_line(aes(group = year, color = year))+
   scale_color_gradient(low = "pink", high = "steelblue")+
   geom_line(data = data.frame(age = 0:100, stable_age = 100*stable_age), 
             aes(x = age, y = stable_age, linetype = "Stable age\nstructure"), 

@@ -18,6 +18,7 @@ Imports:
     vars,
     MASS,
     scales,
+    splines, 
     parallel,
     foreach,
     doParallel,
