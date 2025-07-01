@@ -732,7 +732,7 @@ leecart_forecast$ex0 %>%
 The comparison between different methods for Lee-Carter is presented below.
 
 
-```{r}
+```{r, echo=FALSE}
 data = demor::rosbris_mortality_pop_1 %>% filter(territory == "t" & sex == "m" & code == 1100 & year <= 2019)
 
 leecart_forecast <- leecart(data = data, 
