@@ -8,6 +8,12 @@
 #' @param method Character. Decomposition method. "andreev" (1982), "arriaga" (1984) or "pollard" (1982) - slightly different in their results. By default, `method = "andreev"`.
 #' @param ax1 Optional. Numeric array with ax for the 1st population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).
 #' @param ax2 Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).
+#' @details
+#' Example of decomposition using Andreev (1982) formulas:
+#' \deqn{\Delta_x = l_x^2(e_x^2 - e_x^1) - l_{x+n}^2(e_{x+n}^2 - e_{x+n}^1), \ \ \ x \neq \omega}
+#' \deqn{\Delta_{\omega} = l_{\omega}^2(e_{\omega}^2 - e_{\omega}^1)}
+#' where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in \eqn{e_0} between the second and the first population. \eqn{e_x^i, l_x^i} are life table functions for population \eqn{i}. \eqn{\omega} is the last age group. Note, \eqn{e_0^2 - e_0^1 = \sum_{x}^{\omega}\Delta_x}
+#'
 #' @references
 #' 1. Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. *Demography*, *21*, 83-96.
 #' 2. Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. *Вестник статистики*, *9*, 42-47.

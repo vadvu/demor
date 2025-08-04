@@ -4,7 +4,7 @@
 \alias{leslie}
 \title{Leslie Matrix}
 \usage{
-leslie(mx, fx, age.mx, age.fx, srb = 100/205, fin = FALSE, ...)
+leslie(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...)
 }
 \arguments{
 \item{mx}{Numeric array of age specific mortality rates.}
@@ -17,7 +17,7 @@ leslie(mx, fx, age.mx, age.fx, srb = 100/205, fin = FALSE, ...)
 
 \item{srb}{Numeric. Sex ratio at birth. Usually it is assumed that for males it is \code{105/205}, for females it is \code{100/205}. By default, it is \code{100/205}.}
 
-\item{fin}{Logical. Should the survival rate for the last age-group be nonzero? By default it is \code{FALSE}, so the last survival rate is 0 as in classical model. Otherwise, it is \deqn{T_{x}/T_{x-1}}.}
+\item{fin}{Logical. Should the survival rate for the last age-group be nonzero? By default it is \code{FALSE}, so the last survival rate is 0 as in classical model. Otherwise, it is \eqn{T_{x}/T_{x-1}}.}
 
 \item{...}{Optional. Additional arguments for \code{LT} function.}
 }

@@ -17,6 +17,7 @@ get_rosbris <- function(type, age = 1, initial = FALSE, lastyear = 2022){
        Recently RosBris has been switched to new website, so the function `get_rosbris` does not work now. I hope in a several months all mistakes due to new website will be fixed and function will work.
        Now RosBris data is presented in the `demor` as datasets in the long-format.
        use demor::rosbris_fertility_pop_1 (fertility, 1-year + Pop + Births)
+       use demor::rosbris_fertility_pop_5 (fertility, 5-year + By parity + Pop + Births)
        use demor::rosbris_mortality_pop_1 (mortality, 1-year + Pop + Deaths)
        use demor::rosbris_mortality_pop_5 (mortality, 5-year + Pop + Deaths)
 

@@ -4,7 +4,7 @@
 \alias{ages}
 \title{Split continuous ages to age groups}
 \usage{
-ages(x, groups, char)
+ages(x, groups, char = FALSE)
 }
 \arguments{
 \item{x}{Array with numeric values of age}

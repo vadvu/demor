@@ -26,7 +26,11 @@ Matrix of (age x 9). Columns are: age, mx, ax, qx, lx, dx, Lx, Tx, ex
 Life table
 }
 \details{
-By default, ax for age 0 is modeled as in Andreev & Kingkade (2015, p. 390, see table 3-2).
+By default, \eqn{a_x} for age 0 (first entity in \code{ax}) is modeled as in Andreev & Kingkade (2015, p. 390, see table 3-2).
+
+The weighted life expectancy is calculated as follows:
+\deqn{e_x^w = \frac{\sum_{i = x}^{\omega}L_x w_x}{l_x}}
+where \eqn{\omega} is the last age, \eqn{w} is weight s.t. \eqn{w \in [0,1]}, and other variables are life table functions.
 }
 \references{
 Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. \emph{Demographic Research}, \emph{33}, 363-390.

@@ -17,7 +17,7 @@ leecart(
 )
 }
 \arguments{
-\item{data}{Dataframe with the following columns: age, year, mx}
+\item{data}{Dataframe with the following columns: \verb{age, year, mx}}
 
 \item{n}{Numeric. Forecasted horizon}
 
@@ -41,9 +41,24 @@ Dataframe with the projected mx and ex for t+n periods with mean, low95 and high
 \description{
 Lee-Carter model
 }
+\details{
+The \code{model} argument specifies the forecasting method (\code{model ="RWwD"} – classic random walk option, \code{model = "ARIMA"} for selecting a more complex time series model).
+
+The \code{ax_method} argument allows to control how \code{a_x} is calculated.
+\code{ax_method = "classic"} – classic option with the average of the logarithm of mortality rates (but there is so-called "jump-off bias").
+\code{ax_method = "last"} uses the logarithm of mortality for the last available year ( as proposed in Lee & Miller, 2001).
+\code{ax_method = "last_smooth"} uses data for the last year with smoothing (see Ševčíková et al., 2016, p. 288).
+
+The \code{bx_method} argument allows to control how \code{b_x} is calculated.
+\code{bx_method = "classic"} for the original method.
+\code{bx_method = "rotate"} for the rotational variant (see Li et al., 2013).
+}
 \references{
 Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. https://doi.org/10.1080/01621459.1992.10475265
+
 Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. https://doi.org/10.1353/dem.2001.0036
+
 Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. https://doi.org/10.1007/s13524-013-0232-2
+
 Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. https://doi.org/10.1007/978-3-319-26603-9_15
 }

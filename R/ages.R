@@ -10,7 +10,7 @@
 #' ages(x, groups, FALSE)
 #'
 #' @export
-ages <- function(x, groups, char){
+ages <- function(x, groups, char = FALSE){
   if(char == F){
     for(i in 1:length(groups)){
       if(i == 1){

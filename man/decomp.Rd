@@ -27,6 +27,12 @@ dataframe with parameters of decomposition (depends on method) and decomposition
 \description{
 Age decomposition of mortality: single decrement process
 }
+\details{
+Example of decomposition using Andreev (1982) formulas:
+\deqn{\Delta_x = l_x^2(e_x^2 - e_x^1) - l_{x+n}^2(e_{x+n}^2 - e_{x+n}^1), \ \ \ x \neq \omega}
+\deqn{\Delta_{\omega} = l_{\omega}^2(e_{\omega}^2 - e_{\omega}^1)}
+where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in \eqn{e_0} between the second and the first population. \eqn{e_x^i, l_x^i} are life table functions for population \eqn{i}. \eqn{\omega} is the last age group. Note, \eqn{e_0^2 - e_0^1 = \sum_{x}^{\omega}\Delta_x}
+}
 \references{
 \enumerate{
 \item Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. \emph{Demography}, \emph{21}, 83-96.

@@ -6,6 +6,6 @@
 #' @return Numeric value.
 #' @export
 tfr <- function(fx, age.int = 1){
-  fx <- as.numeric(fx)
+  fx <- as.numeric(c(fx))
   return(sum(fx)*age.int)
 }

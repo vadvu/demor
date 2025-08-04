@@ -2,28 +2,55 @@
 % Please edit documentation in R/ccm.R
 \name{ccm}
 \alias{ccm}
-\title{Cohort Component Model for Projecting Population}
+\title{Cohort Component Model for Projecting Population.}
 \usage{
-ccm(Mx, Fx, Ix = NULL, age.mx, age.fx, N0, ...)
+ccm(
+  Mx.f,
+  Mx.m = NULL,
+  Fx,
+  Ix.f = NULL,
+  Ix.m = NULL,
+  age.mx,
+  age.fx,
+  N0.f,
+  N0.m = NULL,
+  srb = 100/205,
+  ...
+)
 }
 \arguments{
-\item{Mx}{Matrix or dataframe with mx, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents age-specific mortality rate.}
+\item{Mx.f}{Matrix or dataframe with mx for females, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents age-specific mortality rate.}
+
+\item{Mx.m}{Optional. Matrix or dataframe with mx for males, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents age-specific mortality rate.}
 
 \item{Fx}{Matrix or dataframe with fx, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents age-specific fertility rate.}
 
-\item{Ix}{Optional. Matrix or dataframe with net number of migrants, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents net number of migrants.}
+\item{Ix.f}{Optional. Matrix or dataframe with net number of female migrants, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents net number of migrants.}
 
-\item{age.mx}{Numeric vector. Age groups for Mx rows.}
+\item{Ix.m}{Optional. Matrix or dataframe with net number of male migrants, where row represents age, column represents a forecasted period. Thus, first column should be the first projected period, while each row represents net number of migrants.}
+
+\item{age.mx}{Numeric vector. Age groups for Mx.f rows.}
 
 \item{age.fx}{Numeric vector. Age groups for Fx rows.}
 
-\item{N0}{Numeric vector. Population in the initial period by age groups.}
+\item{N0.f}{Numeric vector. Female population in the initial period by age groups.}
+
+\item{N0.m}{Optional. Numeric vector. Male population in the initial period by age groups.}
+
+\item{srb}{Numeric. Sex ratio at birth for females. By default, it is 100/205.}
 
 \item{...}{Optional. Additional arguments for \code{leslie} function.}
 }
 \value{
-Matrix with projected population. Columns represent periods, rows represent age groups. The first column is \code{N0} (initial period).
+(List of) Matrices with projected population. Columns represent periods, rows represent age groups. The first column is \code{N0} (initial period).
 }
 \description{
-Cohort Component Model for Projecting Population
+Cohort Component Model for Projecting Population.
+}
+\details{
+The model is calculated in matrix form as
+\deqn{\mathbf{N}_{t+h} = \mathbf{L}_t(\mathbf{N}_{t} + \mathbf{I}_{t}/2) + \mathbf{I}_{t}/2}
+where \eqn{\mathbf{N}_t} is a column vector of population for time \eqn{t} with \eqn{h} as a step of projection (it is the length of age interval), \eqn{\mathbf{L}_t} is Leslie matrix and \eqn{\mathbf{I}_{t}} is a column vector of net migration.
+
+Note that the model assumes that in \eqn{\mathbf{N}} all age intervals are the same (i.e. \eqn{age = \{0-1, 1-4, 5-9, ...\}} is not permitted). Fortunately (and thanks to me), the function handles such situations automatically by transforming all age groups into a unified standard.
 }

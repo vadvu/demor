@@ -4,7 +4,7 @@
 \alias{fert.approx}
 \title{Fertility models for ASFR approximation}
 \usage{
-fert.approx(fx, age, model, start = NULL, se = F, alpha = 0.05, bn = 1000)
+fert.approx(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, bn = 1000)
 }
 \arguments{
 \item{fx}{Numeric vector of age specific fertility rates.}
@@ -28,20 +28,35 @@ list with estimated model (parameters, variance-covariance matrix, percentiles o
 Fertility models for ASFR approximation
 }
 \details{
-This function runs least squares optimization of the selected fertility function with 1e-06 as tolerance parameter.
+This function runs least squares optimization (using default \code{optim}) of the selected fertility function with 1e-06 as tolerance parameter.
+
+\eqn{f_x} is age-specific fertility rate for age \eqn{x}.
 \subsection{Hadwiger model}{
 
-The model is as follows: \deqn{f(age) = \frac{ab}{c} \frac{c}{age}^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]}
+The model is as follows: \deqn{f_x = \frac{ab}{c} \frac{c}{x}^{3/2} exp[-b^2(\frac{c}{x}+\frac{x}{c}-2)]}
+where \eqn{a,b,c} are estimated parameters that do not have demographic interpretation. Sometimes \eqn{c} is interpreted as mean age at childbearing.
 }
 
 \subsection{Gamma model}{
 
-The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
+The model is as follows: \deqn{f_x = \frac{R}{\Gamma(b)c^b}(x-d)^{b-1} exp[-(\frac{x-d}{c})]}
+where \eqn{R,b,c,d} are estimated parameters. \eqn{\Gamma} is gamma function. \eqn{R} can be interpreted as fertility level (TFR) and \eqn{d} as mean age at childbearing.
 }
 
 \subsection{Brass model}{
 
-The model is as follows: \deqn{f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]}
+The model is as follows: \deqn{f_x = c(x-d)(d+w-x)}
+where \eqn{c,d,w} are estimated parameters.
+}
+
+\subsection{Beta model}{
+
+The model is as follows: \deqn{f_x = \frac{R}{\Beta(A,C)}(\beta - \alpha)^{-(A+C-1)}(x-\alpha)^{(A-1)}(\beta-x)^{(B-1)}}
+where \eqn{\Beta} is beta function, \eqn{R, \beta, \alpha} are estimated parameters, which can be interpreted as fertility level (TFR) and max and min age of childbearing respectively.
+\eqn{A,C} are
+\deqn{C = (\frac{(v - \alpha)(\beta - v)}{\tau^2} - 1)\frac{\beta - v}{\beta - \alpha}}
+\deqn{A = C\frac{v-\alpha}{v - \beta}}
+where \eqn{v, \tau^2} are estimated parameters, where \eqn{v} can be interpreted as mean age at childbearing. Thus, Beta model uses 5 parameters \eqn{R, \beta, \alpha, v, \tau^2}, where only \eqn{\tau^2} has no demographic interpretation.
 }
 }
 \examples{

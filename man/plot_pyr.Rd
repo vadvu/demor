@@ -7,10 +7,13 @@
 plot_pyr(
   popm,
   popf,
+  popm2 = NULL,
+  popf2 = NULL,
   age,
   sexn = c("Males", "Females"),
   sexc = c("#ED0000B2", "#00468BB2"),
-  age.cont = FALSE
+  age.cont = NULL,
+  un.intervals = TRUE
 )
 }
 \arguments{
@@ -18,13 +21,19 @@ plot_pyr(
 
 \item{popf}{Numeric vector of female population}
 
+\item{popm2}{Optional. Numeric vector of second male population to be plotted as line.}
+
+\item{popf2}{Optional. Numeric vector of second female population to be plotted as line.}
+
 \item{age}{Numeric vector of ages}
 
 \item{sexn}{Character array of labels for the sexes. By default = \code{c("Males", "Females")}}
 
 \item{sexc}{Character array of colors for the sexes. By default = \code{c("#ED0000B2","#00468BB2")}, which are red and blue}
 
-\item{age.cont}{Logical. Should the age axis be considered as continious scale? Recommend to switch to \code{TRUE} if the age intervals are small (1 year) and \code{FALSE} otherwise (for ex., when age interval is 5 years). By default = \code{FALSE}}
+\item{age.cont}{Optional. Logical. Should the age axis be considered as continuous scale? Recommend to switch to \code{TRUE} if the age intervals are small (1 year) and \code{FALSE} otherwise (for ex., when age interval is 5 years). By default function chooses the value by itself.}
+
+\item{un.intervals}{Logical. Should the age groups be unified? For example, if the first and second groups are 0-1, 1-4, and all other groups are five-year, the function automatically makes the group 1-4 to make all the intervals the same. By default, \code{TRUE}.}
 }
 \value{
 \code{ggplot2} object

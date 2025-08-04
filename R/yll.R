@@ -7,13 +7,23 @@
 #' @param pop Array with population. Used only with `yll.r` and `asyr` types.
 #' @param w Array with population weights for direct standardization. Used only with `asyr` type.
 #' @details
-#' Possible *YLL* types:
-#' 1. Absolute number of *YLL* - `yll` type.
-#' 2. *YLL* as proportion - `yll.p` type.
-#' 3. *YLL* rate - `yll.r` type.
-#' 4. Age-standardized *YLL* rate  - `asyr` type.
-#' For more details see [github page](https://github.com/vadvu/demor?tab=readme-ov-file#years-of-life-lost-yll).
+#' Computes four types of Years of Life Lost (YLL) indicators:
+#' \itemize{
+#'   \item \strong{Absolute YLL} (\code{type = "yll"}):
+#'     \deqn{YLL_{x,t,c} = D_{x,t,c} \times SLE_x}
+#'     where \eqn{x,t,c} are age, time, and cause respectively, \eqn{D_{x,t,c}} is deaths in age \eqn{x} at time \eqn{t} from cause \eqn{c} and \eqn{SLE_x} is standard life expectancy at age \eqn{x}
+#'   \item \strong{YLL proportion} (\code{type = "yll.p"}):
+#'     \deqn{YLL_{x,t,c}^p = \frac{YLL_{x,t,c}}{YLL_{x,t}}}
+#'     where \eqn{YLL_{x,t} = \sum_{c} YLL_{x,t,c}} (total YLL across causes)
 #'
+#'   \item \strong{YLL rate} (\code{type = "yll.r"}):
+#'     \deqn{YLL_{x,t,c}^r = \left( \frac{YLL_{x,t,c}}{N_{x,t}} \right) \times 100'000}
+#'     where \eqn{N_{x,t}} is population in age group \eqn{x} at time \eqn{t}
+#'
+#'   \item \strong{Age-standardized YLL rate} (\code{type = "asyr"}):
+#'     \deqn{ASYR_{t,c} = \sum_{x=\alpha}^{\omega} \left( YLL_{x,t,c}^r \times w_x \right)}
+#'     where \eqn{\alpha} to \eqn{\omega} corresponds to first to last age group, \eqn{w_x} is standard population weight for age \eqn{x}.
+#' }
 #' @references Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. *International Journal of Epidemiology*, *48*, 1367–1376.
 #' @return list with values.
 #' @export

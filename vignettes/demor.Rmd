@@ -246,8 +246,6 @@ head(dec)
 Than let us plot the result of `decomp` using `ggplot2`: 
 
 ```{r}
-library(ggplot2)
-
 ggplot(dec, aes( as.factor(age), ex12))+
   geom_bar(stat = "identity", color = "black", fill = "orange3")+
   theme_minimal()+
@@ -255,7 +253,6 @@ ggplot(dec, aes( as.factor(age), ex12))+
        y = "Сontribution to the e0 difference")+
   annotate("text", x = "70", y = 0.5, label = paste0("Total difference in e0: ", sum(dec$ex12)))+
   geom_text(aes(label = ex12), vjust = 1.5, color = "white", size = 3.5)
-
 ```
 
 ## Age and cause decomposition of differences in life expectancies
@@ -296,8 +293,6 @@ head(decm)
 Than let us plot the result of `mdecomp` using [ggplot2](https://github.com/tidyverse/ggplot2). This requires some data transformations
 
 ```{r}
-library(ggplot2)
-
 decm_plot <- decm[,c(1,3)]
 decm_plot$group = colnames(decm)[3]
 colnames(decm_plot)[2]<-"ex12"
@@ -327,12 +322,10 @@ ggplot(data = decm_plot, aes(x = as.factor(age), y = ex12, fill = group))+
 Also one can construct the Multiple Decrement Life Table that expands the usual life table adding additional columns ($q_x^i, d_x^i, l_x^i \ \forall \ \text{causes} \ i$) for specific decrement causes. Note, $m_x = \sum_i m_x^i$ and user should specify $m_x$ (the first array in the list). Let us use the shorten vesrion of data from the previous example, using only overall $m_x$ and $m_x^i$ from neoplasm. 
 
 ```{r}
-
 mx <- mx1[c("all", "neoplasms")]
 age = unique(mdecompex$age)
 mlt.res = MLT(age, mx)
 head(mlt.res)
-
 ```
 
 From this table one can calculate, for ex.,
@@ -809,7 +802,7 @@ In the `demor` one can compute its using $m_x$ and $f_x$ that is age-specific mo
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$mx
 fx <- dbf[dbf$code==1100 & dbf$territory=="t" & dbf$year == 2022,]$fx
 
-les <- leslie(mx = mx, fx = fx, age.mx = 0:100, age.fx = 15:55, sex = "f")
+les <- leslie(mx = mx, fx = fx, age.mx = 0:100, age.fx = 15:55, sex = "f", fin = F)
 
 les[1:5, 1:5]
 ```
@@ -880,10 +873,10 @@ Below a function for the cohort-component model `ccm()` is presented. It require
 ```{r}
 N0 <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$N
 
-const.mx = matrix(rep(mx, each = 78), nrow = length(mx), byrow = TRUE)
-const.fx = matrix(rep(fx, each = 78), nrow = length(fx), byrow = TRUE)
+const.mx = matrix(rep(mx, each = 79), nrow = length(mx), byrow = TRUE)
+const.fx = matrix(rep(fx, each = 79), nrow = length(fx), byrow = TRUE)
 
-Nt <- ccm(Mx = const.mx, Fx = const.fx, age.mx = 0:100, age.fx = 15:55, N0 = N0, sex = "f")
+Nt <- ccm(Mx.f = const.mx, Fx = const.fx, age.mx = 0:100, age.fx = 15:55, N0.f = N0)
 colnames(Nt) <- 2022:2100
 
 head(Nt)[,1:10]
@@ -934,22 +927,24 @@ plot_pyr(
 
 ```
 
-Also one can redesigned plot using [ggplot2](https://github.com/tidyverse/ggplot2) commands:
+Also one can redesigned plot using [ggplot2](https://github.com/tidyverse/ggplot2) commands. Also one can plot additional population (`popm2` and `popf2`) pyramid as dashed line that can be helpfull for comparisons.
 
 ```{r}
 
 plot <- 
   plot_pyr(
   popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
-  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
+  popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N,
+  popm2 = dbm[dbm$year==2000 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf2 = dbm[dbm$year==2000 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N,
   age = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 
 plot + 
-  labs(y = "My y-axis name", 
-       x = "My age name", 
+  labs(y = "My y-axis", 
+       x = "My age", 
        caption = "Data sourse: Rosbris")+
-  ggtitle("Rissian population in 2010")+
-  scale_fill_manual(labels = c("f", "m"), values = c("pink", "lightblue"))+
+  ggtitle("Russian population in 2010")+
+  scale_fill_manual(labels = c("f", "m"), values = c("pink", "lightblue"), name = "Gender:")+
   theme_minimal()
 
 ```
@@ -960,8 +955,7 @@ plot +
 plot_pyr(
   popm = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$N,
   popf = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f",]$N, 
-  age = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f",]$age, 
-  age.cont = T)
+  age = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f",]$age)
 
 ```
 
@@ -980,20 +974,6 @@ med.age(N = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & d
 med.age(N = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
         age = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$age,
         int = 5)
-```
-
-
-## Recoding age
-
-`ages` converts continuous ages to age groups. For example, array with $\{ 0,1,2,3...100 \}$ it can convert to $\{<5,6-9,10-14 ... 85+ \}$ using user-specific lower boundaries.
-
-```{r}
-groups <- c(0, 1, 5, 10, 20, 45, 85) #lower boundaries of age groups
-age <- 0:100 #array with ages
-
-new.age <- ages(x = age, groups = groups, char = TRUE)
-
-table(new.age) #see new groups with the number of values in the group 
 ```
 
 
