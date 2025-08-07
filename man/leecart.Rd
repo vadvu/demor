@@ -13,11 +13,12 @@ leecart(
   bx_method = "classic",
   boot = FALSE,
   bn = 1000,
+  ktadj = "none",
   ...
 )
 }
 \arguments{
-\item{data}{Dataframe with the following columns: \verb{age, year, mx}}
+\item{data}{Dataframe in the long format with the following columns: \code{age}, \code{year}, \code{mx} (age specific mortality rates). For some types of \code{ktadj} argument \code{N} (population at age x) and \code{Dx} (number of deaths at age x) columns should also be presented.}
 
 \item{n}{Numeric. Forecasted horizon}
 
@@ -25,7 +26,7 @@ leecart(
 
 \item{model}{Character. Model type for kt forecasting. Can be "RWwD" for random walk with drift (by default, for original Lee-Carter model) or "ARIMA" for ARIMA model which parameters are chosen automatically by \code{forecast::auto.arima()}.}
 
-\item{ax_method}{Character. Method for ax calculation. Can be "classic" from original Lee-Carter model (by default), "last" for using only last available mortality (R. Lee & Miller, 2001) and "last_smooth" for using smoothed last available mortality (Ševčíková et al., 2016, p. 288).}
+\item{ax_method}{Character. Method for ax calculation. Can be "classic" from original Lee-Carter model (by default), "last" or "last_smooth". See details.}
 
 \item{bx_method}{Character. Method for bx calculation. Can be "classic" from original Lee-Carter model (by default) and "rotate" for rotating bx (Li et al., 2013).}
 
@@ -33,7 +34,9 @@ leecart(
 
 \item{bn}{Numeric. Used if \code{boot = TRUE}, number of bootstrap samples. By default, \code{bn = 1000}.}
 
-\item{...}{Optional. Additional arguments for \code{LT} function.}
+\item{ktadj}{Character. Type of \code{kt} adjustment. It can be set to 'none' (defaukt, no adjustment), 'Dmin', 'e0min', 'poisson' or 'edaggermin' (see Details). Note that 'Dmin' and 'poisson' require data on the age-specific number of deaths (\code{Dx} column in the data) and the age-specific population (\code{N} column in the data).}
+
+\item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
 Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
@@ -42,23 +45,44 @@ Dataframe with the projected mx and ex for t+n periods with mean, low95 and high
 Lee-Carter model
 }
 \details{
-The \code{model} argument specifies the forecasting method (\code{model ="RWwD"} – classic random walk option, \code{model = "ARIMA"} for selecting a more complex time series model).
+The \strong{\code{model}} argument specifies the forecasting method.
+\itemize{
+\item \code{model ="RWwD"} – classic random walk option
+\item \code{model = "ARIMA"} for selecting a more complex time series model
+}
 
-The \code{ax_method} argument allows to control how \code{a_x} is calculated.
-\code{ax_method = "classic"} – classic option with the average of the logarithm of mortality rates (but there is so-called "jump-off bias").
-\code{ax_method = "last"} uses the logarithm of mortality for the last available year ( as proposed in Lee & Miller, 2001).
-\code{ax_method = "last_smooth"} uses data for the last year with smoothing (see Ševčíková et al., 2016, p. 288).
+The \strong{\code{ax_method}} argument allows to control how \code{a_x} is calculated.
+\itemize{
+\item \code{ax_method = "classic"} – classic option with the average of the logarithm of mortality rates (but there is so-called "jump-off bias").
+\item \code{ax_method = "last"} uses the logarithm of mortality for the last available year (as proposed in Lee & Miller, 2001).
+\item \code{ax_method = "last_smooth"} uses data for the last year with smoothing (see Ševčíková et al., 2016, p. 288).
+}
 
-The \code{bx_method} argument allows to control how \code{b_x} is calculated.
-\code{bx_method = "classic"} for the original method.
-\code{bx_method = "rotate"} for the rotational variant (see Li et al., 2013).
+The \strong{\code{bx_method}} argument allows to control how \code{b_x} is calculated.
+\itemize{
+\item \code{bx_method = "classic"} for the original method.
+\item \code{bx_method = "rotate"} for the rotational variant (see Li et al., 2013).
+}
+
+The \strong{\code{ktadj}} argument allows to control how \code{k_t} is calculated.
+\itemize{
+\item \code{ktadj = "none"} for no adjustment.
+\item \code{ktadj = "Dmin"} for minimizing the deviance of predicted/actual annual deaths (as proposed in the original Lee-Carter paper). This method requires data on the age-specific number of deaths (\code{Dx} column in the data) and the age-specific population (\code{N} column in the data).
+\item \code{ktadj = "e0min"} for minimizing the deviance of predicted/actual life expectancy (as proposed in Lee & Miller, 2001).
+\item \code{ktadj = "poisson"} for minimizing the deviance from a Poisson model, where the dependent variable is the age-specific annual number of deaths (as proposed in Booth et al., 2002). This method requires data on the age-specific number of deaths (\code{Dx} column in the data) and the age-specific population (\code{N} column in the data).
+\item \code{ktadj = "edaggermin"} for minimizing the deviance of predicted/actual edagger (see \code{\link[=edagger]{edagger()}}) as proposed in Rabbi & Mazzuco, 2021.
+}
 }
 \references{
-Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. https://doi.org/10.1080/01621459.1992.10475265
+Booth, H., Maindonald, J., & Smith, L. (2002). Applying Lee-Carter under conditions of variable mortality decline. Population studies, 56(3), 325-336. \href{https://doi.org/10.1080/00324720215935}{https://doi.org/10.1080/00324720215935}
 
-Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. https://doi.org/10.1353/dem.2001.0036
+Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. \href{https://doi.org/10.1080/01621459.1992.10475265}{https://doi.org/10.1080/01621459.1992.10475265}
 
-Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. https://doi.org/10.1007/s13524-013-0232-2
+Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. \href{https://doi.org/10.1353/dem.2001.0036}{https://doi.org/10.1353/dem.2001.0036}
 
-Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. https://doi.org/10.1007/978-3-319-26603-9_15
+Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. \href{https://doi.org/10.1007/s13524-013-0232-2}{https://doi.org/10.1007/s13524-013-0232-2}
+
+Rabbi, A. M. F., & Mazzuco, S. (2021). Mortality forecasting with the lee–carter method: Adjusting for smoothing and lifespan disparity. European Journal of Population, 37(1), 97-120. \href{https://doi.org/10.1007/s10680-020-09559-9}{https://doi.org/10.1007/s10680-020-09559-9}
+
+Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. \href{https://doi.org/10.1007/978-3-319-26603-9_15}{https://doi.org/10.1007/978-3-319-26603-9_15}
 }

@@ -4,12 +4,12 @@
 #' @param mx2 List of numeric arrays. 1st array should be all-cause nmx in the 2nd population, other arrays are cause-specific nmx in the 2nd population
 #' @param age Numeric array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param method Character. Decomposition method. "andreev" (1982) or "arriaga" (1984) - slightly different in their results. By default, `method = "andreev"`.
-#' @param ... Optional. Additional arguments for `decomp` function.
+#' @param ... Optional. Additional arguments for [decomp()].
 #' @details
 #' The contribution of each cause \eqn{c} to the absolute difference in life expectancies between the first and second population is caculated as
 #' \deqn{\Delta_{x,c} = \frac{m^1_{x,c} - m^2_{x,c}}{m^1_{x} - m^2_{x}} \times \Delta_{x}}
-#' where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function `decomp`, \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
-#'
+#' where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function [decomp()], \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
+#' @seealso [decomp()] for just age decomposition
 #' @return Dataframe with 1st column as overall decomposition (`ex12`), and other columns are decompositions by causes (`cause(i)`)
 #' @export
 mdecomp <- function(mx1, mx2, age, method = "andreev", ...){

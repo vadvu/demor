@@ -17,7 +17,7 @@ asdt(age, m_all, m_i, full = FALSE, method = "chiang1968", ...)
 
 \item{method}{Character. The method of ASDT construction to use. Now just "chiang1968" is supported.}
 
-\item{...}{Optional. Additional arguments for \code{LT} function.}
+\item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
 dataframe.

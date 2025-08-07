@@ -5,7 +5,7 @@
 #' @param m_i Numeric array with age specific mortality rates of some cause of death (i)
 #' @param full Logical. Is full table needed? `TRUE` for full, `FALSE` for concise. By default, `FALSE`
 #' @param method Character. The method of ASDT construction to use. Now just "chiang1968" is supported.
-#' @param ... Optional. Additional arguments for `LT` function.
+#' @param ... Optional. Additional arguments for [LT()] function.
 #' @references Chiang, L. (1968). *Introduction to Stochastic Processes in Biostatistics*. New York: John Wiley and Sons.
 #' @return dataframe.
 #' @export

@@ -39,7 +39,7 @@ ccm(
 
 \item{srb}{Numeric. Sex ratio at birth for females. By default, it is 100/205.}
 
-\item{...}{Optional. Additional arguments for \code{leslie} function.}
+\item{...}{Optional. Additional arguments for \code{\link[=leslie]{leslie()}} function.}
 }
 \value{
 (List of) Matrices with projected population. Columns represent periods, rows represent age groups. The first column is \code{N0} (initial period).

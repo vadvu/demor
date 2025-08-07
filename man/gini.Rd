@@ -11,7 +11,7 @@ gini(age, mx, ...)
 
 \item{mx}{Numeric array with age specific mortality rates.}
 
-\item{...}{Optional. Additional arguments for \code{LT} function.}
+\item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
 list with G0 (Gini coefficient), G0_abs (absolute Gini coefficient) and data for the Lorenz curve ($plot)

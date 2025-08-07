@@ -679,12 +679,13 @@ dbm.1 <- demor::rosbris_mortality_pop_1
 leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 & 
                                            dbm.1$territory=="t" & 
                                            dbm.1$sex=="m" & 
-                                           dbm.1$year %in% 2000:2019,c("year", "age", "mx")], 
+                                           dbm.1$year %in% 2000:2019, c("year", "age", "mx")], 
                             n = 3, 
                             sex = "m", 
                             ax_method = "classic",
                             bx_method = "classic", 
-                            model = "RWwD"
+                            model = "RWwD", 
+                            ktadj = "none"
                             )
 ```
 
@@ -712,7 +713,7 @@ leecart_forecast$ex0 %>%
   geom_point(aes(y = e0.hat, color = "Predicted\n(counterfactual)")) + 
   geom_line(aes(y = e0.hat, color = "Predicted\n(counterfactual)")) + 
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "pink", alpha = 0.5)+
-  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", linewidth = 1)+
   scale_x_continuous(breaks = 2010:2024) +
   scale_y_continuous(breaks = 58:74) +
   theme_linedraw()+
@@ -726,67 +727,85 @@ The comparison between different methods for Lee-Carter is presented below.
 
 
 ```{r, echo=FALSE}
-data = demor::rosbris_mortality_pop_1 %>% filter(territory == "t" & sex == "m" & code == 1100 & year <= 2019)
+data = demor::rosbris_mortality_pop_1 %>% 
+  filter(territory == "t" & sex == "m" & code == 1100 & year <= 2019)
 
-leecart_forecast <- leecart(data = data, 
-                            n = 3, 
-                            sex = "m", 
+leecart_forecast <- leecart(data = data,
+                            n = 3,
+                            sex = "m",
                             ax_method = "classic",
-                            bx_method = "classic", 
-                            model = "RWwD")
-
-leecart_forecast_2000 <- leecart(data = data %>% filter(year >= 2000), 
-                            n = 3, 
-                            sex = "m", 
+                            bx_method = "classic",
+                            model = "RWwD", 
+                            ktadj = "none")
+leecart_forecast_2000 <- leecart(data = data %>% filter(year >= 2000),
+                            n = 3,
+                            sex = "m",
                             ax_method = "classic",
-                            bx_method = "classic", 
-                            model = "RWwD")
+                            bx_method = "classic",
+                            model = "RWwD", 
+                            ktadj = "none")
 
-
-leecart_forecast_2000_last <- leecart(data = data %>% filter(year >= 2000), 
-                                 n = 3, 
-                                 sex = "m", 
+leecart_forecast_2000_last <- leecart(data = data %>% filter(year >= 2000),
+                                 n = 3,
+                                 sex = "m",
                                  ax_method = "last",
-                                 bx_method = "classic", 
-                                 model = "RWwD")
+                                 bx_method = "classic",
+                                 model = "RWwD", 
+                                 ktadj = "none")
+leecart_forecast_last <- leecart(data = data,
+                                     n = 3,
+                                     sex = "m",
+                                     ax_method = "last",
+                                     bx_method = "classic",
+                                     model = "RWwD", 
+                                     ktadj = "none")
 
-leecart_forecast_last <- leecart(data = data, 
-                                      n = 3, 
-                                      sex = "m", 
+leecart_forecast_2000_dx <- leecart(data = data %>% filter(year >= 2000),
+                                      n = 3,
+                                      sex = "m",
                                       ax_method = "last",
-                                      bx_method = "classic", 
-                                      model = "RWwD")
+                                      bx_method = "classic",
+                                      model = "RWwD", 
+                                      ktadj = "e0min")
+leecart_forecast_dx <- leecart(data = data,
+                                 n = 3,
+                                 sex = "m",
+                                 ax_method = "last",
+                                 bx_method = "classic",
+                                 model = "RWwD", 
+                                 ktadj = "e0min")
 
 
-lc_plot <- leecart_forecast$ex0 %>% mutate(model = "Original\n1989-2019\n") %>% 
-  rbind(x = ., y = leecart_forecast_2000$ex0 %>% mutate(model = "Original\n2000-2019\n")) %>% 
-  rbind(x = ., y = leecart_forecast_2000_last$ex0 %>% mutate(model = "ax correction\n2000-2019\n")) %>% 
-  rbind(x = ., y = leecart_forecast_last$ex0 %>% mutate(model = "ax correction\n1989-2019\n"))
+lc_plot <- leecart_forecast$ex0 %>% mutate(model = "1. Original\n1989-2019") %>%
+  rbind(x = ., y = leecart_forecast_2000$ex0 %>% mutate(model = "1. Original\n2000-2019")) %>%
+  rbind(x = ., y = leecart_forecast_2000_last$ex0 %>% mutate(model = "2. ax correction\n2000-2019")) %>%
+  rbind(x = ., y = leecart_forecast_last$ex0 %>% mutate(model = "2. ax correction\n1989-2019")) %>% 
+  rbind(x = ., y = leecart_forecast_2000_dx$ex0 %>% mutate(model = "3. kt + ax correction\n2000-2019")) %>%
+  rbind(x = ., y = leecart_forecast_dx$ex0 %>% mutate(model = "3. kt + ax correction\n1989-2019"))
 
 data = demor::rosbris_mortality_pop_1 %>% filter(territory == "t" & sex == "m" & code == 1100)
-
 for(i in 2020:2022){
-  lc_plot[lc_plot$year ==i,]$e0.obs <- 
+  lc_plot[lc_plot$year ==i,]$e0.obs <-
     LT(age = unique(data$age), sex = "m",
        mx = data[data$year==i,]$mx)[1,"ex"]
 }
 
-
-lc_plot %>% 
-  filter(year >= 2010) %>% 
-  ggplot(aes(x = year)) + 
-  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", size = 1)+
+lc_plot %>%
+  filter(year >= 2010) %>%
+  ggplot(aes(x = year)) +
+  geom_vline(xintercept = 2019, linetype = "dashed", color = "darkgrey", linewidth = 1)+
   geom_point(aes(y = e0.obs, color = "Observed")) +
   geom_line(aes(y = e0.obs, color = "Observed")) +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, color = model), alpha = 0.3, fill = "pink", linetype = "dashed")+
-  geom_point(aes(y = e0.hat, color = model), shape = 15) + 
-  geom_line(aes(y = e0.hat, color = model), linetype = "dashed") + 
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, color = model, fill = model), alpha = 0.3, linewidth = 0.25, linetype = "dashed")+
+  geom_point(aes(y = e0.hat, color = model), shape = 15) +
+  geom_line(aes(y = e0.hat, color = model), linetype = "dashed") +
   scale_x_continuous(breaks = 2010:2024) +
   scale_y_continuous(breaks = 58:74) +
-  theme_linedraw()+
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
-  facet_wrap(~model) +
-  scale_color_manual(values = c("steelblue", "darkred", "black", "orange", "forestgreen"))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), legend.position = "none")+
+  facet_wrap(~model, ncol = 2) +
+  scale_color_manual(values = c("steelblue", "darkred", "forestgreen", "gold4", "purple", "darkorange","black" ))+
+  scale_fill_manual(values = c("steelblue", "darkred", "forestgreen", "gold4", "purple", "darkorange","black" ))+
   labs(x="Year", y = "e0, males", colour = "Data:")
 ```
 
@@ -802,7 +821,7 @@ In the `demor` one can compute its using $m_x$ and $f_x$ that is age-specific mo
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$mx
 fx <- dbf[dbf$code==1100 & dbf$territory=="t" & dbf$year == 2022,]$fx
 
-les <- leslie(mx = mx, fx = fx, age.mx = 0:100, age.fx = 15:55, sex = "f", fin = F)
+les <- leslie(mx = mx, fx = fx, age.mx = 0:100, age.fx = 15:55, fin = F)
 
 les[1:5, 1:5]
 ```
@@ -876,7 +895,7 @@ N0 <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$yea
 const.mx = matrix(rep(mx, each = 79), nrow = length(mx), byrow = TRUE)
 const.fx = matrix(rep(fx, each = 79), nrow = length(fx), byrow = TRUE)
 
-Nt <- ccm(Mx.f = const.mx, Fx = const.fx, age.mx = 0:100, age.fx = 15:55, N0.f = N0)
+Nt <- ccm(Mx.f = const.mx, Fx = const.fx, age.mx = 0:100, age.fx = 15:55, N0.f = N0, fin = F)
 colnames(Nt) <- 2022:2100
 
 head(Nt)[,1:10]
@@ -927,7 +946,7 @@ plot_pyr(
 
 ```
 
-Also one can redesigned plot using [ggplot2](https://github.com/tidyverse/ggplot2) commands. Also one can plot additional population (`popm2` and `popf2`) pyramid as dashed line that can be helpfull for comparisons.
+Also one can redesigned plot using [ggplot2](https://github.com/tidyverse/ggplot2) commands. Also one can plot additional population (`popm2` and `popf2`) pyramid as dashed line that can be helpful for comparisons.
 
 ```{r}
 
@@ -935,8 +954,8 @@ plot <-
   plot_pyr(
   popm = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
   popf = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N,
-  popm2 = dbm[dbm$year==2000 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
-  popf2 = dbm[dbm$year==2000 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N,
+  popm2 = dbm[dbm$year==2022 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
+  popf2 = dbm[dbm$year==2022 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N,
   age = dbm[dbm$year==2010 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$age)
 
 plot + 
@@ -948,17 +967,6 @@ plot +
   theme_minimal()
 
 ```
-
-
-```{r}
-
-plot_pyr(
-  popm = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$N,
-  popf = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f",]$N, 
-  age = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f",]$age)
-
-```
-
 
 ## Median age
 

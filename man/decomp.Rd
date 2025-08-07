@@ -40,3 +40,6 @@ where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in
 \item Pollard, J. H. (1982). The expectation of life and its relationship to mortality. \emph{Journal of the Institute of Actuaries}, \emph{109(2)}, 225–240.
 }
 }
+\seealso{
+\code{\link[=mdecomp]{mdecomp()}} for age and cause decomposition
+}

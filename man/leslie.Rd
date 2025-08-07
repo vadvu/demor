@@ -19,7 +19,7 @@ leslie(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...)
 
 \item{fin}{Logical. Should the survival rate for the last age-group be nonzero? By default it is \code{FALSE}, so the last survival rate is 0 as in classical model. Otherwise, it is \eqn{T_{x}/T_{x-1}}.}
 
-\item{...}{Optional. Additional arguments for \code{LT} function.}
+\item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
 Matrix.

@@ -6,8 +6,7 @@
 #' @param age.fx Numeric array of ages for fx.
 #' @param srb Numeric. Sex ratio at birth. Usually it is assumed that for males it is `105/205`, for females it is `100/205`. By default, it is `100/205`.
 #' @param fin Logical. Should the survival rate for the last age-group be nonzero? By default it is `FALSE`, so the last survival rate is 0 as in classical model. Otherwise, it is \eqn{T_{x}/T_{x-1}}.
-#' @param ... Optional. Additional arguments for `LT` function.
-#'
+#' @param ... Optional. Additional arguments for [LT()] function.
 #' @return Matrix.
 #' @export
 leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
@@ -27,22 +26,22 @@ leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
     age.mx = newage
   }
   n <- length(age.mx)
+
   Lx = lt[,"Lx"]
-  A <- matrix(0, n, n)
-  Sx <- rep(0, n)
-  Sx[1] <- Lx[1]/(radix * diff(age.mx)[1])
-  Sx[-1] <- Lx[-1] / Lx[-n]
-  Sx[n] <- ifelse(fin, Tx[n0]/Tx[n0-1], 0)
-  if(0 %in% Sx){
-    rta <- Sx[n - length(which(Sx == 0 | is.na(Sx)))] / Sx[n - length(which(Sx == 0 | is.na(Sx))) - 1]
-    Sx[which(Sx == 0 | is.na(Sx))] = cumprod(Sx[n - length(which(Sx == 0 | is.na(Sx)))] * rep(rta, length(which(Sx == 0 | is.na(Sx)))))
+  Sx <- Lx[-1] / Lx[-n]
+  Sx[n-1] <- Tx[n0]/Tx[n0-1]
+  if(any(is.na(Sx))){
+    Sx[is.na(Sx)] = 0
+    warning("There are NAs in survival rates, change them to 0")
   }
-  A[n,n] <- Sx[n]
-  diag(A[-1,1:(n-1)]) <- Sx[-1]
+
+  A <- matrix(0, n, n)
+  A[n,n] <- ifelse(fin, Sx[n-1], 0)
+  diag(A[-1,1:(n-1)]) <- Sx[-n]
   names(fx) <- age.fx
   fert = sapply(age.mx, FUN = function(x) ifelse(x %in% age.fx, fx[paste0(x)], 0) )
-  k <- srb * (0.5 * Sx[1])
-  A[1,] <- k * diff(age.fx)[1] * ( fert + c(fert[-1]*Sx[-1], 0) )
+  k <- srb * ( Lx[1] / (2*radix) )
+  A[1,] <- k * ( fert + c(fert[-1] * Sx[-n], 0) )
 
   return(A)
 }

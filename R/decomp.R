@@ -14,6 +14,7 @@
 #' \deqn{\Delta_{\omega} = l_{\omega}^2(e_{\omega}^2 - e_{\omega}^1)}
 #' where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in \eqn{e_0} between the second and the first population. \eqn{e_x^i, l_x^i} are life table functions for population \eqn{i}. \eqn{\omega} is the last age group. Note, \eqn{e_0^2 - e_0^1 = \sum_{x}^{\omega}\Delta_x}
 #'
+#' @seealso [mdecomp()] for age and cause decomposition
 #' @references
 #' 1. Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. *Demography*, *21*, 83-96.
 #' 2. Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. *Вестник статистики*, *9*, 42-47.

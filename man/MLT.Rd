@@ -11,11 +11,14 @@ MLT(age, mx, ...)
 
 \item{mx}{List of numeric arrays. 1st array should be all-cause mx in the population, other arrays are cause-specific mx in the population.}
 
-\item{...}{Other parameters for the function \code{LT()} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
+\item{...}{Other parameters for the function \code{\link[=LT]{LT()}} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
 }
 \value{
 Extended \code{LT} matrix
 }
 \description{
 Multiple Decrement Life Table
+}
+\seealso{
+\code{\link[=LT]{LT()}} for usual life table calculation
 }

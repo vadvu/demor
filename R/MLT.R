@@ -2,8 +2,8 @@
 #'
 #' @param age Numeric array of age intervals; for full life table = `0:100`; for concise life table = `c(0:1, seq(5,85,5))`
 #' @param mx List of numeric arrays. 1st array should be all-cause mx in the population, other arrays are cause-specific mx in the population.
-#' @param ... Other parameters for the function `LT()` including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
-#'
+#' @param ... Other parameters for the function [LT()] including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
+#' @seealso [LT()] for usual life table calculation
 #' @return Extended `LT` matrix
 #' @export
 MLT <- function(age, mx, ...){

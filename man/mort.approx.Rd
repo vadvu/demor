@@ -15,7 +15,7 @@ mort.approx(mx, age, model = c("Brass", "Gompertz"), standard.mx = NULL, ...)
 
 \item{standard.mx}{Numeric vector of age specific mortality rates for standard population. Default is \code{NULL}.}
 
-\item{...}{Used only for \code{Brass} model. Other parameters for the function \code{LT()} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
+\item{...}{Used only for \code{Brass} model. Other parameters for the function \code{\link[=LT]{LT()}} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
 }
 \value{
 list with estimated model and dataframe with predicted mortality rates.

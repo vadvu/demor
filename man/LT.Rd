@@ -35,3 +35,6 @@ where \eqn{\omega} is the last age, \eqn{w} is weight s.t. \eqn{w \in [0,1]}, an
 \references{
 Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. \emph{Demographic Research}, \emph{33}, 363-390.
 }
+\seealso{
+\code{\link[=MLT]{MLT()}} for Multiple Decrement Life Table.
+}

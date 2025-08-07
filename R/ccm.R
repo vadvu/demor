@@ -10,7 +10,7 @@
 #' @param N0.f Numeric vector. Female population in the initial period by age groups.
 #' @param N0.m Optional. Numeric vector. Male population in the initial period by age groups.
 #' @param srb Numeric. Sex ratio at birth for females. By default, it is 100/205.
-#' @param ... Optional. Additional arguments for `leslie` function.
+#' @param ... Optional. Additional arguments for [leslie()] function.
 #' @details
 #' The model is calculated in matrix form as
 #' \deqn{\mathbf{N}_{t+h} = \mathbf{L}_t(\mathbf{N}_{t} + \mathbf{I}_{t}/2) + \mathbf{I}_{t}/2}

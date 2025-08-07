@@ -13,6 +13,7 @@
 #' \deqn{e_x^w = \frac{\sum_{i = x}^{\omega}L_x w_x}{l_x}}
 #' where \eqn{\omega} is the last age, \eqn{w} is weight s.t. \eqn{w \in [0,1]}, and other variables are life table functions.
 #'
+#' @seealso [MLT()] for Multiple Decrement Life Table.
 #' @references Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.
 #' @return Matrix of (age x 9). Columns are: age, mx, ax, qx, lx, dx, Lx, Tx, ex
 #' @export

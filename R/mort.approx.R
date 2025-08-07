@@ -4,7 +4,7 @@
 #' @param age Numeric vector of ages.
 #' @param model Character. Model name to be estimated. Now "Gompertz" and "Brass" are supported.
 #' @param standard.mx Numeric vector of age specific mortality rates for standard population. Default is `NULL`.
-#' @param ... Used only for `Brass` model. Other parameters for the function `LT()` including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
+#' @param ... Used only for `Brass` model. Other parameters for the function [LT()] including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
 #'
 #' @return list with estimated model and dataframe with predicted mortality rates.
 #' @import dplyr

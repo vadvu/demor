@@ -1,39 +1,62 @@
 #' Lee-Carter model
 #'
-#' @param data Dataframe with the following columns: `age, year, mx`
+#' @param data Dataframe in the long format with the following columns: `age`, `year`, `mx` (age specific mortality rates). For some types of `ktadj` argument `N` (population at age x) and `Dx` (number of deaths at age x) columns should also be presented.
 #' @param n Numeric. Forecasted horizon
 #' @param alpha Numeric. The level of uncertainty. By default, `alpha = 0.05` for 95% CI.
 #' @param model Character. Model type for kt forecasting. Can be "RWwD" for random walk with drift (by default, for original Lee-Carter model) or "ARIMA" for ARIMA model which parameters are chosen automatically by `forecast::auto.arima()`.
-#' @param ax_method Character. Method for ax calculation. Can be "classic" from original Lee-Carter model (by default), "last" for using only last available mortality (R. Lee & Miller, 2001) and "last_smooth" for using smoothed last available mortality (Ševčíková et al., 2016, p. 288).
+#' @param ax_method Character. Method for ax calculation. Can be "classic" from original Lee-Carter model (by default), "last" or "last_smooth". See details.
 #' @param bx_method Character. Method for bx calculation. Can be "classic" from original Lee-Carter model (by default) and "rotate" for rotating bx (Li et al., 2013).
 #' @param boot Logical. Should bootstrap estimates for uncertainty be used? `FALSE` by default.
 #' @param bn Numeric. Used if `boot = TRUE`, number of bootstrap samples. By default, `bn = 1000`.
-#' @param ... Optional. Additional arguments for `LT` function.
+#' @param ktadj Character. Type of `kt` adjustment. It can be set to 'none' (defaukt, no adjustment), 'Dmin', 'e0min', 'poisson' or 'edaggermin' (see Details). Note that 'Dmin' and 'poisson' require data on the age-specific number of deaths (`Dx` column in the data) and the age-specific population (`N` column in the data).
+#' @param ... Optional. Additional arguments for [LT()] function.
 #' @details
-#' The `model` argument specifies the forecasting method (`model ="RWwD"` – classic random walk option, `model = "ARIMA"` for selecting a more complex time series model).
+#' The \strong{`model`} argument specifies the forecasting method.
+#' \itemize{
+#'   \item `model ="RWwD"` – classic random walk option
+#'   \item `model = "ARIMA"` for selecting a more complex time series model
+#' }
 #'
-#' The `ax_method` argument allows to control how `a_x` is calculated.
-#' `ax_method = "classic"` – classic option with the average of the logarithm of mortality rates (but there is so-called "jump-off bias").
-#' `ax_method = "last"` uses the logarithm of mortality for the last available year ( as proposed in Lee & Miller, 2001).
-#' `ax_method = "last_smooth"` uses data for the last year with smoothing (see Ševčíková et al., 2016, p. 288).
+#' The \strong{`ax_method`} argument allows to control how `a_x` is calculated.
+#' \itemize{
+#'   \item `ax_method = "classic"` – classic option with the average of the logarithm of mortality rates (but there is so-called "jump-off bias").
+#'   \item `ax_method = "last"` uses the logarithm of mortality for the last available year (as proposed in Lee & Miller, 2001).
+#'   \item `ax_method = "last_smooth"` uses data for the last year with smoothing (see Ševčíková et al., 2016, p. 288).
+#' }
 #'
-#' The `bx_method` argument allows to control how `b_x` is calculated.
-#' `bx_method = "classic"` for the original method.
-#' `bx_method = "rotate"` for the rotational variant (see Li et al., 2013).
+#' The \strong{`bx_method`} argument allows to control how `b_x` is calculated.
+#' \itemize{
+#'   \item `bx_method = "classic"` for the original method.
+#'   \item `bx_method = "rotate"` for the rotational variant (see Li et al., 2013).
+#' }
+#'
+#' The \strong{`ktadj`} argument allows to control how `k_t` is calculated.
+#' \itemize{
+#'   \item `ktadj = "none"` for no adjustment.
+#'   \item `ktadj = "Dmin"` for minimizing the deviance of predicted/actual annual deaths (as proposed in the original Lee-Carter paper). This method requires data on the age-specific number of deaths (`Dx` column in the data) and the age-specific population (`N` column in the data).
+#'   \item `ktadj = "e0min"` for minimizing the deviance of predicted/actual life expectancy (as proposed in Lee & Miller, 2001).
+#'   \item `ktadj = "poisson"` for minimizing the deviance from a Poisson model, where the dependent variable is the age-specific annual number of deaths (as proposed in Booth et al., 2002). This method requires data on the age-specific number of deaths (`Dx` column in the data) and the age-specific population (`N` column in the data).
+#'   \item `ktadj = "edaggermin"` for minimizing the deviance of predicted/actual edagger (see [edagger()]) as proposed in Rabbi & Mazzuco, 2021.
+#' }
 #'
 #' @references
-#' Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. https://doi.org/10.1080/01621459.1992.10475265
 #'
-#' Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. https://doi.org/10.1353/dem.2001.0036
+#' Booth, H., Maindonald, J., & Smith, L. (2002). Applying Lee-Carter under conditions of variable mortality decline. Population studies, 56(3), 325-336. \href{https://doi.org/10.1080/00324720215935}{https://doi.org/10.1080/00324720215935}
 #'
-#' Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. https://doi.org/10.1007/s13524-013-0232-2
+#' Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. \href{https://doi.org/10.1080/01621459.1992.10475265}{https://doi.org/10.1080/01621459.1992.10475265}
 #'
-#' Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. https://doi.org/10.1007/978-3-319-26603-9_15
+#' Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. \href{https://doi.org/10.1353/dem.2001.0036}{https://doi.org/10.1353/dem.2001.0036}
+#'
+#' Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. \href{https://doi.org/10.1007/s13524-013-0232-2}{https://doi.org/10.1007/s13524-013-0232-2}
+#'
+#' Rabbi, A. M. F., & Mazzuco, S. (2021). Mortality forecasting with the lee–carter method: Adjusting for smoothing and lifespan disparity. European Journal of Population, 37(1), 97-120. \href{https://doi.org/10.1007/s10680-020-09559-9}{https://doi.org/10.1007/s10680-020-09559-9}
+#'
+#' Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. \href{https://doi.org/10.1007/978-3-319-26603-9_15}{https://doi.org/10.1007/978-3-319-26603-9_15}
 #'
 #' @return Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr splines
 #' @export
-leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "classic", bx_method = "classic", boot = FALSE, bn = 1000, ...){
+leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "classic", bx_method = "classic", boot = FALSE, bn = 1000, ktadj = "none", ...){
 
   ##### Checks
   `%notin%` <- Negate(`%in%`)
@@ -43,8 +66,14 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
     data <- data %>% arrange(year, age)
   }
   if(sum(data$mx == 0)>0){
-    data$mx <- ifelse(data$mx == 0, 1e-5, data$mx)
-    warning("0 are in mx vector, transform them to 1e-5")
+    warning("0 are in mx vector, linear interpolation is done")
+    mxtoextr <- which(data$mx == 0)
+    for(j in mxtoextr){
+      data1 <- data[data$year == data[j,]$year,]
+      lh <- data1[c(j-1, j+1),]$mx
+      data[j,]$mx <- mean(lh)
+      data[j,]$mx <- ifelse(is.na(data[j,]$mx), 1e-5, 1e-5)
+    }
   }
 
   ##### Model
@@ -99,6 +128,68 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
     kt <- kt * bx.sum
     kt <- kt - kt[length(kt)] # kt = 0 in the last year
     bx <- bx / bx.sum # bx sum = 1
+  } else {
+    stop("Choose `ax_method` arguement carefully")
+  }
+
+  if(ktadj == "Dmin"){
+
+    if("Dx" %notin% colnames(data) | "N" %notin% colnames(data)){
+      stop("for `ktadj = 'Dx'` adjustment in the data should be deaths (`Dx` column) and population (`N` column) by age")
+    }
+
+    Dx <- data %>% select(age, year, Dx) %>% pivot_wider(names_from = year, values_from = Dx) %>% select(-age) %>% as.matrix()
+    Nx <- data %>% select(age, year, N) %>% pivot_wider(names_from = year, values_from = N) %>% select(-age) %>% as.matrix()
+
+    f <- function(k, ax, bx, Dx, Nx){
+      sum(Dx) - sum(exp(ax + bx * k) * Nx)
+    }
+    kDx <- kt
+    for(t in 1:ncol(Mx)){
+      kDx[t] <- uniroot(f = f, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, Dx = Dx[,t], Nx = Nx[,t], tol = 1e-6)$root[1]
+    }
+    kt <- kDx
+  }else if (ktadj == "e0min"){
+
+    e0 <- apply(exp(Mx + ax), 2, FUN = function(x) LT(age = unique(data$age), mx = x, ...)[1,"ex"])
+
+    f <- function(k, ax, bx, e0, ...){
+      mx.hat <- exp(ax + bx * k)
+      e0 - LT(age = unique(data$age), mx = mx.hat, ...)[1,"ex"]
+    }
+    kex <- kt
+    for(t in 1:ncol(Mx)){
+      kex[t] <- uniroot(f = f, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, e0 = e0[t], tol = 1e-6)$root[1]
+    }
+    kt <- kex
+  } else if (ktadj == "poisson"){
+
+    if("Dx" %notin% colnames(data) | "N" %notin% colnames(data)){
+      stop("for `ktadj = 'poisson'` adjustment in the data should be deaths (`Dx` column) and population (`N` column) by age")
+    }
+
+    Dx <- data %>% select(age, year, Dx) %>% pivot_wider(names_from = year, values_from = Dx) %>% select(-age) %>% as.matrix()
+    Nx <- data %>% select(age, year, N) %>% pivot_wider(names_from = year, values_from = N) %>% select(-age) %>% as.matrix()
+    kpois <- kt
+    for(t in 1:ncol(Mx)){
+      kpois[t] <- coef(glm(round(Dx[,t]) ~ -1 + offset(log(Nx[,t]) + ax) + bx, family = poisson(link = "log")))[1]
+    }
+    kt <- kpois
+  } else if (ktadj == "edaggermin"){
+
+    edag <- apply(exp(Mx + ax), 2, FUN = function(x) edagger(age = unique(data$age), mx = x)[1])
+
+    f <- function(k, ax, bx, edag, ...){
+      mx.hat <- exp(ax + bx * k)
+      (edag - edagger(age = unique(data$age), mx = mx.hat, ...)[1])^2
+    }
+    kedag <- kt
+    for(t in 1:ncol(Mx)){
+      kedag[t] <- optimise(f = f1, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, edag = edag[t], tol = 1e-6)$minimum
+    }
+    kt <- kedag
+  } else if (ktadj != "none"){
+    stop("Choose `ktadj` arguement carefully")
   }
 
   ##### Fit
@@ -108,15 +199,17 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
   ##### Forecast
   forecaster <- function(y = kt, mod = model){
     if(mod == "RWwD"){
-      model <- forecast::Arima(y = y, order = c(0,1,0), include.drift = T, include.constant = T)
+      model <- forecast::Arima(y = y, order = c(0,1,0), include.drift = T)
     }else if(mod == "ARIMA"){
-      model <- forecast::auto.arima(y = y, seasonal = F, stationary = F, allowdrift = T)
+      model <- forecast::auto.arima(y = y, seasonal = F)
+    } else{
+      stop("Choose `model` arguement carefully")
     }
     model
   }
 
   formodel <- forecaster()
-  kt.for = forecast::forecast(formodel, level = 1-alpha, bootstrap = boot, npaths = bn, h = n) %>%
+  kt.for = forecast::forecast(formodel, bootstrap = boot, npaths = bn, h = n, level = 1-alpha) %>%
     as.data.frame()
   mx.for <- lapply(kt.for[,1], FUN = function(x) exp(ax + bx %o% x))
   mx.low <- lapply(kt.for[,3], FUN = function(x) exp(ax + bx %o% x))

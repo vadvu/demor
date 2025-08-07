@@ -2,7 +2,7 @@
 #'
 #' @param age Numeric array of age intervals
 #' @param mx Numeric array with age specific mortality rates.
-#' @param ... Optional. Additional arguments for `LT` function.
+#' @param ... Optional. Additional arguments for [LT()] function.
 #'
 #' @return Numeric array
 #' @export

@@ -11,7 +11,7 @@ edagger(age, mx, ...)
 
 \item{mx}{Numeric array with age specific mortality rates.}
 
-\item{...}{Optional. Additional arguments for \code{LT} function.}
+\item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
 Numeric array

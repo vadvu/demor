@@ -24,7 +24,8 @@
 #'     \deqn{ASYR_{t,c} = \sum_{x=\alpha}^{\omega} \left( YLL_{x,t,c}^r \times w_x \right)}
 #'     where \eqn{\alpha} to \eqn{\omega} corresponds to first to last age group, \eqn{w_x} is standard population weight for age \eqn{x}.
 #' }
-#' @references Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. *International Journal of Epidemiology*, *48*, 1367–1376.
+#' @references
+#' Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. *International Journal of Epidemiology*, *48*, 1367–1376.
 #' @return list with values.
 #' @export
 #'

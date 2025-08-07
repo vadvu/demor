@@ -33,3 +33,6 @@ Bongaarts, J., & Feeney, G. (1998). On the Quantum and Tempo of Fertility. Popul
 
 Bongaarts, J., & Feeney, G. (2000). On the Quantum and Tempo of Fertility: Reply. Population and Development Review, 26(3), 560–564. https://doi.org/10.1111/j.1728-4457.2000.00560.x
 }
+\seealso{
+\code{\link[=tfr]{tfr()}} for TFR and \code{\link[=mac]{mac()}} for mean age at childbearing calculation.
+}
