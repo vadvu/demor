@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
 <p><strong>DEPRECATED</strong></p>
 <p>For getting data from <span class="citation"><span>“<span class="nocase">The Russian Fertility and Mortality
 database</span>”</span> (<a href="#ref-rosbris">2024</a>)</span> there
-is a function <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code> that can download data on
+is a function <code>get_rosbris()</code> that can download data on
 mortality/fertility by 1/5-year age groups from 1989 to the last
 available year (in 2023 its 2022).<br>
 Worth noting: downloading and preparing the final file can get some
@@ -86,7 +86,7 @@ time.<br>
 In the chunk below mortality data (<code>type = "m"</code>, for
 fertility see <a href="#get-fertility-data">Fertility section</a>) for
 1-age groups with population in “long” format is loading. For more
-function description use <code><a href="../reference/get_rosbris.html">?get_rosbris</a></code></p>
+function description use <code>?get_rosbris</code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dbm &lt;- get_rosbris(</span></span>
 <span><span class="co">#   #mortality data</span></span>
@@ -764,7 +764,7 @@ as standard mortality.</p>
 <p>Lets get basic <em>fertility data</em> (asFR or
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>x</mi></msub><annotation encoding="application/x-tex">f_x</annotation></semantics></math>)
 from <a href="http://demogr.nes.ru/index.php/ru/demogr_indicat/data" class="external-link">RosBris</a>
-using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code></p>
+using <code>get_rosbris()</code></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dbf &lt;- get_rosbris(</span></span>
 <span><span class="co">#   #fertility data</span></span>
