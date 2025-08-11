@@ -4,7 +4,7 @@ Version: 1.0.4
 Authors@R: 
     person("Vadim", "Ustyuzhanin", , "vvustiuzhanin@yandex.ru", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))
-Description: What the package does (one paragraph).
+Description: Basic functions for demographic analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -15,17 +15,14 @@ Imports:
     ggplot2,
     magrittr,
     tidyr,
-    vars,
-    MASS,
     scales,
     splines, 
-    parallel,
-    foreach,
-    doParallel,
     msm
 Depends: 
     R (>= 2.10)
 LazyData: true
+LazyDataCompression: gzip
+LazyLoad: true
 Suggests: 
     knitr,
     rmarkdown

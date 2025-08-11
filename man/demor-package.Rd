@@ -6,7 +6,7 @@
 \alias{demor-package}
 \title{demor: Basic functions for demographic analysis}
 \description{
-What the package does (one paragraph).
+Basic functions for demographic analysis.
 }
 \seealso{
 Useful links:

@@ -11,3 +11,7 @@
 ^pkgdown$
 ^\.github$
 ^inst/web$
+^paper$
+^IDEAS$
+^rosbris$
+[.]rtf$
