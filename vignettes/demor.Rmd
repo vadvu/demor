@@ -37,28 +37,9 @@ library(tidyr)
 
 # Get Rosbris data
 
-**DEPRECATED**
+The data from @rosbris is presented in the `demor` as datasets in the long-format (mortality/fertility by 1/5-year age groups from 1989 to 2022).\
 
-For getting data from @rosbris there is a function `get_rosbris()` that can download data on mortality/fertility by 1/5-year age groups from 1989 to the last available year (in 2023 its 2022).\
-Worth noting: downloading and preparing the final file can get some time.\
-In the chunk below mortality data (`type = "m"`, for fertility see [Fertility section](#get-fertility-data)) for 1-age groups with population in "long" format is loading. For more function description use `?get_rosbris`
-
-```{r}
-# dbm <- get_rosbris(
-#   #mortality data
-#   type = "m",
-#   #what age group download
-#   age =  1,
-#   #to get "long" data
-#   initial = F,
-#   #last available year (the name of the downloading file contains years, so for the downloading the last year is required)
-#   lastyear = 2022
-# )
-```
-
-Recently RosBris has been switched to new website, so the function `get_rosbris` does not work now. I hope in a several months all mistakes due to new website will be fixed and function will work. 
-
-Now RosBris data is presented in the `demor` as datasets in the long-format. The example of usage that replicates the data from the previous chunk with `get_rosbris`:
+The example of usage is placed below, where data on mortality by 5-year age groups is presented:
 
 ```{r}
 dbm <- demor::rosbris_mortality_pop_5
@@ -129,8 +110,7 @@ hli(
 
 ## Gini coefficient
 
-As @Shkolnikov_gini note, "at present, the average level of life expectancy is high in many countries and it is
-interesting to study to what extent this advantage is equally accessible to all people". (p. 306). One of the tools for analysing mortality inequality within the population (or, rather, the life table) is the Gini index, which is similar to the "usual" index widely used in economics. Life table Gini, $G_0$, shows a degree of inter-individual variability in age at death and can be interpreted as in other fields ($G_0 \in [0,1]$; higher $G_0$, higher inequality and vice versa). Also one can be interested in "absolute" Gini coefficient (aka AID - Absolute Inter-individual Difference) that is $G_0^{abs} = G_0 \times e_0$ which "is equal to the average inter-individual difference in length of life and is measured in years." [@Shkolnikov_gini, p. 312]
+As @Shkolnikov_gini note, "at present, the average level of life expectancy is high in many countries and it is interesting to study to what extent this advantage is equally accessible to all people". (p. 306). One of the tools for analysing mortality inequality within the population (or, rather, the life table) is the Gini index, which is similar to the "usual" index widely used in economics. Life table Gini, $G_0$, shows a degree of inter-individual variability in age at death and can be interpreted as in other fields ($G_0 \in [0,1]$; higher $G_0$, higher inequality and vice versa). Also one can be interested in "absolute" Gini coefficient (aka AID - Absolute Inter-individual Difference) that is $G_0^{abs} = G_0 \times e_0$ which "is equal to the average inter-individual difference in length of life and is measured in years." [@Shkolnikov_gini, p. 312]
 
 Below is the function `gini` that computes Gini index as well as produces data for Lorenz curve - the graphical representation of inequality. The formulas for the calculations are derived from @Shkolnikov_gini (that is based on the @hanada_gini formulation). 
 
@@ -164,8 +144,7 @@ res$plot %>%
 
 ```
 
-Note, one can calculate not only Gini *inequality* index, but also Drewnowski’s index of *equality* that is 
-$D_0 = 1 - G_0$ proposed by @Drewnowski (so, for Russian 1995 females it is $1-0.13=0.87$) that also can serve as an indicator of the shape of mortality patterns.
+Note, one can calculate not only Gini *inequality* index, but also Drewnowski’s index of *equality* that is $D_0 = 1 - G_0$ proposed by @Drewnowski (so, for Russian 1995 females it is $1-0.13=0.87$) that also can serve as an indicator of the shape of mortality patterns.
 
 ## e-dagger
 
@@ -229,7 +208,7 @@ demor::sle_stand
 
 ## Age decomposition of differences in life expectancies
 
-Also one can do simple *decomposition* between 2 populations. Lets use Russia-2000 as *base population* and Russia-2010 as *compared population*. This function implements two almost identical discrete methods that were proposed almost simultaneously: first in @andreev_dec and the second in @arriaga_dec.  
+Also one can do simple *decomposition* between 2 populations. Lets use Russia-2000 as *base population* and Russia-2010 as *compared population*. This function implements three almost identical discrete methods that were proposed almost simultaneously: in @andreev_dec, in @arriaga_dec and in @pollard_dec.  
 
 ```{r}
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
@@ -454,41 +433,18 @@ model1.comp %>%
 
 ## Get fertility data
 
-**DEPRECATED**
-
-Lets get basic *fertility data* (asFR or $f_x$) from [RosBris](http://demogr.nes.ru/index.php/ru/demogr_indicat/data) using `get_rosbris()`
-
-```{r}
-# dbf <- get_rosbris(
-#   #fertility data
-#   type = "f",
-#   #what age group download
-#   age =  1,
-#   #to get "long" data
-#   initial = F,
-#   #last available year
-#   lastyear = 2022
-# )
-```
-
-
-Recently RosBris has been switched to new website, so the function `get_rosbris` does not work now. I hope in a several months all mistakes due to new website will be fixed and function will work. 
-
-Now RosBris data is presented in the `demor` as datasets in the long-format. The example of usage that replicates the data from the previous chunk with `get_rosbris`:
-
+The data from @rosbris is presented in the `demor` as datasets in the long-format (mortality/fertility by 1/5-year age groups from 1989 to 2022). Lets get basic *fertility data* (asFR or $f_x$) from `demor`:
 
 ```{r}
 dbf <- demor::rosbris_fertility_pop_1
 ```
 
-
-For the example Russia-2010 is gotten
+For the example Russia-2010 is as follows
 
 ```{r}
 rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 head(rus2010f)
 ```
-
 
 ## TFR
 
@@ -504,6 +460,8 @@ tfr(
   age.int = 1
     )
 ```
+
+## Tempo-adjusted TFR
 
 However, period "TFR is a very problematic measure for assessing both the need for and the impact of policy changes and, more generally, for studying fertility trends in conjunction with selected social and economic trends" [@sobotka2010misleading, p. 639]. One correction to usual TFR is a tempo (meaning fertility schedule) adjusted TFR, TFR', proposed by @bongaarts_tfr1 (see also @bongaarts_tfr2). To calculate it, one can use `tatfr` function: 
 
@@ -558,7 +516,6 @@ da %>%
   theme_linedraw()+
   facet_wrap(~parity, scales = "free")
 ```
-
 
 
 ## MAC
@@ -723,8 +680,7 @@ leecart_forecast$ex0 %>%
 ```
 
 
-The comparison between different methods for Lee-Carter is presented below.
-
+The comparison between different methods of Lee-Carter model adjustment is presented below.
 
 ```{r, echo=FALSE}
 data = demor::rosbris_mortality_pop_1 %>% 
@@ -808,7 +764,6 @@ lc_plot %>%
   scale_fill_manual(values = c("steelblue", "darkred", "forestgreen", "gold4", "purple", "darkorange","black" ))+
   labs(x="Year", y = "e0, males", colour = "Data:")
 ```
-
 
 
 ## Leslie matrix & Cohort-component model
