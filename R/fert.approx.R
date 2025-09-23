@@ -104,16 +104,16 @@ fert.approx <- function(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, 
       sum((fx-fx.pred)^2)
     }
 
-    m1 <- optim(par = pars,
+    m1 <- stats::optim(par = pars,
                 fn = objective, fx = fx, age = age,
                 control =  list(maxit = 1e6))
-    m2 <- optim(par = m1$par,
+    m2 <- stats::optim(par = m1$par,
                 fn = objective, fx = fx, age = age,
                 control =  list(maxit = 1e6))
 
     while(m1$value - m2$value > 1e-06){
       m1 <- m2
-      m2 <- optim(par = m1$par,
+      m2 <- stats::optim(par = m1$par,
                   fn = objective, fx = fx, age = age,
                   control =  list(maxit = 1e6))
     }
@@ -141,7 +141,7 @@ fert.approx <- function(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, 
   #### SE
   if(se == TRUE){
     for(i in 1:bn){
-      samplei <- sample(1:length(fx), length(fx), replace = T)
+      samplei <- sample(1:length(fx), length(fx), replace = TRUE)
       esti = estimate(mf = ffn, first.pars, fx = fx[samplei], age = age[samplei])$par
       if(i == 1){
         bootpars = matrix(esti, nrow = 1)
@@ -151,12 +151,12 @@ fert.approx <- function(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, 
         bootpred = cbind(bootpred, ffn(esti, age = age))
       }
     }
-    covmat = cov(bootpars)
-    prc.pars = apply(bootpars, 2, quantile, probs = alpha/2, na.rm = TRUE)
-    prc.pars = t(rbind(prc.pars, apply(bootpars, 2, quantile, probs = 1-alpha/2, na.rm = TRUE)))
+    covmat = stats::cov(bootpars)
+    prc.pars = apply(bootpars, 2, stats::quantile, probs = alpha/2, na.rm = TRUE)
+    prc.pars = t(rbind(prc.pars, apply(bootpars, 2, stats::quantile, probs = 1-alpha/2, na.rm = TRUE)))
     rownames(prc.pars) <- nms
     colnames(prc.pars) <- c("prc.low", "prc.high")
-    se.pred = diag(var(t(bootpred), na.rm = T))^0.5
+    se.pred = diag(stats::var(t(bootpred), na.rm = TRUE))^0.5
 
     return(list(
       model = list(
@@ -167,8 +167,8 @@ fert.approx <- function(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, 
         rmse = sqrt(sum((ffn(est$par, age = age) - fx)^2) / (length(age) - length(est$par)))
       ),
       predicted = data.frame(age = age, fx.model = ffn(est$par, age = age), fx = fx, se = se.pred,
-                             prc.low = apply(t(bootpred), 2, quantile, probs = alpha/2, na.rm = TRUE),
-                             prc.high = apply(t(bootpred), 2, quantile, probs = 1-alpha/2, na.rm = TRUE)
+                             prc.low = apply(t(bootpred), 2, stats::quantile, probs = alpha/2, na.rm = TRUE),
+                             prc.high = apply(t(bootpred), 2, stats::quantile, probs = 1-alpha/2, na.rm = TRUE)
       )
     )
     )

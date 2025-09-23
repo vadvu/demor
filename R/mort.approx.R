@@ -37,8 +37,8 @@ mort.approx <- function(mx, age, model = c("Brass", "Gompertz"), standard.mx = N
   }
 
   if(model == "Gompertz"){
-    est <- lm(log(mx) ~ age)
-    predicted = predict(est)
+    est <- stats::lm(log(mx) ~ age)
+    predicted = stats::predict(est)
     predicted = data.frame(age = age, mx.pred = exp(predicted))
 
   }
@@ -57,8 +57,8 @@ mort.approx <- function(mx, age, model = c("Brass", "Gompertz"), standard.mx = N
       qx.stand <- qx.stand[-length(qx.stand)]
     stand.logit = 0.5*log(qx.stand/(1-qx.stand))
 
-    est <- nls( 0.5*log((qx/(1-qx))) ~ a + b*stand.logit, start = list(a = 0, b = 1))
-    qx.pred = c(exp(2*predict(est))/(1+exp(2*predict(est))),1)
+    est <- stats::nls( 0.5*log((qx/(1-qx))) ~ a + b*stand.logit, start = list(a = 0, b = 1))
+    qx.pred = c(exp(2*stats::predict(est))/(1+exp(2*stats::predict(est))),1)
     ax.stand = demor::LT(age = age, mx = standard.mx, ...)[,"ax"]
     n = diff(age)
     n = c(n, mean(n))

@@ -113,7 +113,7 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
     bx <- bx / bx.sum # bx sum = 1
   }else if (ax_method == "last_smooth"){
     ax = Mx[,ncol(Mx)]
-    ax[-1] <- predict(lm(Mx[-1,ncol(Mx)] ~ splines::ns(unique(data$age)[-1], df = round(length(unique(data$age))/5))))
+    ax[-1] <- stats::predict(stats::lm(Mx[-1,ncol(Mx)] ~ splines::ns(unique(data$age)[-1], df = round(length(unique(data$age))/5))))
     Mx <- Mx - ax
     svd_result <- svd(Mx)
     U <- svd_result$u # left singular vectors - age
@@ -141,25 +141,25 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
     Dx <- data %>% select(age, year, Dx) %>% pivot_wider(names_from = year, values_from = Dx) %>% select(-age) %>% as.matrix()
     Nx <- data %>% select(age, year, N) %>% pivot_wider(names_from = year, values_from = N) %>% select(-age) %>% as.matrix()
 
-    f <- function(k, ax, bx, Dx, Nx){
+    fdmin <- function(k, ax, bx, Dx, Nx){
       sum(Dx) - sum(exp(ax + bx * k) * Nx)
     }
     kDx <- kt
     for(t in 1:ncol(Mx)){
-      kDx[t] <- uniroot(f = f, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, Dx = Dx[,t], Nx = Nx[,t], tol = 1e-6)$root[1]
+      kDx[t] <- stats::uniroot(f = fdmin, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, Dx = Dx[,t], Nx = Nx[,t], tol = 1e-6)$root[1]
     }
     kt <- kDx
   }else if (ktadj == "e0min"){
 
     e0 <- apply(exp(Mx + ax), 2, FUN = function(x) LT(age = unique(data$age), mx = x, ...)[1,"ex"])
 
-    f <- function(k, ax, bx, e0, ...){
+    fe0 <- function(k, ax, bx, e0, ...){
       mx.hat <- exp(ax + bx * k)
       e0 - LT(age = unique(data$age), mx = mx.hat, ...)[1,"ex"]
     }
     kex <- kt
     for(t in 1:ncol(Mx)){
-      kex[t] <- uniroot(f = f, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, e0 = e0[t], tol = 1e-6)$root[1]
+      kex[t] <- stats::uniroot(f = fe0, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, e0 = e0[t], tol = 1e-6)$root[1]
     }
     kt <- kex
   } else if (ktadj == "poisson"){
@@ -172,20 +172,20 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
     Nx <- data %>% select(age, year, N) %>% pivot_wider(names_from = year, values_from = N) %>% select(-age) %>% as.matrix()
     kpois <- kt
     for(t in 1:ncol(Mx)){
-      kpois[t] <- coef(glm(round(Dx[,t]) ~ -1 + offset(log(Nx[,t]) + ax) + bx, family = poisson(link = "log")))[1]
+      kpois[t] <- stats::coef(stats::glm(round(Dx[,t]) ~ -1 + stats::offset(log(Nx[,t]) + ax) + bx, family = stats::poisson(link = "log")))[1]
     }
     kt <- kpois
   } else if (ktadj == "edaggermin"){
 
     edag <- apply(exp(Mx + ax), 2, FUN = function(x) edagger(age = unique(data$age), mx = x)[1])
 
-    f <- function(k, ax, bx, edag, ...){
+    fedag <- function(k, ax, bx, edag, ...){
       mx.hat <- exp(ax + bx * k)
       (edag - edagger(age = unique(data$age), mx = mx.hat, ...)[1])^2
     }
     kedag <- kt
     for(t in 1:ncol(Mx)){
-      kedag[t] <- optimise(f = f1, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, edag = edag[t], tol = 1e-6)$minimum
+      kedag[t] <- stats::optimise(f = fedag, interval = c(kt[t]-50, kt[t]+50), ax = ax, bx = bx, edag = edag[t], tol = 1e-6)$minimum
     }
     kt <- kedag
   } else if (ktadj != "none"){
@@ -199,7 +199,7 @@ leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "cla
   ##### Forecast
   forecaster <- function(y = kt, mod = model){
     if(mod == "RWwD"){
-      model <- forecast::Arima(y = y, order = c(0,1,0), include.drift = T)
+      model <- forecast::Arima(y = y, order = c(0,1,0), include.drift = TRUE)
     }else if(mod == "ARIMA"){
       model <- forecast::auto.arima(y = y, seasonal = F)
     } else{

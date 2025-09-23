@@ -25,7 +25,7 @@ tatfr <- function(past_fx, present_fx, post_fx, age){
   present_tfr = rt = tai = rep(NA, parity)
 
   for(i in 1:parity){
-    present_tfr[i] <- demor::tfr(fx = present_fx[[i]], age.int = median(diff(age)))
+    present_tfr[i] <- demor::tfr(fx = present_fx[[i]], age.int = stats::median(diff(age)))
 
     rt[i] <- demor::mac(fx = post_fx[[i]], age = age) - demor::mac(fx = past_fx[[i]], age = age)
     rt[i] <- rt[i]/2

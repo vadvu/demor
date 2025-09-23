@@ -31,7 +31,7 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
   n <- length(age.mx)
   h <- ncol(Mx.f) - 1
   if(is.null(Ix.f)){
-    Ix.f = matrix(0, n, h)
+    Ix.f <- matrix(0, n, h)
   }else if (nrow(Mx.f) != nrow(Ix.f)){
     stop("Number of age groups (rows) in Mx and Ix differs, prepare data carefully")
   }else if (ncol(Mx.f) != ncol(Ix.f)){
@@ -49,12 +49,12 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
 
     N0.f <- cbind(N0.f, newage = demor::ages(x = age.mx, groups = newage0, char = FALSE))
     N0.f[which(N0.f[,"newage"] == newage0[1]), "newage"] <- newage[1]
-    N0.f <- aggregate(data = N0.f, N0.f ~ newage, FUN = sum)
+    N0.f <- stats::aggregate(data = N0.f, N0.f ~ newage, FUN = sum)
     N0.f <- N0.f[,"N0.f"]
     if(!is.null(N0.m)){
       N0.m <- cbind(N0.m, newage = demor::ages(x = age.mx, groups = newage0, char = FALSE))
       N0.m[which(N0.m[,"newage"] == newage0[1]), "newage"] <- newage[1]
-      N0.m <- aggregate(data = N0.m, N0.m ~ newage, FUN = sum)
+      N0.m <- stats::aggregate(data = N0.m, N0.m ~ newage, FUN = sum)
       N0.m <- N0.m[,"N0.m"]
     }
 
@@ -62,7 +62,7 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
     Ix.f <- apply(Ix.f, MARGIN = 2, FUN = function(x){
       ft <- cbind(x, newage = demor::ages(x = age.mx, groups = newage0, char = FALSE))
       ft[which(ft[,"newage"] == newage0[1]), "newage"] <- newage[1]
-      st <- aggregate(data = ft, x ~ newage, FUN = sum)
+      st <- stats::aggregate(data = ft, x ~ newage, FUN = sum)
       st$x
     })
     if(is.null(Ix.m)){
@@ -73,7 +73,7 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
       Ix.m <- apply(Ix.m, MARGIN = 2, FUN = function(x){
         ft <- cbind(x, newage = demor::ages(x = age.mx, groups = newage0, char = FALSE))
         ft[which(ft[,"newage"] == newage0[1]), "newage"] <- newage[1]
-        st <- aggregate(data = ft, x ~ newage, FUN = sum)
+        st <- stats::aggregate(data = ft, x ~ newage, FUN = sum)
         st$x
       })
     }
@@ -81,7 +81,7 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
 
   dat.f <- cbind(N0.f)
   for(t in 1:h){
-    les.t <- leslie(mx = Mx.f[,t], fx = Fx[,t], age.mx = age.mx, age.fx = age.fx, srb = srb, sex = "f", ...)
+    les.t <- demor::leslie(mx = Mx.f[,t], fx = Fx[,t], age.mx = age.mx, age.fx = age.fx, srb = srb, sex = "f", ...)
     dat.f = cbind(dat.f, N0.f)
     dat.f[,t+1] = les.t %*% (dat.f[,t] + Ix.f[,t]/2) + Ix.f[,t]/2
   }
@@ -96,7 +96,7 @@ ccm <- function(Mx.f, Mx.m = NULL, Fx, Ix.f = NULL, Ix.m = NULL, age.mx, age.fx,
 
     dat.m <- cbind(N0.m)
     for(t in 1:h){
-      les.t <- leslie(mx = Mx.m[,t], fx = Fx[,t], age.mx = age.mx, age.fx = age.fx, srb = 1-srb, sex = "m", ...)
+      les.t <- demor::leslie(mx = Mx.m[,t], fx = Fx[,t], age.mx = age.mx, age.fx = age.fx, srb = 1-srb, sex = "m", ...)
       B.t <- les.t[1,] %*% (dat.f[,t] + Ix.f[,t]/2)
       les.t[1,] <- 0
       dat.m = cbind(dat.m, N0.m)

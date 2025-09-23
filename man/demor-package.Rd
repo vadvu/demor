@@ -16,7 +16,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Vadim Ustyuzhanin \email{vvustiuzhanin@yandex.ru} (\href{https://orcid.org/0000-0003-3800-1108}{ORCID})
+\strong{Maintainer}: Vadim Ustyuzhanin \email{vadim.v.ustyuzhanin@gmail.com} (\href{https://orcid.org/0000-0003-3800-1108}{ORCID})
 
 }
 \keyword{internal}

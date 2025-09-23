@@ -812,17 +812,18 @@ legend("topright", legend=c("Leslie matrix", "Life table"),
        col=c("red", "black"), lty = 1, cex=0.8)
 ```
 
-Also from $\pmb L$ one can compute stable population properties: stable age distribution, asymptotic growth rate, etc. For more details, references and functions see @demogR, p. 10-24 where R package [`demogR`](https://cran.r-project.org/web/packages/demogR/index.html) for matrix demographic models and their analysis was introduced. Below is some simple example how to do it "by hand":
+Also from $\pmb L$ one can compute stable population properties: stable age distribution, asymptotic growth rate, etc. For more details, references and functions see @demogR, p. 10-24 where R package [`demogR`](https://cran.r-project.org/web/packages/demogR/index.html) for matrix demographic models and their analysis was introduced. In `demor` there is a generic function `summary()` that works with `leslie()` output to get stable age distribution (w), reproductive values (v) and growth parameters ($\lambda$ and $r$):
 
 ```{r}
-lambda = Re(eigen(les)$values) # largest real eigenvalue
-lvector = Re(eigen(les)$vectors[,which(lambda == max(lambda))]) # corresponding eigenvector
-stable_age = lvector / sum(lvector) # stable age distribution (normalized to sum to 1) 
+lesanal = summary(les)
+stable_age <- lesanal$w
+names(lesanal)
 ```
 
-The graph below compares observable and stable age distributions
+The graph below compares observable and stable age distributions from `summary(les)`
 ```{r, echo=FALSE}
 N <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$N
+
 ## comparison of observable and stable age distributions
 plot(100*N/sum(N), type = "l", xlab = "age", ylab = "% of total population")
 lines(100*stable_age, col = "red")

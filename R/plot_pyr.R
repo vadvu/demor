@@ -39,7 +39,7 @@ plot_pyr <- function(popm, popf, popm2 = NULL, popf2 = NULL, age, sexn = c("Male
       newage0[1] = newage0[2] - 1
       pyr$age <- demor::ages(x = age, groups = newage0, char = FALSE)
       pyr[which(pyr[,"age"] == newage0[1]), "age"] <- newage[1]
-      pyr <- aggregate(data = pyr, cbind(pop, pop2) ~ sex + age, FUN = sum)
+      pyr <- stats::aggregate(data = pyr, cbind(pop, pop2) ~ sex + age, FUN = sum)
     }
   }
 

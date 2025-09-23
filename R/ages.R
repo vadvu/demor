@@ -11,7 +11,7 @@
 #'
 #' @export
 ages <- function(x, groups, char = FALSE){
-  if(char == F){
+  if(char == FALSE){
     for(i in 1:length(groups)){
       if(i == 1){
         gr <- ifelse(x <= groups[i], groups[i], x)

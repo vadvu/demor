@@ -27,3 +27,6 @@ Matrix.
 \description{
 Leslie Matrix
 }
+\seealso{
+\code{\link[=summary.leslie]{summary.leslie()}} for \code{leslie} output that calculates \eqn{\lambda}, \eqn{r}, \eqn{w} and \eqn{v}.
+}

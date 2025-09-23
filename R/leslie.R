@@ -7,6 +7,7 @@
 #' @param srb Numeric. Sex ratio at birth. Usually it is assumed that for males it is `105/205`, for females it is `100/205`. By default, it is `100/205`.
 #' @param fin Logical. Should the survival rate for the last age-group be nonzero? By default it is `FALSE`, so the last survival rate is 0 as in classical model. Otherwise, it is \eqn{T_{x}/T_{x-1}}.
 #' @param ... Optional. Additional arguments for [LT()] function.
+#' @seealso [summary.leslie()] for `leslie` output that calculates \eqn{\lambda}, \eqn{r}, \eqn{w} and \eqn{v}.
 #' @return Matrix.
 #' @export
 leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
@@ -22,7 +23,7 @@ leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
     newage0[1] = newage0[2] - 1
     lt <- cbind(lt, newage = demor::ages(x = age.mx, groups = newage0, char = FALSE))
     lt[which(lt[,"newage"] == newage0[1]), "newage"] <- newage[1]
-    lt <- aggregate(data = lt, Lx ~ newage, FUN = sum)
+    lt <- stats::aggregate(data = lt, Lx ~ newage, FUN = sum)
     age.mx = newage
   }
   n <- length(age.mx)
@@ -43,5 +44,6 @@ leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
   k <- srb * ( Lx[1] / (2*radix) )
   A[1,] <- k * ( fert + c(fert[-1] * Sx[-n], 0) )
 
-  return(A)
+  class(A) <- "leslie"
+  A
 }

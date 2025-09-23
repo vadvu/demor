@@ -3,8 +3,10 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^data-raw$
-^\.RData$
-^\.RHistory$
+^\\.RData$
+^\\.DS_Store$
+^\\.Rhistory$
+^\\.RDataTmp.*$
 ^docs$
 ^Meta$
 ^_pkgdown\.yml$
@@ -15,3 +17,5 @@
 ^IDEAS$
 ^rosbris$
 [.]rtf$
+^^\\.RDataTmp\.*$$
+^cran-comments\.md$

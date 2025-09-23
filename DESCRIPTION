@@ -2,13 +2,13 @@ Package: demor
 Title: Basic functions for demographic analysis
 Version: 1.0.5
 Authors@R: 
-    person("Vadim", "Ustyuzhanin", , "vvustiuzhanin@yandex.ru", role = c("aut", "cre"),
+    person("Vadim", "Ustyuzhanin", , "vadim.v.ustyuzhanin@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))
 Description: Basic functions for demographic analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     dplyr,
     forecast,
@@ -16,8 +16,7 @@ Imports:
     magrittr,
     tidyr,
     scales,
-    splines, 
-    msm
+    splines
 Depends: 
     R (>= 2.10)
 LazyData: true
@@ -25,6 +24,9 @@ LazyDataCompression: gzip
 LazyLoad: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    stringr,
+    testthat
 VignetteBuilder: knitr
 URL: https://vadvu.github.io/demor/
+Config/testthat/edition: 3
