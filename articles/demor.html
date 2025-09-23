@@ -1108,13 +1108,20 @@ by default, it is <code>FALSE</code> as in this example).</p>
 one can compute stable population properties: stable age distribution,
 asymptotic growth rate, etc. For more details, references and functions
 see <span class="citation">Jones (<a href="#ref-demogR">2007</a>)</span>, p. 10-24 where R package <a href="https://cran.r-project.org/web/packages/demogR/index.html" class="external-link"><code>demogR</code></a>
-for matrix demographic models and their analysis was introduced. Below
-is some simple example how to do it “by hand”:</p>
+for matrix demographic models and their analysis was introduced. In
+<code>demor</code> there is a generic function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>
+that works with <code><a href="../reference/leslie.html">leslie()</a></code> output to get stable age
+distribution (w), reproductive values (v) and growth parameters
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>):</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">les</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">)</span> <span class="co"># largest real eigenvalue</span></span>
-<span><span class="va">lvector</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">les</span><span class="op">)</span><span class="op">$</span><span class="va">vectors</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">lambda</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="co"># corresponding eigenvector</span></span>
-<span><span class="va">stable_age</span> <span class="op">=</span> <span class="va">lvector</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">lvector</span><span class="op">)</span> <span class="co"># stable age distribution (normalized to sum to 1) </span></span></code></pre></div>
-<p>The graph below compares observable and stable age distributions
+<code class="sourceCode R"><span><span class="va">lesanal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">les</span><span class="op">)</span></span>
+<span><span class="va">stable_age</span> <span class="op">&lt;-</span> <span class="va">lesanal</span><span class="op">$</span><span class="va">w</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lesanal</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "lambda" "r"      "w"      "v"</span></span></code></pre></div>
+<p>The graph below compares observable and stable age distributions from
+<code>summary(les)</code>
 <img src="demor_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 <p>Finally, one of the most important implications of Leslie matrix is
 the demographic projection in a concise and efficient matrix form.

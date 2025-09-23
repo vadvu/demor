@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://vadvu.github.io/demor/404.html</loc></url>
+<url><loc>https://vadvu.github.io/demor/LICENSE-text.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/LICENSE.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/articles/demor.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/articles/index.html</loc></url>
@@ -26,7 +27,6 @@
 <url><loc>https://vadvu.github.io/demor/reference/mdecompex.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/med.age.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/mort.approx.html</loc></url>
-<url><loc>https://vadvu.github.io/demor/reference/msm.table.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/pipe.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/plot_pyr.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/rosbris.codes.html</loc></url>
@@ -35,6 +35,7 @@
 <url><loc>https://vadvu.github.io/demor/reference/rosbris_mortality_pop_1.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/rosbris_mortality_pop_5.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/sle_stand.html</loc></url>
+<url><loc>https://vadvu.github.io/demor/reference/summary.leslie.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/tatfr.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/tfr.html</loc></url>
 <url><loc>https://vadvu.github.io/demor/reference/yll.html</loc></url>
