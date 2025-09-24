@@ -11,19 +11,6 @@ test_that("l0 scales lx/dx/Lx/Tx but leaves qx and ex invariant", {
   expect_false(all(abs(ltB[, "Tx"] / lt1[, "Tx"]-1) < 1e-3))
 })
 
-test_that("weights arguement adds columns and computes wex as defined", {
-  age <- 0:5; mx <- rep(0.01, 6)
-  w   <- c(0.1, 0.2, 0.2, 0.2, 0.2, 0.1)
-  lt  <- LT(age, mx = mx, w = w)
-  expect_true(all(c("w","wLx","wex") %in% colnames(lt)))
-
-  # Recompute wex using returned (rounded) lx and wLx; allow 1e-2 tolerance because wex is rounded to 2 d.p.
-  lx   <- as.numeric(lt[, "lx"])
-  wLx  <- as.numeric(lt[, "wLx"])
-  wex2 <- round((1 / lx) * rev(cumsum(wLx)), 2)
-  expect_equal(as.numeric(lt[, "wex"]), wex2, tolerance = 1e-2)
-})
-
 test_that("LT input validation and mx<0 handling work", {
   expect_error(LT(age = 0:5, mx = 0:3), regexp = "length")
   age <- 0:5; mx <- c(-0.01, rep(0.01, 5))

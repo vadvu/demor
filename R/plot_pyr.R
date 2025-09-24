@@ -5,6 +5,7 @@
 #' @param popm2 Optional. Numeric vector of second male population to be plotted as line.
 #' @param popf2 Optional. Numeric vector of second female population to be plotted as line.
 #' @param age Numeric vector of ages
+#' @param prc Should the population be shown as a percentage rather than in absolute terms? By default, it is `FALSE` and the plot shows user-specific values in `popm` and `popf`.
 #' @param sexn Character array of labels for the sexes. By default = `c("Males", "Females")`
 #' @param sexc Character array of colors for the sexes. By default = `c("#ED0000B2","#00468BB2")`, which are red and blue
 #' @param age.cont Optional. Logical. Should the age axis be considered as continuous scale? Recommend to switch to `TRUE` if the age intervals are small (1 year) and `FALSE` otherwise (for ex., when age interval is 5 years). By default function chooses the value by itself.
@@ -13,7 +14,7 @@
 #' @return `ggplot2` object
 #' @import ggplot2 scales
 #' @export
-plot_pyr <- function(popm, popf, popm2 = NULL, popf2 = NULL, age, sexn = c("Males", "Females"), sexc = c("#ED0000B2","#00468BB2"), age.cont = NULL, un.intervals = TRUE){
+plot_pyr <- function(popm, popf, popm2 = NULL, popf2 = NULL, age, prc = FALSE, sexn = c("Males", "Females"), sexc = c("#ED0000B2","#00468BB2"), age.cont = NULL, un.intervals = TRUE){
 
   if (length(popm) != length(popf) || length(popm) != length(age)) {
     stop("popm, popf, and age must have the same length.")
@@ -29,6 +30,16 @@ plot_pyr <- function(popm, popf, popm2 = NULL, popf2 = NULL, age, sexn = c("Male
                    sex = c(rep(sexn[1], length(age)), rep(sexn[2], length(age))),
                    pop2 = c(popm2, popf2)
   )
+
+  if(prc){
+    pyr <- pyr %>%
+      group_by(sex) %>%
+      mutate(pop = pop / sum(pop),
+             pop2 = pop2 / sum(pop2)
+      ) %>%
+      as.data.frame()
+    pyr[is.na(pyr)] <- 0
+  }
 
   if(un.intervals){
     if(length(unique(diff(age))) > 1){

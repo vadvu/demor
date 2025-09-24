@@ -10,6 +10,7 @@ plot_pyr(
   popm2 = NULL,
   popf2 = NULL,
   age,
+  prc = FALSE,
   sexn = c("Males", "Females"),
   sexc = c("#ED0000B2", "#00468BB2"),
   age.cont = NULL,
@@ -26,6 +27,8 @@ plot_pyr(
 \item{popf2}{Optional. Numeric vector of second female population to be plotted as line.}
 
 \item{age}{Numeric vector of ages}
+
+\item{prc}{Should the population be shown as a percentage rather than in absolute terms? By default, it is \code{FALSE} and the plot shows user-specific values in \code{popm} and \code{popf}.}
 
 \item{sexn}{Character array of labels for the sexes. By default = \code{c("Males", "Females")}}
 

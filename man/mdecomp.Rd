@@ -18,7 +18,7 @@ mdecomp(mx1, mx2, age, method = "andreev", ...)
 \item{...}{Optional. Additional arguments for \code{\link[=decomp]{decomp()}}.}
 }
 \value{
-Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decompositions by causes (\code{cause(i)})
+Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decomposition by causes (\code{cause(i)})
 }
 \description{
 Age and cause decomposition of differences in life expectancies
@@ -29,5 +29,5 @@ The contribution of each cause \eqn{c} to the absolute difference in life expect
 where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function \code{\link[=decomp]{decomp()}}, \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
 }
 \seealso{
-\code{\link[=decomp]{decomp()}} for just age decomposition
+\code{\link[=decomp]{decomp()}} for just age decomposition and \code{\link[=plot.mdecomp]{plot.mdecomp()}} for graph of \code{mdecomp} results
 }

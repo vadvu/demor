@@ -32,6 +32,19 @@ The weighted life expectancy is calculated as follows:
 \deqn{e_x^w = \frac{\sum_{i = x}^{\omega}L_x w_x}{l_x}}
 where \eqn{\omega} is the last age, \eqn{w} is weight s.t. \eqn{w \in [0,1]}, and other variables are life table functions.
 }
+\examples{
+# Minimal toy example
+age <- 0:5
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+LT(age = age, sex = "m", mx = mx)
+\donttest{
+# Real data from demor: Russian males, 2010
+rus2010 <- subset(rosbris_mortality_pop_5,
+  year == 2010 & code == 1100 & sex == "m" & territory == "t"
+)
+LT(age = rus2010$age, sex = "m", mx = rus2010$mx)
+}
+}
 \references{
 Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. \emph{Demographic Research}, \emph{33}, 363-390.
 }

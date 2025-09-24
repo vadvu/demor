@@ -16,6 +16,18 @@
 #' @seealso [MLT()] for Multiple Decrement Life Table.
 #' @references Andreev, E. M., & Kingkade, W. W. (2015). Average age at death in infancy and infant mortality level: Reconsidering the Coale-Demeny formulas at current levels of low mortality. *Demographic Research*, *33*, 363-390.
 #' @return Matrix of (age x 9). Columns are: age, mx, ax, qx, lx, dx, Lx, Tx, ex
+#' @examples
+#' # Minimal toy example
+#' age <- 0:5
+#' mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+#' LT(age = age, sex = "m", mx = mx)
+#' \donttest{
+#' # Real data from demor: Russian males, 2010
+#' rus2010 <- subset(rosbris_mortality_pop_5,
+#'   year == 2010 & code == 1100 & sex == "m" & territory == "t"
+#' )
+#' LT(age = rus2010$age, sex = "m", mx = rus2010$mx)
+#' }
 #' @export
 LT <- function(age, sex = "m", mx, ax = NULL, w = NULL, l0 = 1) {
   if(length(mx) != length(age)){
@@ -94,7 +106,8 @@ LT <- function(age, sex = "m", mx, ax = NULL, w = NULL, l0 = 1) {
       stop("The length of user-specific array of weights does not equal age array's length!")
     }else{
       wLx = Lx*w
-      wex <- round((1/lx) * rev(cumsum(wLx)), 2)
+      wTx <- rev(cumsum(rev(wLx)))
+      wex <- round(wTx / lx, 2)
       lt <- cbind(lt, w, wLx = round(wLx, 5), wex)
     }
   }

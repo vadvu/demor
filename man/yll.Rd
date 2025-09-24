@@ -10,7 +10,8 @@ yll(
   age.int = 5,
   Dx_all = NULL,
   pop = NULL,
-  w = NULL
+  w = NULL,
+  standard = NULL
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ yll(
 \item{pop}{Array with population. Used only with \code{yll.r} and \code{asyr} types.}
 
 \item{w}{Array with population weights for direct standardization. Used only with \code{asyr} type.}
+
+\item{standard}{Data frame. User-specific standard life expectancy to calculate YLL with the following columns: age, ex. Note: the \code{age.int} argument should be consistent with the \code{age} column in this data frame.}
 }
 \value{
 list with values.

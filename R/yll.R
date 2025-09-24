@@ -6,6 +6,7 @@
 #' @param Dx_all Array with the number of all deaths. Used only with `yll.p` type, where `Dx` is array with cause-specific deaths.
 #' @param pop Array with population. Used only with `yll.r` and `asyr` types.
 #' @param w Array with population weights for direct standardization. Used only with `asyr` type.
+#' @param standard Data frame. User-specific standard life expectancy to calculate YLL with the following columns: age, ex. Note: the `age.int` argument should be consistent with the `age` column in this data frame.
 #' @details
 #' Computes four types of Years of Life Lost (YLL) indicators:
 #' \itemize{
@@ -29,13 +30,18 @@
 #' @return list with values.
 #' @export
 #'
-yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), age.int = 5, Dx_all = NULL, pop = NULL, w = NULL){
+yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), age.int = 5, Dx_all = NULL, pop = NULL, w = NULL, standard = NULL){
 
   `%notin%` <- Negate(`%in%`)
 
   ndx = length(Dx)
   ndx_o = ndx
-  sle <- demor::sle_stand
+  if(is.null(standard)){
+    sle <- demor::sle_stand
+  } else {
+    sle <- standard %>% mutate(stand = 1) %>% arrange(age)
+  }
+
 
   if(age.int %notin% c(1,5)){
     stop("Age interval (age.int) should be 1 or 5")

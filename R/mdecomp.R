@@ -9,8 +9,8 @@
 #' The contribution of each cause \eqn{c} to the absolute difference in life expectancies between the first and second population is caculated as
 #' \deqn{\Delta_{x,c} = \frac{m^1_{x,c} - m^2_{x,c}}{m^1_{x} - m^2_{x}} \times \Delta_{x}}
 #' where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function [decomp()], \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
-#' @seealso [decomp()] for just age decomposition
-#' @return Dataframe with 1st column as overall decomposition (`ex12`), and other columns are decompositions by causes (`cause(i)`)
+#' @seealso [decomp()] for just age decomposition and [plot.mdecomp()] for graph of `mdecomp` results
+#' @return Dataframe with 1st column as overall decomposition (`ex12`), and other columns are decomposition by causes (`cause(i)`)
 #' @export
 mdecomp <- function(mx1, mx2, age, method = "andreev", ...){
   if (length(mx1)!=length(mx2)){
@@ -25,5 +25,6 @@ mdecomp <- function(mx1, mx2, age, method = "andreev", ...){
     mdec[paste0(names(mx1)[i])] <- NA
     mdec[paste0(names(mx1)[i])] <- ex12 * (mx1[[i]] - mx2[[i]]) / (mx1[[1]] - mx2[[1]])
   }
+  class(mdec) <- c("mdecomp", "data.frame")
   return(mdec)
 }
