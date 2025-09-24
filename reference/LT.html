@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,48 @@ where \(\omega\) is the last age, \(w\) is weight s.t. \(w \in [0,1]\), and othe
     <div class="dont-index"><p><code><a href="MLT.html">MLT()</a></code> for Multiple Decrement Life Table.</p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Minimal toy example</span></span></span>
+<span class="r-in"><span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.01</span>, <span class="fl">0.012</span>, <span class="fl">0.015</span>, <span class="fl">0.02</span>, <span class="fl">0.03</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">LT</span><span class="op">(</span>age <span class="op">=</span> <span class="va">age</span>, sex <span class="op">=</span> <span class="st">"m"</span>, mx <span class="op">=</span> <span class="va">mx</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      age    mx     ax      qx      lx      dx       Lx       Tx    ex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   0 0.020  0.109 0.01965 1.00000 0.01965  0.99785 35.69312 35.69</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   1 0.010  0.500 0.00995 0.98035 0.00975  0.97547 34.69527 35.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]   2 0.012  0.500 0.01193 0.97060 0.01158  0.96481 33.71979 34.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]   3 0.015  0.500 0.01489 0.95902 0.01428  0.95188 32.75499 34.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]   4 0.020  0.500 0.01980 0.94474 0.01871  0.93539 31.80311 33.66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]   5 0.030 33.333 1.00000 0.92603 0.92603 30.86772 30.86772 33.33</span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Real data from demor: Russian males, 2010</span></span></span>
+<span class="r-in"><span><span class="va">rus2010</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">rosbris_mortality_pop_5</span>,</span></span>
+<span class="r-in"><span>  <span class="va">year</span> <span class="op">==</span> <span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">code</span> <span class="op">==</span> <span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">sex</span> <span class="op">==</span> <span class="st">"m"</span> <span class="op">&amp;</span> <span class="va">territory</span> <span class="op">==</span> <span class="st">"t"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">LT</span><span class="op">(</span>age <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">age</span>, sex <span class="op">=</span> <span class="st">"m"</span>, mx <span class="op">=</span> <span class="va">rus2010</span><span class="op">$</span><span class="va">mx</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       age      mx    ax      qx      lx      dx      Lx       Tx    ex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]   0 0.00882 0.132 0.00876 1.00000 0.00876 0.99885 63.04122 63.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]   1 0.00060 2.000 0.00241 0.99124 0.00239 3.96019 62.04238 62.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]   5 0.00036 2.500 0.00177 0.98885 0.00175 4.93988 58.08218 58.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  10 0.00039 2.500 0.00193 0.98710 0.00191 4.93072 53.14231 53.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  15 0.00119 2.500 0.00591 0.98519 0.00582 4.91139 48.21159 48.94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  20 0.00255 2.500 0.01265 0.97937 0.01239 4.86586 43.30020 44.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  25 0.00449 2.500 0.02221 0.96698 0.02147 4.78120 38.43434 39.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  30 0.00681 2.500 0.03347 0.94550 0.03165 4.64841 33.65314 35.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  35 0.00793 2.500 0.03890 0.91386 0.03555 4.48042 29.00473 31.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  40 0.00978 2.500 0.04774 0.87831 0.04193 4.28672 24.52431 27.92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  45 0.01335 2.500 0.06461 0.83638 0.05404 4.04679 20.23759 24.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,]  50 0.01857 2.500 0.08872 0.78234 0.06941 3.73817 16.19080 20.70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  55 0.02625 2.500 0.12317 0.71293 0.08781 3.34513 12.45263 17.47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,]  60 0.03714 2.500 0.16994 0.62512 0.10623 2.86003  9.10751 14.57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,]  65 0.04992 2.500 0.22193 0.51889 0.11516 2.30657  6.24748 12.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,]  70 0.06860 2.500 0.29278 0.40374 0.11821 1.72316  3.94091  9.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,]  75 0.09764 2.500 0.39240 0.28553 0.11204 1.14754  2.21775  7.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,]  80 0.13804 2.500 0.51313 0.17349 0.08902 0.64489  1.07021  6.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,]  85 0.19859 5.035 1.00000 0.08447 0.08447 0.42532  0.42532  5.04</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

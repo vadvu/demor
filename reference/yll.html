@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,8 @@
 <span>  age.int <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  Dx_all <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pop <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  w <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  standard <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -75,6 +76,10 @@
 
 <dt id="arg-w">w<a class="anchor" aria-label="anchor" href="#arg-w"></a></dt>
 <dd><p>Array with population weights for direct standardization. Used only with <code>asyr</code> type.</p></dd>
+
+
+<dt id="arg-standard">standard<a class="anchor" aria-label="anchor" href="#arg-standard"></a></dt>
+<dd><p>Data frame. User-specific standard life expectancy to calculate YLL with the following columns: age, ex. Note: the <code>age.int</code> argument should be consistent with the <code>age</code> column in this data frame.</p></dd>
 
 </dl></div>
     <div class="section level2">

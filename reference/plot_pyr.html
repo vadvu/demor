@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,7 @@
 <span>  popm2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  popf2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">age</span>,</span>
+<span>  prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  sexn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Males"</span>, <span class="st">"Females"</span><span class="op">)</span>,</span>
 <span>  sexc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ED0000B2"</span>, <span class="st">"#00468BB2"</span><span class="op">)</span>,</span>
 <span>  age.cont <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,6 +75,10 @@
 
 <dt id="arg-age">age<a class="anchor" aria-label="anchor" href="#arg-age"></a></dt>
 <dd><p>Numeric vector of ages</p></dd>
+
+
+<dt id="arg-prc">prc<a class="anchor" aria-label="anchor" href="#arg-prc"></a></dt>
+<dd><p>Should the population be shown as a percentage rather than in absolute terms? By default, it is <code>FALSE</code> and the plot shows user-specific values in <code>popm</code> and <code>popf</code>.</p></dd>
 
 
 <dt id="arg-sexn">sexn<a class="anchor" aria-label="anchor" href="#arg-sexn"></a></dt>
