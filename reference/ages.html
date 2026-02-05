@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ages</span><span class="op">(</span><span class="va">x</span>, <span class="va">groups</span>, char <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ages</span><span class="op">(</span><span class="va">x</span>, <span class="va">groups</span>, char <span class="op">=</span> <span class="cn">FALSE</span>, below_min_val <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -47,32 +47,41 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Array with numeric values of age</p></dd>
+<dd><p>Numeric array. Values of age that should be grouped</p></dd>
 
 
 <dt id="arg-groups">groups<a class="anchor" aria-label="anchor" href="#arg-groups"></a></dt>
-<dd><p>Array with numeric values of lower boundaries of age groups</p></dd>
+<dd><p>Numeric array. Values of lower boundaries of age groups</p></dd>
 
 
 <dt id="arg-char">char<a class="anchor" aria-label="anchor" href="#arg-char"></a></dt>
-<dd><p>Logical. Should output array be numeric (FALSE) or character (Factor) array (TRUE)</p></dd>
+<dd><p>Logical. Should output be numeric (<code>FALSE</code>) or character (<code>TRUE</code>)? By default, <code>FALSE</code></p></dd>
+
+
+<dt id="arg-below-min-val">below_min_val<a class="anchor" aria-label="anchor" href="#arg-below-min-val"></a></dt>
+<dd><p>What value to return for x &lt; min(groups) when char = <code>FALSE</code>? Default is NA.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Array with classified ages</p>
+    <p>Factor or numeric array with classified ages</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">20</span>, <span class="fl">24</span>, <span class="fl">45</span>, <span class="fl">85</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">101</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ages</span><span class="op">(</span><span class="va">x</span>, <span class="va">groups</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 85 45 24 45 45 45  1 20 45 45  1 45 45 24 85 85 85 24 45 24 45 45  1 45 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] 85  5 24 45 45  5 20  5 45 45 15 45 45 45 85  0  5 45 45 45 45 24 85 45 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [51]  5 24 85 45 15 24 45 10 24 85 85 20  1 24 85 45 45 45 45 85 24 45 24 24 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] 45 10 45 45 85 85 24 45 45 10 45 85 24 15 24 15 10 15 85 24 45 20 45 10 45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [101] 24</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">24</span>, <span class="fl">45</span>, <span class="fl">85</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span></span></span>
+<span class="r-in"><span><span class="fu">ages</span><span class="op">(</span><span class="va">x</span>, <span class="va">groups</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0-1   1-4   1-4   1-4   1-4   5-9   5-9   5-9   5-9   5-9   10-14 10-14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 10-14 10-14 10-14 15-19 15-19 15-19 15-19 15-19 20-23 20-23 20-23 20-23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 24-44 45-84 45-84 45-84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84 45-84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 45-84 85+   85+   85+   85+   85+   85+   85+   85+   85+   85+   85+  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 85+   85+   85+   85+   85+  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: &lt;0 0-1 1-4 5-9 10-14 15-19 20-23 24-44 45-84 85+</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -85,7 +94,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
