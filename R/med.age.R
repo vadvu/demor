@@ -1,24 +1,19 @@
 #' Median age calculation
 #'
-#' @param N Array with numeric values of population by age group (from young to old)
-#' @param age Array with numeric values age
-#' @param int Numeric value of age interval. For example, 1 or 5
+#' @param N Numeric array. Population counts by age groups (from young to old)
+#' @param age Numeric array. Lower bounds of age groups, same length as `N`
 #'
-#' @return Numeric value
+#' @return Numeric value.
 #' @export
-med.age <- function(N, age, int = 1){
-  cN <- cumsum(N)
-  m <- cN[length(age)]/2
-  inter <- c()
-  for(i in 1:length(age)){
-    inter[i] <- ifelse(cN[i] > m, 1, 0)
-    if(inter[i] == 1){
-      inter[i+1] <- ifelse(cN[i+1] > m, 2, 0)
-      break
-    }
+med.age <- function(N, age){
+  if(length(age) != length(N)){
+    stop("lengths of age groups (age) and Population counts (N) are not the same")
   }
-  ages <- age[which(inter %in% c(1,2))]
-  fin <- int/2 + (ages[1]+int/2) + (m-cN[which(age == ages[1])])/
-    (cN[which(age == ages[2])]-cN[which(age == ages[1])])
+  cN <- cumsum(N)
+  m <- cN[length(N)]/2
+  inter <- which(cN >= m)[1]
+  prev_cN <- ifelse(inter == 1, 0, cN[inter - 1])
+  int <- ifelse(inter == length(age), max(diff(age)), age[inter+1] - age[inter])
+  fin <- age[inter] + (m - prev_cN) / N[inter] * int
   return(round(fin, 2))
 }

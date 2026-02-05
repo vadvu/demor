@@ -4,17 +4,15 @@
 \alias{med.age}
 \title{Median age calculation}
 \usage{
-med.age(N, age, int = 1)
+med.age(N, age)
 }
 \arguments{
-\item{N}{Array with numeric values of population by age group (from young to old)}
+\item{N}{Numeric array. Population counts by age groups (from young to old)}
 
-\item{age}{Array with numeric values age}
-
-\item{int}{Numeric value of age interval. For example, 1 or 5}
+\item{age}{Numeric array. Lower bounds of age groups, same length as \code{N}}
 }
 \value{
-Numeric value
+Numeric value.
 }
 \description{
 Median age calculation

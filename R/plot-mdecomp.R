@@ -1,13 +1,14 @@
 #' Plot for mdecomp function
 #'
 #' @param x A result of age and cause decomposition from [mdecomp()].
+#' @param return.data Should the data be returned (`TRUE`) or the ggplot2 plot (default, `FALSE`).
 #' @param ... Ignored.
 #'
 #' @returns ggplot2 plot
 #' @seealso [mdecomp()]
 #' @method plot mdecomp
 #' @export
-plot.mdecomp <- function(x, ...){
+plot.mdecomp <- function(x, return.data = FALSE, ...){
   decm <- x
   decm_plot <- decm[,c(1,3)]
   decm_plot$group = colnames(decm)[3]
@@ -25,8 +26,14 @@ plot.mdecomp <- function(x, ...){
   finplot <- decm_plot %>%
     group_by(group) %>%
     mutate(age = ages(x = age, groups =  age, char = T)) %>%
-    as.data.frame() %>%
-    ggplot(aes(x = age, y = ex12, fill = group))+
-    geom_bar(stat="identity", colour = "black")
+    as.data.frame()
+  if(return.data){
+    return(finplot)
+  }else{
+    finplot <- finplot %>%
+      ggplot(aes(x = age, y = ex12, fill = group))+
+      geom_bar(stat="identity", colour = "black")
+    return(finplot)
+  }
   return(finplot)
 }

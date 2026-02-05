@@ -4,24 +4,26 @@
 \alias{ages}
 \title{Split continuous ages to age groups}
 \usage{
-ages(x, groups, char = FALSE)
+ages(x, groups, char = FALSE, below_min_val = NA)
 }
 \arguments{
-\item{x}{Array with numeric values of age}
+\item{x}{Numeric array. Values of age that should be grouped}
 
-\item{groups}{Array with numeric values of lower boundaries of age groups}
+\item{groups}{Numeric array. Values of lower boundaries of age groups}
 
-\item{char}{Logical. Should output array be numeric (FALSE) or character (Factor) array (TRUE)}
+\item{char}{Logical. Should output be numeric (\code{FALSE}) or character (\code{TRUE})? By default, \code{FALSE}}
+
+\item{below_min_val}{What value to return for x < min(groups) when char = \code{FALSE}? Default is NA.}
 }
 \value{
-Array with classified ages
+Factor or numeric array with classified ages
 }
 \description{
 Split continuous ages to age groups
 }
 \examples{
-groups <- c(0,1,5,10,15,20, 24, 45, 85)
-x <- sample(0:100, 101)
-ages(x, groups, FALSE)
+groups <- c(0, 1, 5, 10, 15, 20, 24, 45, 85)
+x <- 0:100
+ages(x, groups, TRUE)
 
 }

@@ -4,10 +4,12 @@
 \alias{plot.mdecomp}
 \title{Plot for mdecomp function}
 \usage{
-\method{plot}{mdecomp}(x, ...)
+\method{plot}{mdecomp}(x, return.data = FALSE, ...)
 }
 \arguments{
 \item{x}{A result of age and cause decomposition from \code{\link[=mdecomp]{mdecomp()}}.}
+
+\item{return.data}{Should the data be returned (\code{TRUE}) or the ggplot2 plot (default, \code{FALSE}).}
 
 \item{...}{Ignored.}
 }
