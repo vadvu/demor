@@ -51,3 +51,11 @@ and advanced methods of demographic analysis. Demographic Review, 12(4),
 If you have any comments on the `demor` (suggestions for development,
 bug fixes, etc.), please, feel free to contact me via email:
 <vvustiuzhanin@yandex.ru>
+
+### Acknowledgements
+
+This package is developed with support by the Russian Science Foundation
+(Project No 24-18-00650).
+
+Этот пакет подготовлен при поддержке Российского научного фонда (проект
+№24-18-00650).

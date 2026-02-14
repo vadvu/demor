@@ -597,7 +597,7 @@ brass_2010[[1]]
 #>  residual sum-of-squares: 0.09628
 #> 
 #> Number of iterations to convergence: 1 
-#> Achieved convergence tolerance: 1.091e-07
+#> Achieved convergence tolerance: 1.178e-08
 ```
 
 Lets plot the modeled and observed mx.
