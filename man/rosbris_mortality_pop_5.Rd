@@ -21,7 +21,7 @@
 }
 }
 \source{
-Rosbris \href{http://demogr.nes.ru/index.php/ru/demogr_indicat/data}{webpage}
+Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 }
 \usage{
 rosbris_mortality_pop_5

@@ -52,7 +52,7 @@
 #'   \item{name}{Region name}
 #'   \item{code}{Region unique code}
 #' }
-#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris.codes"
 
 #' Rosbris' Fertility and population (1-year interval)
@@ -69,7 +69,7 @@
 #'   \item{Bx}{Number of Births}
 #'   \item{name}{Region name}
 #' }
-#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris_fertility_pop_1"
 
 #' Rosbris' Fertility and population (5-year interval)
@@ -96,7 +96,7 @@
 #'   \item{Bx5}{Number of Births, 5+ order}
 #'   \item{name}{Region name}
 #' }
-#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris_fertility_pop_5"
 
 #' Rosbris' Mortality and population (1-year interval)
@@ -114,7 +114,7 @@
 #'   \item{Dx}{Number of Deaths}
 #'   \item{name}{Region name}
 #' }
-#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris_mortality_pop_1"
 
 #' Rosbris' Mortality and population (5-year interval)
@@ -132,7 +132,7 @@
 #'   \item{Dx}{Number of Deaths}
 #'   \item{name}{Region name}
 #' }
-#' @source Rosbris [webpage](http://demogr.nes.ru/index.php/ru/demogr_indicat/data)
+#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris_mortality_pop_5"
 
 
