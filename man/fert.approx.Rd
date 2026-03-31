@@ -51,8 +51,8 @@ where \eqn{c,d,w} are estimated parameters.
 
 \subsection{Beta model}{
 
-The model is as follows: \deqn{f_x = \frac{R}{\Beta(A,C)}(\beta - \alpha)^{-(A+C-1)}(x-\alpha)^{(A-1)}(\beta-x)^{(B-1)}}
-where \eqn{\Beta} is beta function, \eqn{R, \beta, \alpha} are estimated parameters, which can be interpreted as fertility level (TFR) and max and min age of childbearing respectively.
+The model is as follows: \deqn{f_x = \frac{R}{B(A,C)}(\beta - \alpha)^{-(A+C-1)}(x-\alpha)^{(A-1)}(\beta-x)^{(B-1)}}
+where \eqn{B(A, C)} is beta function, \eqn{R, \beta, \alpha} are estimated parameters, which can be interpreted as fertility level (TFR) and max and min age of childbearing respectively.
 \eqn{A,C} are
 \deqn{C = (\frac{(v - \alpha)(\beta - v)}{\tau^2} - 1)\frac{\beta - v}{\beta - \alpha}}
 \deqn{A = C\frac{v-\alpha}{v - \beta}}

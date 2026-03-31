@@ -17,7 +17,7 @@
 #' @seealso [mdecomp()] for age and cause decomposition
 #' @references
 #' 1. Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. *Demography*, *21*, 83-96.
-#' 2. Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. *Вестник статистики*, *9*, 42-47.
+#' 2. Andreev, E. M. (1982). Metod komponent v analize prodolzhitel'nosti zhizni. *Vestnik statistiki*, *9*, 42-47.
 #' 3. Pollard, J. H. (1982). The expectation of life and its relationship to mortality. *Journal of the Institute of Actuaries*, *109(2)*, 225–240.
 #' @import dplyr
 #' @return dataframe with parameters of decomposition (depends on method) and decomposition in years (ex12) and percents (ex12_prc).

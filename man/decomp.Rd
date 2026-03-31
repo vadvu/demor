@@ -36,7 +36,7 @@ where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in
 \references{
 \enumerate{
 \item Arriaga, E. E. (1984). Measuring and explaining the change in life expectancies. \emph{Demography}, \emph{21}, 83-96.
-\item Андреев Е.М. (1982). Метод компонент в анализе продолжительности жизни. \emph{Вестник статистики}, \emph{9}, 42-47.
+\item Andreev, E. M. (1982). Metod komponent v analize prodolzhitel'nosti zhizni. \emph{Vestnik statistiki}, \emph{9}, 42-47.
 \item Pollard, J. H. (1982). The expectation of life and its relationship to mortality. \emph{Journal of the Institute of Actuaries}, \emph{109(2)}, 225–240.
 }
 }

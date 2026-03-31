@@ -2,7 +2,14 @@ if (getRversion() >= "2.15.1") {
   utils::globalVariables(
     c(
       ".",
+      "code",
+      "fx",
+      "fxA",
+      "Group",
       "N",
+      "parity",
+      "Reg",
+      "Sex",
       "age",
       "age2",
       "conf.high",
@@ -14,6 +21,8 @@ if (getRversion() >= "2.15.1") {
       "pop",
       "pop2",
       "sex",
+      "territory",
+      "Year",
       "year"
     )
   )

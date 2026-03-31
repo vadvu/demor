@@ -20,7 +20,7 @@ Imports:
     scales,
     splines
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0.0)
 LazyData: true
 LazyDataCompression: gzip
 LazyLoad: true
