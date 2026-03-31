@@ -77,14 +77,14 @@ estimated parameters.
 
 ### Beta model
 
-The model is as follows: \$\$f_x = \frac{R}{\Beta(A,C)}(\beta -
-\alpha)^{-(A+C-1)}(x-\alpha)^{(A-1)}(\beta-x)^{(B-1)}\$\$ where
-\\\Beta\\ is beta function, \\R, \beta, \alpha\\ are estimated
-parameters, which can be interpreted as fertility level (TFR) and max
-and min age of childbearing respectively. \\A,C\\ are \$\$C =
-(\frac{(v - \alpha)(\beta - v)}{\tau^2} - 1)\frac{\beta - v}{\beta -
-\alpha}\$\$ \$\$A = C\frac{v-\alpha}{v - \beta}\$\$ where \\v, \tau^2\\
-are estimated parameters, where \\v\\ can be interpreted as mean age at
+The model is as follows: \$\$f_x = \frac{R}{B(A,C)}(\beta -
+\alpha)^{-(A+C-1)}(x-\alpha)^{(A-1)}(\beta-x)^{(B-1)}\$\$ where \\B(A,
+C)\\ is beta function, \\R, \beta, \alpha\\ are estimated parameters,
+which can be interpreted as fertility level (TFR) and max and min age of
+childbearing respectively. \\A,C\\ are \$\$C = (\frac{(v -
+\alpha)(\beta - v)}{\tau^2} - 1)\frac{\beta - v}{\beta - \alpha}\$\$
+\$\$A = C\frac{v-\alpha}{v - \beta}\$\$ where \\v, \tau^2\\ are
+estimated parameters, where \\v\\ can be interpreted as mean age at
 childbearing. Thus, Beta model uses 5 parameters \\R, \beta, \alpha, v,
 \tau^2\\, where only \\\tau^2\\ has no demographic interpretation.
 

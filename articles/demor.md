@@ -397,7 +397,7 @@ ggplot(dec, aes( as.factor(age), ex12))+
   geom_bar(stat = "identity", color = "black", fill = "orange3")+
   theme_minimal()+
   labs(x = "Age-groups", 
-       y = "Сontribution to the e0 difference")+
+       y = "Contribution to the e0 difference")+
   annotate("text", x = "70", y = 0.5, label = paste0("Total difference in e0: ", sum(dec$ex12)))+
   geom_text(aes(label = ex12), vjust = 1.5, color = "white", size = 3.5)
 ```
@@ -601,7 +601,7 @@ brass_2010[[1]]
 #>  residual sum-of-squares: 0.09628
 #> 
 #> Number of iterations to convergence: 1 
-#> Achieved convergence tolerance: 1.178e-08
+#> Achieved convergence tolerance: 1.091e-07
 ```
 
 Lets plot the modeled and observed mx.
@@ -953,9 +953,8 @@ Leslie matrix is a powerful tool for demographic analysis that was
 introduced by Leslie ([1945](#ref-Leslie)). For a nice and detailed
 introduction to it and matrix projections in general, see Wachter
 ([2014](#ref-ess_demor)), p. 98-122. Also see R package
-[`demogR`](https://cran.r-project.org/web/packages/demogR/index.html)
-and its tutorial ([Jones 2007](#ref-demogR)) for more on “matrix
-methods” in demography.
+[`demogR`](https://CRAN.R-project.org/package=demogR) and its tutorial
+([Jones 2007](#ref-demogR)) for more on “matrix methods” in demography.
 
 In the `demor` one can compute its using $m_{x}$ and $f_{x}$ that is
 age-specific mortality and fertility rates respectively.
@@ -1020,10 +1019,9 @@ table and Leslie matrix will be identical (in `leslie` one can write
 Also from $\mathbf{L}$ one can compute stable population properties:
 stable age distribution, asymptotic growth rate, etc. For more details,
 references and functions see Jones ([2007](#ref-demogR)), p. 10-24 where
-R package
-[`demogR`](https://cran.r-project.org/web/packages/demogR/index.html)
-for matrix demographic models and their analysis was introduced. In
-`demor` there is a generic function
+R package [`demogR`](https://CRAN.R-project.org/package=demogR) for
+matrix demographic models and their analysis was introduced. In `demor`
+there is a generic function
 [`summary()`](https://rdrr.io/r/base/summary.html) that works with
 [`leslie()`](https://vadvu.github.io/demor/reference/leslie.md) output
 to get stable age distribution (w), reproductive values (v) and growth
