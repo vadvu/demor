@@ -29,7 +29,6 @@ Suggests:
     rmarkdown,
     stringr,
     testthat
-VignetteBuilder: knitr, rmarkdown
 URL: https://vadvu.github.io/demor/,
     https://github.com/vadvu/demor
 BugReports: https://github.com/vadvu/demor/issues

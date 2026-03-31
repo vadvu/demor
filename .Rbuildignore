@@ -24,3 +24,5 @@
 ^demor\.Rcheck$
 ^demor_[0-9.-]+\.tar\.gz$
 ^vignettes/.*\.(html|pdf)$
+^vignettes/articles$
+^vignettes/articles/
