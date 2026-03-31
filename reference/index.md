@@ -20,6 +20,8 @@
   e-dagger
 - [`fert.approx()`](https://vadvu.github.io/demor/reference/fert.approx.md)
   : Fertility models for ASFR approximation
+- [`get_rosbris()`](https://vadvu.github.io/demor/reference/get_rosbris.md)
+  : Download RosBris Data
 - [`gini()`](https://vadvu.github.io/demor/reference/gini.md) : Gini
   coefficient of a life table
 - [`hli()`](https://vadvu.github.io/demor/reference/hli.md) : The Human
@@ -45,14 +47,6 @@
   Plot population pyramid
 - [`rosbris.codes`](https://vadvu.github.io/demor/reference/rosbris.codes.md)
   : Rosbris' Region codes
-- [`rosbris_fertility_pop_1`](https://vadvu.github.io/demor/reference/rosbris_fertility_pop_1.md)
-  : Rosbris' Fertility and population (1-year interval)
-- [`rosbris_fertility_pop_5`](https://vadvu.github.io/demor/reference/rosbris_fertility_pop_5.md)
-  : Rosbris' Fertility and population (5-year interval)
-- [`rosbris_mortality_pop_1`](https://vadvu.github.io/demor/reference/rosbris_mortality_pop_1.md)
-  : Rosbris' Mortality and population (1-year interval)
-- [`rosbris_mortality_pop_5`](https://vadvu.github.io/demor/reference/rosbris_mortality_pop_5.md)
-  : Rosbris' Mortality and population (5-year interval)
 - [`sle_stand`](https://vadvu.github.io/demor/reference/sle_stand.md) :
   Data on Standard Life expectancies that is used for YLL calculations
 - [`summary(`*`<leslie>`*`)`](https://vadvu.github.io/demor/reference/summary.leslie.md)

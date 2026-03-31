@@ -13,18 +13,22 @@ devtools::install_github("vadvu/demor")
 ## Get Rosbris data
 
 The data from “The Russian Fertility and Mortality database”
-([2024](#ref-rosbris)) is presented in the `demor` as datasets in the
-long-format (mortality/fertility by 1/5-year age groups from 1989 to
-2022).  
+([2024](#ref-rosbris)) can be downloaded into `demor` in the long format
+(mortality/fertility by 1/5-year age groups from 1989 to 2022) using
+[`get_rosbris()`](https://vadvu.github.io/demor/reference/get_rosbris.md).
+Earlier versions of `demor` bundled RosBris tables directly, but they
+were removed from the package at the request of the rights holder, so
+RosBris data are now available only via download. Downloaded archives
+are cached locally, so repeated calls reuse them unless
+`refresh = TRUE`.  
 
-The example of usage is placed below, where data on mortality by 5-year
-age groups is presented:
+The example below downloads mortality data by 5-year age groups:
 
 ``` r
-dbm <- demor::rosbris_mortality_pop_5
+dbm <- get_rosbris("mortality_5")
 
 # for 1-year age interval
-# dbm <- demor::rosbris_mortality_pop_1
+# dbm <- get_rosbris("mortality_1")
 ```
 
 Lets see the data for Russia in 2010 for males and for total population
@@ -52,26 +56,26 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #> 20461 2010 1100         t   m  75 0.097635 1077916 105242.33
 #> 20462 2010 1100         t   m  80 0.138043  714191  98589.07
 #> 20463 2010 1100         t   m  85 0.198593  231350  45944.49
-#>                       name
-#> 20445 Российская Федерация
-#> 20446 Российская Федерация
-#> 20447 Российская Федерация
-#> 20448 Российская Федерация
-#> 20449 Российская Федерация
-#> 20450 Российская Федерация
-#> 20451 Российская Федерация
-#> 20452 Российская Федерация
-#> 20453 Российская Федерация
-#> 20454 Российская Федерация
-#> 20455 Российская Федерация
-#> 20456 Российская Федерация
-#> 20457 Российская Федерация
-#> 20458 Российская Федерация
-#> 20459 Российская Федерация
-#> 20460 Российская Федерация
-#> 20461 Российская Федерация
-#> 20462 Российская Федерация
-#> 20463 Российская Федерация
+#>                                   name
+#> 20445 Российская Федерация (без Крыма)
+#> 20446 Российская Федерация (без Крыма)
+#> 20447 Российская Федерация (без Крыма)
+#> 20448 Российская Федерация (без Крыма)
+#> 20449 Российская Федерация (без Крыма)
+#> 20450 Российская Федерация (без Крыма)
+#> 20451 Российская Федерация (без Крыма)
+#> 20452 Российская Федерация (без Крыма)
+#> 20453 Российская Федерация (без Крыма)
+#> 20454 Российская Федерация (без Крыма)
+#> 20455 Российская Федерация (без Крыма)
+#> 20456 Российская Федерация (без Крыма)
+#> 20457 Российская Федерация (без Крыма)
+#> 20458 Российская Федерация (без Крыма)
+#> 20459 Российская Федерация (без Крыма)
+#> 20460 Российская Федерация (без Крыма)
+#> 20461 Российская Федерация (без Крыма)
+#> 20462 Российская Федерация (без Крыма)
+#> 20463 Российская Федерация (без Крыма)
 ```
 
 ## Mortality
@@ -192,7 +196,7 @@ Shkolnikov, Andreev, and Begun ([2003](#ref-Shkolnikov_gini)) (that is
 based on the Hanada ([1983](#ref-hanada_gini)) formulation).
 
 ``` r
-dbm.1 <- demor::rosbris_mortality_pop_1
+dbm.1 <- get_rosbris("mortality_1")
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 1995,]$mx
 res = gini(age = 0:100, mx = mx, sex = "f")
 res$Gini
@@ -626,12 +630,12 @@ model1 <- mort.approx(mx = rus2010$mx[-c(1:6)], age = rus2010$age[-c(1:6)], mode
 ### Get fertility data
 
 The data from “The Russian Fertility and Mortality database”
-([2024](#ref-rosbris)) is presented in the `demor` as datasets in the
-long-format (mortality/fertility by 1/5-year age groups from 1989 to
-2022). Lets get basic *fertility data* (asFR or $f_{x}$) from `demor`:
+([2024](#ref-rosbris)) can also be downloaded as *fertility data* (asFR
+or $f_{x}$) using
+[`get_rosbris()`](https://vadvu.github.io/demor/reference/get_rosbris.md):
 
 ``` r
-dbf <- demor::rosbris_fertility_pop_1
+dbf <- get_rosbris("fertility_1")
 ```
 
 For the example Russia-2010 is as follows
@@ -639,13 +643,20 @@ For the example Russia-2010 is as follows
 ``` r
 rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 head(rus2010f)
-#>       year code territory age       fx       N       Bx                 name
-#> 16155 2010 1100         t  15 0.002828  718636  2032.30 Российская Федерация
-#> 16156 2010 1100         t  16 0.007868  738942  5814.00 Российская Федерация
-#> 16157 2010 1100         t  17 0.019538  806058 15748.76 Российская Федерация
-#> 16158 2010 1100         t  18 0.036598  915096 33490.68 Российская Федерация
-#> 16159 2010 1100         t  19 0.054816 1035519 56763.01 Российская Федерация
-#> 16160 2010 1100         t  20 0.068020 1128146 76736.49 Российская Федерация
+#>       year code territory age       fx       N       Bx
+#> 16155 2010 1100         t  15 0.002828  718636  2032.30
+#> 16156 2010 1100         t  16 0.007868  738942  5814.00
+#> 16157 2010 1100         t  17 0.019538  806058 15748.76
+#> 16158 2010 1100         t  18 0.036598  915096 33490.68
+#> 16159 2010 1100         t  19 0.054816 1035519 56763.01
+#> 16160 2010 1100         t  20 0.068020 1128146 76736.49
+#>                                   name
+#> 16155 Российская Федерация (без Крыма)
+#> 16156 Российская Федерация (без Крыма)
+#> 16157 Российская Федерация (без Крыма)
+#> 16158 Российская Федерация (без Крыма)
+#> 16159 Российская Федерация (без Крыма)
+#> 16160 Российская Федерация (без Крыма)
 ```
 
 One can plot the fertility structure:
@@ -696,8 +707,8 @@ and Feeney ([2000](#ref-bongaarts_tfr2))). To calculate it, one can use
 `tatfr` function:
 
 ``` r
-
-dbf5 <- demor::rosbris_fertility_pop_5 %>% dplyr::filter(code == 1100 & year %in% 2009:2011 & territory == "t")
+dbf5all <- get_rosbris("fertility_5")
+dbf5 <- dbf5all %>% dplyr::filter(code == 1100 & year %in% 2009:2011 & territory == "t")
 
 past_fx = dbf5[dbf5$year == 2009,] %>% select(6:10) %>% as.list()
 present_fx = dbf5[dbf5$year == 2010,] %>% select(6:10) %>% as.list()
@@ -877,8 +888,6 @@ extensions, which are partially implemented in the `demor`, see
 documentation) for mortality forecasting:
 
 ``` r
-dbm.1 <- demor::rosbris_mortality_pop_1
-
 leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 & 
                                            dbm.1$territory=="t" & 
                                            dbm.1$sex=="m" & 

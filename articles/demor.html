@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/vadvu/demor/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -58,7 +59,7 @@
       <h1>Get started with `demor`</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/vadvu/demor/blob/main/vignettes/demor.Rmd" class="external-link"><code>vignettes/demor.Rmd</code></a></small>
       <div class="d-none name"><code>demor.Rmd</code></div>
     </div>
 
@@ -76,16 +77,20 @@
 <h2 id="get-rosbris-data">Get Rosbris data<a class="anchor" aria-label="anchor" href="#get-rosbris-data"></a>
 </h2>
 <p>The data from <span class="citation"><span>“<span class="nocase">The
-Russian Fertility and Mortality database</span>”</span> (<a href="#ref-rosbris">2024</a>)</span> is presented in the
-<code>demor</code> as datasets in the long-format (mortality/fertility
-by 1/5-year age groups from 1989 to 2022).<br></p>
-<p>The example of usage is placed below, where data on mortality by
-5-year age groups is presented:</p>
+Russian Fertility and Mortality database</span>”</span> (<a href="#ref-rosbris">2024</a>)</span> can be downloaded into
+<code>demor</code> in the long format (mortality/fertility by 1/5-year
+age groups from 1989 to 2022) using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code>. Earlier
+versions of <code>demor</code> bundled RosBris tables directly, but they
+were removed from the package at the request of the rights holder, so
+RosBris data are now available only via download. Downloaded archives
+are cached locally, so repeated calls reuse them unless
+<code>refresh = TRUE</code>.<br></p>
+<p>The example below downloads mortality data by 5-year age groups:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dbm</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_mortality_pop_5.html">rosbris_mortality_pop_5</a></span></span>
+<code class="sourceCode R"><span><span class="va">dbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span><span class="st">"mortality_5"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># for 1-year age interval</span></span>
-<span><span class="co"># dbm &lt;- demor::rosbris_mortality_pop_1</span></span></code></pre></div>
+<span><span class="co"># dbm &lt;- get_rosbris("mortality_1")</span></span></code></pre></div>
 <p>Lets see the data for Russia in 2010 for males and for total
 population (both urban and rural)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -110,26 +115,26 @@ population (both urban and rural)</p>
 <span><span class="co">#&gt; 20461 2010 1100         t   m  75 0.097635 1077916 105242.33</span></span>
 <span><span class="co">#&gt; 20462 2010 1100         t   m  80 0.138043  714191  98589.07</span></span>
 <span><span class="co">#&gt; 20463 2010 1100         t   m  85 0.198593  231350  45944.49</span></span>
-<span><span class="co">#&gt;                       name</span></span>
-<span><span class="co">#&gt; 20445 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20446 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20447 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20448 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20449 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20450 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20451 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20452 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20453 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20454 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20455 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20456 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20457 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20458 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20459 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20460 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20461 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20462 Российская Федерация</span></span>
-<span><span class="co">#&gt; 20463 Российская Федерация</span></span></code></pre></div>
+<span><span class="co">#&gt;                                   name</span></span>
+<span><span class="co">#&gt; 20445 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20446 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20447 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20448 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20449 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20450 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20451 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20452 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20453 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20454 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20455 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20456 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20457 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20458 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20459 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20460 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20461 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20462 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 20463 Российская Федерация (без Крыма)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="mortality">Mortality<a class="anchor" aria-label="anchor" href="#mortality"></a>
@@ -297,7 +302,7 @@ well as produces data for Lorenz curve - the graphical representation of
 inequality. The formulas for the calculations are derived from <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span> (that is based on the <span class="citation">Hanada (<a href="#ref-hanada_gini">1983</a>)</span>
 formulation).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_mortality_pop_1.html">rosbris_mortality_pop_1</a></span></span>
+<code class="sourceCode R"><span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span><span class="st">"mortality_1"</span><span class="op">)</span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"f"</span> <span class="op">&amp;</span> <span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">1995</span>,<span class="op">]</span><span class="op">$</span><span class="va">mx</span></span>
 <span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="../reference/gini.html">gini</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, mx <span class="op">=</span> <span class="va">mx</span>, sex <span class="op">=</span> <span class="st">"f"</span><span class="op">)</span></span>
 <span><span class="va">res</span><span class="op">$</span><span class="va">Gini</span></span>
@@ -718,25 +723,30 @@ as standard mortality.</p>
 <h3 id="get-fertility-data">Get fertility data<a class="anchor" aria-label="anchor" href="#get-fertility-data"></a>
 </h3>
 <p>The data from <span class="citation"><span>“<span class="nocase">The
-Russian Fertility and Mortality database</span>”</span> (<a href="#ref-rosbris">2024</a>)</span> is presented in the
-<code>demor</code> as datasets in the long-format (mortality/fertility
-by 1/5-year age groups from 1989 to 2022). Lets get basic <em>fertility
-data</em> (asFR or
+Russian Fertility and Mortality database</span>”</span> (<a href="#ref-rosbris">2024</a>)</span> can also be downloaded as
+<em>fertility data</em> (asFR or
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>x</mi></msub><annotation encoding="application/x-tex">f_x</annotation></semantics></math>)
-from <code>demor</code>:</p>
+using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code>:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dbf</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_fertility_pop_1.html">rosbris_fertility_pop_1</a></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dbf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span><span class="st">"fertility_1"</span><span class="op">)</span></span></code></pre></div>
 <p>For the example Russia-2010 is as follows</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rus2010f</span> <span class="op">&lt;-</span> <span class="va">dbf</span><span class="op">[</span><span class="va">dbf</span><span class="op">$</span><span class="va">year</span><span class="op">==</span><span class="fl">2010</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">dbf</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span>,<span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rus2010f</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       year code territory age       fx       N       Bx                 name</span></span>
-<span><span class="co">#&gt; 16155 2010 1100         t  15 0.002828  718636  2032.30 Российская Федерация</span></span>
-<span><span class="co">#&gt; 16156 2010 1100         t  16 0.007868  738942  5814.00 Российская Федерация</span></span>
-<span><span class="co">#&gt; 16157 2010 1100         t  17 0.019538  806058 15748.76 Российская Федерация</span></span>
-<span><span class="co">#&gt; 16158 2010 1100         t  18 0.036598  915096 33490.68 Российская Федерация</span></span>
-<span><span class="co">#&gt; 16159 2010 1100         t  19 0.054816 1035519 56763.01 Российская Федерация</span></span>
-<span><span class="co">#&gt; 16160 2010 1100         t  20 0.068020 1128146 76736.49 Российская Федерация</span></span></code></pre></div>
+<span><span class="co">#&gt;       year code territory age       fx       N       Bx</span></span>
+<span><span class="co">#&gt; 16155 2010 1100         t  15 0.002828  718636  2032.30</span></span>
+<span><span class="co">#&gt; 16156 2010 1100         t  16 0.007868  738942  5814.00</span></span>
+<span><span class="co">#&gt; 16157 2010 1100         t  17 0.019538  806058 15748.76</span></span>
+<span><span class="co">#&gt; 16158 2010 1100         t  18 0.036598  915096 33490.68</span></span>
+<span><span class="co">#&gt; 16159 2010 1100         t  19 0.054816 1035519 56763.01</span></span>
+<span><span class="co">#&gt; 16160 2010 1100         t  20 0.068020 1128146 76736.49</span></span>
+<span><span class="co">#&gt;                                   name</span></span>
+<span><span class="co">#&gt; 16155 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 16156 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 16157 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 16158 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 16159 Российская Федерация (без Крыма)</span></span>
+<span><span class="co">#&gt; 16160 Российская Федерация (без Крыма)</span></span></code></pre></div>
 <p>One can plot the fertility structure:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dbf</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -781,8 +791,8 @@ economic trends” <span class="citation">(<a href="#ref-sobotka2010misleading">
 fertility schedule) adjusted TFR, TFR’, proposed by <span class="citation">Bongaarts and Feeney (<a href="#ref-bongaarts_tfr1">1998</a>)</span> (see also <span class="citation">Bongaarts and Feeney (<a href="#ref-bongaarts_tfr2">2000</a>)</span>). To calculate it, one can
 use <code>tatfr</code> function:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">dbf5</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_fertility_pop_5.html">rosbris_fertility_pop_5</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">code</span> <span class="op">==</span> <span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2009</span><span class="op">:</span><span class="fl">2011</span> <span class="op">&amp;</span> <span class="va">territory</span> <span class="op">==</span> <span class="st">"t"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">dbf5all</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span><span class="st">"fertility_5"</span><span class="op">)</span></span>
+<span><span class="va">dbf5</span> <span class="op">&lt;-</span> <span class="va">dbf5all</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">code</span> <span class="op">==</span> <span class="fl">1100</span> <span class="op">&amp;</span> <span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2009</span><span class="op">:</span><span class="fl">2011</span> <span class="op">&amp;</span> <span class="va">territory</span> <span class="op">==</span> <span class="st">"t"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">past_fx</span> <span class="op">=</span> <span class="va">dbf5</span><span class="op">[</span><span class="va">dbf5</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2009</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">present_fx</span> <span class="op">=</span> <span class="va">dbf5</span><span class="op">[</span><span class="va">dbf5</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2010</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -952,9 +962,7 @@ that provides users with basic <em>Lee-Carter model</em> (proposed by
 extensions, which are partially implemented in the <code>demor</code>,
 see documentation) for mortality forecasting:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu">demor</span><span class="fu">::</span><span class="va"><a href="../reference/rosbris_mortality_pop_1.html">rosbris_mortality_pop_1</a></span></span>
-<span></span>
-<span><span class="va">leecart_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/leecart.html">leecart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> </span>
+<code class="sourceCode R"><span><span class="va">leecart_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/leecart.html">leecart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dbm.1</span><span class="op">[</span><span class="va">dbm.1</span><span class="op">$</span><span class="va">code</span><span class="op">==</span><span class="fl">1100</span> <span class="op">&amp;</span> </span>
 <span>                                           <span class="va">dbm.1</span><span class="op">$</span><span class="va">territory</span><span class="op">==</span><span class="st">"t"</span> <span class="op">&amp;</span> </span>
 <span>                                           <span class="va">dbm.1</span><span class="op">$</span><span class="va">sex</span><span class="op">==</span><span class="st">"m"</span> <span class="op">&amp;</span> </span>
 <span>                                           <span class="va">dbm.1</span><span class="op">$</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">2000</span><span class="op">:</span><span class="fl">2019</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"age"</span>, <span class="st">"mx"</span><span class="op">)</span><span class="op">]</span>, </span>

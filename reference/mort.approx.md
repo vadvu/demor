@@ -62,8 +62,7 @@ interval and a(x) is a parameter from life table.
 ## References
 
 Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography:
-Measuring and modeling population processes. Blackwell Publishers.
-([pdf](https://gwern.net/doc/statistics/2001-preston-demography.pdf))
+Measuring and Modeling Population Processes. Blackwell Publishers.
 
 ## Examples
 

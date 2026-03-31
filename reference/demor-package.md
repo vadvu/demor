@@ -1,12 +1,18 @@
-# demor: Basic functions for demographic analysis
+# demor: Functions for Demographic Analysis
 
-Basic functions for demographic analysis.
+Tools for demographic analysis, including life tables, fertility and
+mortality indicators, decomposition methods, Lee-Carter mortality
+forecasting, Leslie matrices, and population pyramids.
 
 ## See also
 
 Useful links:
 
 - <https://vadvu.github.io/demor/>
+
+- <https://github.com/vadvu/demor>
+
+- Report bugs at <https://github.com/vadvu/demor/issues>
 
 ## Author
 

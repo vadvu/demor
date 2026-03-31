@@ -82,8 +82,8 @@ LT(age = age, sex = "m", mx = mx)
 #> [5,]   4 0.020  0.500 0.01980 0.94474 0.01871  0.93539 31.80311 33.66
 #> [6,]   5 0.030 33.333 1.00000 0.92603 0.92603 30.86772 30.86772 33.33
 # \donttest{
-# Real data from demor: Russian males, 2010
-rus2010 <- subset(rosbris_mortality_pop_5,
+# Real RosBris data via get_rosbris(): Russian males, 2010
+rus2010 <- subset(get_rosbris("mortality_5"),
   year == 2010 & code == 1100 & sex == "m" & territory == "t"
 )
 LT(age = rus2010$age, sex = "m", mx = rus2010$mx)
