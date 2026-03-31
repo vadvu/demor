@@ -1,10 +1,12 @@
 Package: demor
-Title: Basic functions for demographic analysis
+Title: Functions for Demographic Analysis
 Version: 1.0.8
 Authors@R: 
     person("Vadim", "Ustyuzhanin", , "vadim.v.ustyuzhanin@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))
-Description: Basic functions for demographic analysis.
+Description: Tools for demographic analysis, including life tables,
+    fertility and mortality indicators, decomposition methods, Lee-Carter
+    mortality forecasting, Leslie matrices, and population pyramids.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -27,6 +29,8 @@ Suggests:
     rmarkdown,
     stringr,
     testthat
-VignetteBuilder: knitr
-URL: https://vadvu.github.io/demor/
+VignetteBuilder: knitr, rmarkdown
+URL: https://vadvu.github.io/demor/,
+    https://github.com/vadvu/demor
+BugReports: https://github.com/vadvu/demor/issues
 Config/testthat/edition: 3

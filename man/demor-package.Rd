@@ -4,14 +4,16 @@
 \name{demor-package}
 \alias{demor}
 \alias{demor-package}
-\title{demor: Basic functions for demographic analysis}
+\title{demor: Functions for Demographic Analysis}
 \description{
-Basic functions for demographic analysis.
+Tools for demographic analysis, including life tables, fertility and mortality indicators, decomposition methods, Lee-Carter mortality forecasting, Leslie matrices, and population pyramids.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://vadvu.github.io/demor/}
+  \item \url{https://github.com/vadvu/demor}
+  \item Report bugs at \url{https://github.com/vadvu/demor/issues}
 }
 
 }

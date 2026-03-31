@@ -45,5 +45,5 @@ and subscript S defines that function is for standard population. To get mx from
 
 }
 \references{
-Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and modeling population processes. Blackwell Publishers. (\href{https://gwern.net/doc/statistics/2001-preston-demography.pdf}{pdf})
+Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and Modeling Population Processes. Blackwell Publishers.
 }

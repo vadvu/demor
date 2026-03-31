@@ -1,10 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+(^|/)\.DS_Store$
 ^LICENSE\.md$
 ^README\.Rmd$
 ^data-raw$
 ^\\.RData$
-^\\.DS_Store$
 ^\\.Rhistory$
 ^\\.RDataTmp.*$
 ^docs$
@@ -13,9 +13,14 @@
 ^pkgdown$
 ^\.github$
 ^inst/web$
+^demorp$
+^demorp/
 ^paper$
 ^IDEAS$
 ^rosbris$
 [.]rtf$
 ^^\\.RDataTmp\.*$$
 ^cran-comments\.md$
+^demor\.Rcheck$
+^demor_[0-9.-]+\.tar\.gz$
+^vignettes/.*\.(html|pdf)$

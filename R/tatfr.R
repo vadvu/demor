@@ -14,9 +14,9 @@
 #' @seealso [tfr()] for TFR and [mac()] for mean age at childbearing calculation.
 #'
 #' @references
-#' Bongaarts, J., & Feeney, G. (1998). On the Quantum and Tempo of Fertility. Population and Development Review, 24(2), 271–291. https://doi.org/10.2307/2807974
+#' Bongaarts, J., & Feeney, G. (1998). On the Quantum and Tempo of Fertility. Population and Development Review, 24(2), 271–291. \doi{10.2307/2807974}
 #'
-#' Bongaarts, J., & Feeney, G. (2000). On the Quantum and Tempo of Fertility: Reply. Population and Development Review, 26(3), 560–564. https://doi.org/10.1111/j.1728-4457.2000.00560.x
+#' Bongaarts, J., & Feeney, G. (2000). On the Quantum and Tempo of Fertility: Reply. Population and Development Review, 26(3), 560–564. \doi{10.1111/j.1728-4457.2000.00560.x}
 #'
 #' @return list with TFR' (tatfr) and TFR' by parity (tatfr_i, in user-specific order as in lists), TFR (tfr) and TFR by parity (tfr_i)
 #' @export

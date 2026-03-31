@@ -20,7 +20,7 @@
 #' and subscript S defines that function is for standard population. To get mx from qx usual formula is used:
 #' \deqn{m(age) = \frac{q(age)}{n-q(age)(n-a(age))}} where n is the size of age interval and a(x) is a parameter from life table.
 #'
-#' @references Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and modeling population processes. Blackwell Publishers. ([pdf](https://gwern.net/doc/statistics/2001-preston-demography.pdf))
+#' @references Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and Modeling Population Processes. Blackwell Publishers.
 #' @export
 #'
 #' @examples

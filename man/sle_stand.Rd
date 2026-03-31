@@ -15,7 +15,7 @@
 }
 }
 \source{
-Martinez, R., Soliz, P., Caixeta, R., Ordunez, P. \href{https://doi.org/10.1093/ije/dyy254}{2019}. Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
+Martinez, R., Soliz, P., Caixeta, R., Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality-a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology, 48, 1367-1376. \doi{10.1093/ije/dyy254}
 }
 \usage{
 sle_stand

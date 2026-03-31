@@ -40,7 +40,7 @@
 #'   \item{age}{age}
 #'   \item{ex}{Standard Life Expectancy}
 #' }
-#' @source Martinez, R., Soliz, P., Caixeta, R., Ordunez, P. [2019](https://doi.org/10.1093/ije/dyy254). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology 48, 1367–1376.
+#' @source Martinez, R., Soliz, P., Caixeta, R., Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality-a versatile and comprehensive measure for monitoring non-communicable disease mortality. International Journal of Epidemiology, 48, 1367-1376. \doi{10.1093/ije/dyy254}
 "sle_stand"
 
 #' Rosbris' Region codes
@@ -54,86 +54,4 @@
 #' }
 #' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
 "rosbris.codes"
-
-#' Rosbris' Fertility and population (1-year interval)
-#'
-#'
-#' @format ## A dataframe
-#' \describe{
-#'   \item{year}{year}
-#'   \item{code}{number of Region}
-#'   \item{territory}{rural/urban/total}
-#'   \item{age}{age}
-#'   \item{fx}{ASFR}
-#'   \item{N}{Population}
-#'   \item{Bx}{Number of Births}
-#'   \item{name}{Region name}
-#' }
-#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
-"rosbris_fertility_pop_1"
-
-#' Rosbris' Fertility and population (5-year interval)
-#'
-#'
-#' @format ## A dataframe
-#' \describe{
-#'   \item{year}{year}
-#'   \item{code}{number of Region}
-#'   \item{territory}{rural/urban/total}
-#'   \item{age}{age}
-#'   \item{fx}{ASFR}
-#'   \item{fx1}{ASFR, 1 order}
-#'   \item{fx2}{ASFR, 2 order}
-#'   \item{fx3}{ASFR, 3 order}
-#'   \item{fx4}{ASFR, 4 order}
-#'   \item{fx5}{ASFR, 5+ order}
-#'   \item{N}{Population}
-#'   \item{Bx}{Number of Births}
-#'   \item{Bx1}{Number of Births, 1 order}
-#'   \item{Bx2}{Number of Births, 2 order}
-#'   \item{Bx3}{Number of Births, 3 order}
-#'   \item{Bx4}{Number of Births, 4 order}
-#'   \item{Bx5}{Number of Births, 5+ order}
-#'   \item{name}{Region name}
-#' }
-#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
-"rosbris_fertility_pop_5"
-
-#' Rosbris' Mortality and population (1-year interval)
-#'
-#'
-#' @format ## A dataframe
-#' \describe{
-#'   \item{year}{year}
-#'   \item{code}{number of Region}
-#'   \item{territory}{rural/urban/total}
-#'   \item{sex}{sex: both/male/femal}
-#'   \item{age}{age}
-#'   \item{mx}{ASMR}
-#'   \item{N}{Population}
-#'   \item{Dx}{Number of Deaths}
-#'   \item{name}{Region name}
-#' }
-#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
-"rosbris_mortality_pop_1"
-
-#' Rosbris' Mortality and population (5-year interval)
-#'
-#'
-#' @format ## A dataframe
-#' \describe{
-#'   \item{year}{year}
-#'   \item{code}{number of Region}
-#'   \item{territory}{rural/urban/total}
-#'   \item{sex}{sex: both/male/femal}
-#'   \item{age}{age}
-#'   \item{mx}{ASMR}
-#'   \item{N}{Population}
-#'   \item{Dx}{Number of Deaths}
-#'   \item{name}{Region name}
-#' }
-#' @source Russian Fertility and Mortality Database. Center for Demographic Research, Moscow (Russia). Available at https://www.nes.ru/demogr-fermort-data
-"rosbris_mortality_pop_5"
-
-
 

@@ -41,17 +41,17 @@
 #'
 #' @references
 #'
-#' Booth, H., Maindonald, J., & Smith, L. (2002). Applying Lee-Carter under conditions of variable mortality decline. Population studies, 56(3), 325-336. \href{https://doi.org/10.1080/00324720215935}{https://doi.org/10.1080/00324720215935}
+#' Booth, H., Maindonald, J., & Smith, L. (2002). Applying Lee-Carter under conditions of variable mortality decline. Population Studies, 56(3), 325-336. \doi{10.1080/00324720215935}
 #'
-#' Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. \href{https://doi.org/10.1080/01621459.1992.10475265}{https://doi.org/10.1080/01621459.1992.10475265}
+#' Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting US mortality. Journal of the American Statistical Association, 87(419), 659–671. \doi{10.1080/01621459.1992.10475265}
 #'
-#' Lee, R., & Miller, T. (2001). Evaluating the performance of the lee-carter method for forecasting mortality. Demography, 38(4), 537–549. \href{https://doi.org/10.1353/dem.2001.0036}{https://doi.org/10.1353/dem.2001.0036}
+#' Lee, R., & Miller, T. (2001). Evaluating the performance of the Lee-Carter method for forecasting mortality. Demography, 38(4), 537–549. \doi{10.1353/dem.2001.0036}
 #'
-#' Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. \href{https://doi.org/10.1007/s13524-013-0232-2}{https://doi.org/10.1007/s13524-013-0232-2}
+#' Li, N., Lee, R., & Gerland, P. (2013). Extending the Lee-Carter Method to Model the Rotation of Age Patterns of Mortality Decline for Long-Term Projections. Demography, 50(6), 2037–2051. \doi{10.1007/s13524-013-0232-2}
 #'
-#' Rabbi, A. M. F., & Mazzuco, S. (2021). Mortality forecasting with the lee–carter method: Adjusting for smoothing and lifespan disparity. European Journal of Population, 37(1), 97-120. \href{https://doi.org/10.1007/s10680-020-09559-9}{https://doi.org/10.1007/s10680-020-09559-9}
+#' Rabbi, A. M. F., & Mazzuco, S. (2021). Mortality forecasting with the Lee-Carter method: Adjusting for smoothing and lifespan disparity. European Journal of Population, 37(1), 97-120. \doi{10.1007/s10680-020-09559-9}
 #'
-#' Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. \href{https://doi.org/10.1007/978-3-319-26603-9_15}{https://doi.org/10.1007/978-3-319-26603-9_15}
+#' Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. \doi{10.1007/978-3-319-26603-9_15}
 #'
 #' @return Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
 #' @import forecast dplyr tidyr splines
