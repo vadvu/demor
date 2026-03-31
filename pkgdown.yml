@@ -2,8 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  demor: demor.html
-last_built: 2026-03-31T16:04Z
+  articles/demor: demor.html
+last_built: 2026-03-31T16:36Z
 urls:
   reference: https://vadvu.github.io/demor/reference
   article: https://vadvu.github.io/demor/articles

@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/vadvu/demor/blob/v1.0.9/inst/CITATION)
+[`inst/CITATION`](https://github.com/vadvu/demor/blob/main/inst/CITATION)
 
 English citation: Ustyuzhanin V. (2025). demor: R package for basic and
 advanced methods of demographic analysis. Demographic Review, 12(4),
