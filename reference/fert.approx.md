@@ -45,9 +45,12 @@ fert.approx(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, bn = 1000)
 
 ## Value
 
-list with estimated model (parameters, variance-covariance matrix,
-percentiles of parameters) and dataframe with predicted and observed
-ASFR as well as SE and percentile of predictions
+A list with two components: `model`, a list describing the fitted
+fertility model (`type`, fitted `params`, `rmse`, and, if `se = TRUE`,
+bootstrap `covmat` and parameter percentile intervals `prc`); and
+`predicted`, a data frame with observed and fitted age-specific
+fertility rates. When `se = TRUE`, `predicted` also includes bootstrap
+standard errors and percentile intervals.
 
 ## Details
 
@@ -96,5 +99,29 @@ populations. *Demographic Research*, *16*, 141-194.
 ## Examples
 
 ``` r
-# fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", se = FALSE)
+age <- seq(15, 45, 5)
+fx <- c(0.03, 0.10, 0.14, 0.12, 0.07, 0.03, 0.01)
+fert.approx(fx = fx, age = age, model = "Hadwiger", se = FALSE)
+#> $model
+#> $model$type
+#> [1] "Hadwiger"
+#> 
+#> $model$params
+#>         a         b         c 
+#>  1.442418  2.544989 28.091324 
+#> 
+#> $model$rmse
+#> [1] 0.005297732
+#> 
+#> 
+#> $predicted
+#>   age   fx.model   fx
+#> 1  15 0.02403464 0.03
+#> 2  20 0.10226576 0.10
+#> 3  25 0.14252027 0.14
+#> 4  30 0.11513875 0.12
+#> 5  35 0.06861307 0.07
+#> 6  40 0.03395900 0.03
+#> 7  45 0.01489530 0.01
+#> 
 ```

@@ -31,8 +31,10 @@ tatfr(past_fx, present_fx, post_fx, age)
 
 ## Value
 
-list with TFR' (tatfr) and TFR' by parity (tatfr_i, in user-specific
-order as in lists), TFR (tfr) and TFR by parity (tfr_i)
+A list with four components: `tatfr` (overall tempo-adjusted total
+fertility rate), `tatfr_i` (parity-specific tempo-adjusted rates), `tfr`
+(overall conventional TFR), and `tfr_i` (parity-specific conventional
+rates).
 
 ## Details
 
@@ -62,3 +64,34 @@ Fertility: Reply. Population and Development Review, 26(3), 560–564.
 [`tfr()`](https://vadvu.github.io/demor/reference/tfr.md) for TFR and
 [`mac()`](https://vadvu.github.io/demor/reference/mac.md) for mean age
 at childbearing calculation.
+
+## Examples
+
+``` r
+age <- seq(15, 45, 5)
+past_fx <- list(
+  c(0.02, 0.05, 0.07, 0.05, 0.03, 0.01, 0.00),
+  c(0.01, 0.03, 0.04, 0.03, 0.02, 0.01, 0.00)
+)
+present_fx <- list(
+  c(0.03, 0.06, 0.08, 0.06, 0.03, 0.01, 0.00),
+  c(0.01, 0.03, 0.05, 0.04, 0.02, 0.01, 0.00)
+)
+post_fx <- list(
+  c(0.03, 0.05, 0.08, 0.07, 0.04, 0.02, 0.00),
+  c(0.01, 0.03, 0.04, 0.04, 0.03, 0.01, 0.00)
+)
+tatfr(past_fx, present_fx, post_fx, age)
+#> $tatfr
+#> [1] 3.211113
+#> 
+#> $tatfr_i
+#> [1] 1.970803 1.240310
+#> 
+#> $tfr
+#> [1] 2.15
+#> 
+#> $tfr_i
+#> [1] 1.35 0.80
+#> 
+```

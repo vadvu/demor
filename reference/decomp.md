@@ -50,8 +50,11 @@ decomp(mx1, mx2, sex = "m", age, method = "andreev", ax1 = NULL, ax2 = NULL)
 
 ## Value
 
-dataframe with parameters of decomposition (depends on method) and
-decomposition in years (ex12) and percents (ex12_prc).
+A data frame with one row per age group. It always contains `age`,
+`ex12`, and `ex12_prc`, where `ex12` is the absolute age contribution to
+the life-expectancy difference and `ex12_prc` is the percentage
+contribution. Additional columns depend on `method` and contain
+intermediate life-table quantities used in the decomposition.
 
 ## Details
 
@@ -80,3 +83,13 @@ population. \\e_x^i, l_x^i\\ are life table functions for population
 
 [`mdecomp()`](https://vadvu.github.io/demor/reference/mdecomp.md) for
 age and cause decomposition
+
+## Examples
+
+``` r
+age <- 0:5
+mx1 <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+mx2 <- c(0.018, 0.009, 0.011, 0.014, 0.019, 0.028)
+decomp(mx1, mx2, age = age)$ex12
+#> [1] 0.08 0.03 0.04 0.03 0.04 2.21
+```

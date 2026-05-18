@@ -26,7 +26,8 @@ hli(age, mx, ...)
 
 ## Value
 
-HLI value
+A length-1 numeric value giving the Human Life Indicator, i.e. the
+geometric mean age at death implied by the life table.
 
 ## Details
 
@@ -40,3 +41,12 @@ groups, \\x\\ is age, \\a_x, d_x\\ are life table functions (s.t.
 Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure
 of Human Development: The Human Life Indicator. *Population and
 Development Review*, *45*, 219–233.
+
+## Examples
+
+``` r
+age <- 0:5
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+hli(age, mx)
+#> [1] 29.77401
+```

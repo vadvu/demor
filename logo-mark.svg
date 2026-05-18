@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">demor m sub x mark</title>
+  <desc id="desc">A minimal black m with subscript x on a white background.</desc>
+  <rect width="256" height="256" fill="#ffffff" />
+  <text x="50" y="164" fill="#000000" font-family="Georgia, Times New Roman, serif" font-size="150" font-style="italic">m</text>
+  <text x="186" y="196" fill="#000000" font-family="Georgia, Times New Roman, serif" font-size="56" font-style="italic">x</text>
+</svg>

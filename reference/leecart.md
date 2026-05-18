@@ -80,8 +80,12 @@ leecart(
 
 ## Value
 
-Dataframe with the projected mx and ex for t+n periods with mean, low95
-and high 95 values
+A list with four components: `model`, the fitted time-series model used
+to forecast `kt`; `kt`, a data frame with historical and forecast
+mortality index values and confidence intervals; `ex0`, a data frame
+with observed, fitted, and forecast life expectancy at birth and
+confidence intervals; and `mx`, a data frame with observed, fitted, and
+forecast age-specific mortality rates and confidence intervals.
 
 ## Details
 
@@ -163,3 +167,21 @@ European Journal of Population, 37(1), 97-120.
 Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis
 (Vol. 39, pp. 285–310). Springer International Publishing.
 [doi:10.1007/978-3-319-26603-9_15](https://doi.org/10.1007/978-3-319-26603-9_15)
+
+## Examples
+
+``` r
+age <- 0:20
+year <- 2000:2009
+lc_data <- expand.grid(age = age, year = year)
+lc_data$mx <- exp(-7 + 0.09 * lc_data$age - 0.02 * (lc_data$year - min(year)))
+fit <- leecart(lc_data, n = 2)
+head(fit$kt)
+#>     year    kt conf.low conf.high
+#> x.1 2000  1.89       NA        NA
+#> x.2 2001  1.47       NA        NA
+#> x.3 2002  1.05       NA        NA
+#> x.4 2003  0.63       NA        NA
+#> x.5 2004  0.21       NA        NA
+#> x.6 2005 -0.21       NA        NA
+```

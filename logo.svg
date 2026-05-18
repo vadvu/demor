@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 220" role="img" aria-labelledby="title desc">
+  <title id="title">demor logo as the mortality coefficient m sub x</title>
+  <desc id="desc">A minimal black m with subscript x on a white background.</desc>
+  <rect width="420" height="220" fill="#ffffff" />
+  <text x="112" y="146" fill="#000000" font-family="Georgia, Times New Roman, serif" font-size="146" font-style="italic">m</text>
+  <text x="250" y="178" fill="#000000" font-family="Georgia, Times New Roman, serif" font-size="58" font-style="italic">x</text>
+</svg>

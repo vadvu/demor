@@ -38,8 +38,11 @@ mdecomp(mx1, mx2, age, method = "andreev", ...)
 
 ## Value
 
-Dataframe with 1st column as overall decomposition (`ex12`), and other
-columns are decomposition by causes (`cause(i)`)
+A data frame of class `c("mdecomp", "data.frame")` with one row per age
+group. Column `age` contains ages, `ex12` contains the overall age
+contribution to the life-expectancy difference, and the remaining
+columns contain cause-specific contributions named after the
+cause-specific elements of `mx1` and `mx2`.
 
 ## Details
 
@@ -58,3 +61,29 @@ cause \\c\\, and \\m^i_x\\ is total age-specific mortality rate.
 age decomposition and
 [`plot.mdecomp()`](https://vadvu.github.io/demor/reference/plot.mdecomp.md)
 for graph of `mdecomp` results
+
+## Examples
+
+``` r
+data(mdecompex)
+usa <- subset(mdecompex, cnt == "usa")
+eng <- subset(mdecompex, cnt == "eng")
+dec <- mdecomp(
+  mx1 = list(
+    all = usa$all,
+    neoplasms = usa$neoplasms,
+    circulatory = usa$circulatory
+  ),
+  mx2 = list(
+    all = eng$all,
+    neoplasms = eng$neoplasms,
+    circulatory = eng$circulatory
+  ),
+  age = usa$age
+)
+dec[1:3, ]
+#>   age ex12     neoplasms  circulatory
+#> 1   0 0.13  0.0009474709 7.090137e-03
+#> 2   1 0.03 -0.0025030458 5.483996e-04
+#> 3   5 0.02 -0.0016468368 8.262058e-05
+```

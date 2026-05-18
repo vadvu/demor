@@ -16,6 +16,7 @@ calculating years of life lost, and more.
 You can install the development version of `demor` from GitHub with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("vadvu/demor")
 ```

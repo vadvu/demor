@@ -30,7 +30,10 @@ ages(x, groups, char = FALSE, below_min_val = NA)
 
 ## Value
 
-Factor or numeric array with classified ages
+If `char = TRUE`, a factor of the same length as `x` with age-group
+labels. Otherwise, a numeric vector of the same length as `x` with the
+lower boundaries from `groups`; values below the first group receive
+`below_min_val`.
 
 ## Examples
 

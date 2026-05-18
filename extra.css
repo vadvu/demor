@@ -1,0 +1,28 @@
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.navbar-brand::before {
+  content: "";
+  width: 1.85rem;
+  height: 1.85rem;
+  flex: 0 0 auto;
+  display: inline-block;
+  background-image: url("logo-mark.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+@media (max-width: 575.98px) {
+  .navbar-brand {
+    gap: 0.5rem;
+  }
+
+  .navbar-brand::before {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+}

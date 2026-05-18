@@ -75,4 +75,16 @@ plot_pyr(
 
 ## Value
 
-`ggplot2` object
+A `ggplot2` object representing a population pyramid. If `popm2` and
+`popf2` are supplied, the plot also includes dashed comparison lines for
+the second population.
+
+## Examples
+
+``` r
+plot_pyr(
+  popm = c(100, 90, 80, 70, 60),
+  popf = c(95, 92, 85, 75, 65),
+  age = seq(0, 20, 5)
+)
+```

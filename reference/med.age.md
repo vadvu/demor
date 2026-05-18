@@ -20,4 +20,14 @@ med.age(N, age)
 
 ## Value
 
-Numeric value.
+A length-1 numeric value giving the estimated median age of the
+population represented by `N`.
+
+## Examples
+
+``` r
+N <- c(100, 90, 80, 70, 60)
+age <- seq(0, 20, 5)
+med.age(N, age)
+#> [1] 10.62
+```

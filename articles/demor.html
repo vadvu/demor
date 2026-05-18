@@ -12,10 +12,11 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with `demor`">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../extra.js"></script><meta property="og:title" content="Get started with `demor`">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -25,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">demor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +56,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Get started with `demor`</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Get started with `demor`</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/vadvu/demor/blob/main/vignettes/articles/demor.Rmd" class="external-link"><code>vignettes/articles/demor.Rmd</code></a></small>
@@ -146,20 +146,20 @@ population (both urban and rural)</p>
 2010-Russia using <code><a href="../reference/LT.html">LT()</a></code>.<br>
 Note,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>x</mi></msub><annotation encoding="application/x-tex">a_x</annotation></semantics></math>
-for age 0 is modeled as in <span class="citation">Evgeny M. Andreev and
-Kingkade (<a href="#ref-Andreev_ax">2015</a>)</span>, while the function
-can use user-specific
+for age 0 is modeled as in <span class="citation">Andreev and Kingkade
+(<a href="#ref-Andreev_ax">2015</a>)</span>, while the function can use
+user-specific
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>x</mi></msub><annotation encoding="application/x-tex">a_x</annotation></semantics></math>
 from the argument <code>ax</code>. However, despite there is a plethora
 of methods to construct life table that “are based upon very different
 assumptions, when applied to actual mortality rates they do not result
-in significant differences of importance to mortality analysis.” <span class="citation">(WHO, 1977, p. 70, cite from <a href="#ref-preston">Preston, Heuveline, and Guillot 2001,
-47</a>)</span>. For example, changing
+in significant differences of importance to mortality analysis.” <span class="citation">(WHO, 1977, p. 70, cite from <a href="#ref-preston">Preston et al. 2001, 47</a>)</span>. For example,
+changing
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mn>0</mn></msub><annotation encoding="application/x-tex">a_0</annotation></semantics></math>
 to 0.5 only increases the life expectancy
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mn>0</mn></msub><annotation encoding="application/x-tex">e_0</annotation></semantics></math>
 by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mo>+</mo><mn>0.01</mn></mrow><annotation encoding="application/x-tex">\approx +0.01</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mi>+</mi><mn>0.01</mn></mrow><annotation encoding="application/x-tex">\approx +0.01</annotation></semantics></math>
 for the 2010 Russian male population, which is about 4 days when applied
 to human life span.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -204,7 +204,7 @@ or death rate above some age
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 to age
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>l</mi><mi>y</mi></msub><mi>/</mi><msub><mi>l</mi><mi>x</mi></msub><mo>≈</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><msub><mi>m</mi><mi>x</mi></msub><mo>×</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p(x,y)=l_y/l_x \approx exp(-m_x \times n)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mi>y</mi></msub><mi>/</mi><msub><mi>l</mi><mi>x</mi></msub><mo>≈</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>−</mi><msub><mi>m</mi><mi>x</mi></msub><mo>×</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p(x,y)=l_y/l_x \approx exp(-m_x \times n)</annotation></semantics></math>
 </li>
 <li>Probability that a newborn will die between ages
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
@@ -216,15 +216,15 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mi>x</mi></msub><mo>−</mo><msub><mi>l</mi><mi>y</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>l</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">(l_x-l_y)/l_0</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mi>x</mi></msub><mo>−</mo><msub><mi>l</mi><mi>y</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mi>l</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">(l_x-l_y)/l_0</annotation></semantics></math>
 </li>
 <li>Probability that a newborn will survive to age
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>l</mi><mi>x</mi></msub><mi>/</mi><msub><mi>l</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">p(x) = l_x/l_0</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mi>x</mi></msub><mi>/</mi><msub><mi>l</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">p(x) = l_x/l_0</annotation></semantics></math>
 </li>
 <li>Probability that a newborn will die in age
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">q(x) = 1-p_x</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">q(x) = 1-p_x</annotation></semantics></math>
 </li>
 <li>Life course ratio from age
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
@@ -242,7 +242,7 @@ where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
 is total population</li>
 </ol>
-<p>See also <span class="citation">Preston, Heuveline, and Guillot (<a href="#ref-preston">2001</a>)</span>.</p>
+<p>See also <span class="citation">Preston et al. (<a href="#ref-preston">2001</a>)</span>.</p>
 <p>The life table is the one of the most important demographic tools
 that can be used not only for mortality, but for any other decrement
 processes (for ex., marital, occupation, migration status and etc).</p>
@@ -251,11 +251,12 @@ processes (for ex., marital, occupation, migration status and etc).</p>
 <h3 id="human-life-indicator-hli">Human Life Indicator (HLI)<a class="anchor" aria-label="anchor" href="#human-life-indicator-hli"></a>
 </h3>
 <p>A good alternative to the <em>human development indicator</em> (HDI)
-is the <em>human life indicator</em> (HLI) proposed by <span class="citation">Ghislandi, Sanderson, and Scherbov (<a href="#ref-hli">2019</a>)</span>. It requires just
+is the <em>human life indicator</em> (HLI) proposed by <span class="citation">Ghislandi et al. (<a href="#ref-hli">2019</a>)</span>.
+It requires just
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>x</mi></msub><annotation encoding="application/x-tex">m_x</annotation></semantics></math>
 (and it is based on <em>life table</em>). It is calculated as geometric
 mean of lifespans:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>L</mi><mi>I</mi><mo>=</mo><munderover><mo>∏</mo><mi>x</mi><mi>ω</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>+</mo><msub><mi>a</mi><mi>x</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>d</mi><mi>x</mi></msub></msup></mrow><annotation encoding="application/x-tex">HLI = \prod_x^\omega{(x+a_x)^{d_x}}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>L</mi><mi>I</mi><mo>=</mo><munderover><mo>∏</mo><mi>x</mi><mi>ω</mi></munderover><mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>+</mo><msub><mi>a</mi><mi>x</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><msub><mi>d</mi><mi>x</mi></msub></msup></mrow></mrow><annotation encoding="application/x-tex">HLI = \prod_x^\omega{(x+a_x)^{d_x}}</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 is age and
@@ -277,7 +278,7 @@ are functions from <em>life table</em> that corresponds to age
 <div class="section level3">
 <h3 id="gini-coefficient">Gini coefficient<a class="anchor" aria-label="anchor" href="#gini-coefficient"></a>
 </h3>
-<p>As <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span> note, “at present, the
+<p>As <span class="citation">Shkolnikov et al. (<a href="#ref-Shkolnikov_gini">2003</a>)</span> note, “at present, the
 average level of life expectancy is high in many countries and it is
 interesting to study to what extent this advantage is equally accessible
 to all people”. (p. 306). One of the tools for analysing mortality
@@ -287,7 +288,7 @@ economics. Life table Gini,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>0</mn></msub><annotation encoding="application/x-tex">G_0</annotation></semantics></math>,
 shows a degree of inter-individual variability in age at death and can
 be interpreted as in other fields
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>0</mn></msub><mo>∈</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">G_0 \in [0,1]</annotation></semantics></math>;
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>0</mn></msub><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">G_0 \in [0,1]</annotation></semantics></math>;
 higher
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>G</mi><mn>0</mn></msub><annotation encoding="application/x-tex">G_0</annotation></semantics></math>,
 higher inequality and vice versa). Also one can be interested in
@@ -295,11 +296,10 @@ higher inequality and vice versa). Also one can be interested in
 Difference) that is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>G</mi><mn>0</mn><mrow><mi>a</mi><mi>b</mi><mi>s</mi></mrow></msubsup><mo>=</mo><msub><mi>G</mi><mn>0</mn></msub><mo>×</mo><msub><mi>e</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">G_0^{abs} = G_0 \times e_0</annotation></semantics></math>
 which “is equal to the average inter-individual difference in length of
-life and is measured in years.” <span class="citation">(<a href="#ref-Shkolnikov_gini">Shkolnikov, Andreev, and Begun 2003,
-312</a>)</span></p>
+life and is measured in years.” <span class="citation">(<a href="#ref-Shkolnikov_gini">Shkolnikov et al. 2003, 312</a>)</span></p>
 <p>Below is the function <code>gini</code> that computes Gini index as
 well as produces data for Lorenz curve - the graphical representation of
-inequality. The formulas for the calculations are derived from <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span> (that is based on the <span class="citation">Hanada (<a href="#ref-hanada_gini">1983</a>)</span>
+inequality. The formulas for the calculations are derived from <span class="citation">Shkolnikov et al. (<a href="#ref-Shkolnikov_gini">2003</a>)</span> (that is based on the <span class="citation">Hanada (<a href="#ref-hanada_gini">1983</a>)</span>
 formulation).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dbm.1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_rosbris.html">get_rosbris</a></span><span class="op">(</span><span class="st">"mortality_1"</span><span class="op">)</span></span>
@@ -313,7 +313,7 @@ formulation).</p>
 <span><span class="co">#&gt; $G0_abs</span></span>
 <span><span class="co">#&gt;      ex </span></span>
 <span><span class="co">#&gt; 9.27805</span></span></code></pre></div>
-<p>Note, in <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span> the
+<p>Note, in <span class="citation">Shkolnikov et al. (<a href="#ref-Shkolnikov_gini">2003</a>)</span> the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>0</mn></msub><mo>=</mo><mn>0.13</mn></mrow><annotation encoding="application/x-tex">G_0 = 0.13</annotation></semantics></math>
 (see p. 310, figure 1), while using <code>gini</code> one obtains
 0.1295. Also note that the larger the age interval, the less accurate
@@ -370,8 +370,8 @@ calculation “e-dagger” for age
 for Russian female population in 1995 is 12.72. From
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>e</mi><mi>x</mi><mo>†</mo></msubsup><annotation encoding="application/x-tex">e^{\dagger}_x</annotation></semantics></math>
 one can also calculate life table entropy
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>x</mi></msub><annotation encoding="application/x-tex">H_x</annotation></semantics></math><span class="citation">(see, for ex., <a href="#ref-comp_ineq2">Wrycza,
-Missov, and Baudisch 2015</a>)</span> that is simply
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>x</mi></msub><annotation encoding="application/x-tex">H_x</annotation></semantics></math><span class="citation">(see, for ex., <a href="#ref-comp_ineq2">Wrycza
+et al. 2015</a>)</span> that is simply
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>x</mi></msub><mo>=</mo><msubsup><mi>e</mi><mi>x</mi><mo>†</mo></msubsup><mi>/</mi><msub><mi>e</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">H_x = e^{\dagger}_x/e_x</annotation></semantics></math>.
 Usually only one quantity as entropy is presented that is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>,
@@ -382,7 +382,7 @@ and it is
 <p>Note that the larger the age interval, the less accurate the estimate
 will be, since it is based on a discrete approximation of a continuous
 function.</p>
-<p>For more inequality indicators and their comparisons, see <span class="citation">Shkolnikov, Andreev, and Begun (<a href="#ref-Shkolnikov_gini">2003</a>)</span>, <span class="citation">Wrycza, Missov, and Baudisch (<a href="#ref-comp_ineq2">2015</a>)</span> and <span class="citation">Wilmoth and Horiuchi (<a href="#ref-comp_ineq1">1999</a>)</span> as well as <a href="https://github.com/alysonvanraalte/LifeIneq" class="external-link"><code>LifeIneq</code></a>
+<p>For more inequality indicators and their comparisons, see <span class="citation">Shkolnikov et al. (<a href="#ref-Shkolnikov_gini">2003</a>)</span>, <span class="citation">Wrycza et al. (<a href="#ref-comp_ineq2">2015</a>)</span> and <span class="citation">Wilmoth and Horiuchi (<a href="#ref-comp_ineq1">1999</a>)</span> as well as <a href="https://github.com/alysonvanraalte/LifeIneq" class="external-link"><code>LifeIneq</code></a>
 package.</p>
 </div>
 <div class="section level3">
@@ -418,12 +418,12 @@ that is just <em>cause specific YLL</em> divided by <em>all-causes
 YLL</em>.</li>
 <li>
 <em>YLL</em> rate:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mi>L</mi><msubsup><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow><mi>r</mi></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mi>L</mi><msub><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow></msub><mi>/</mi><msub><mi>P</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">]</mo></mrow><mo>*</mo><mn>100</mn><mi>′</mi><mn>000</mn></mrow><annotation encoding="application/x-tex">YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mi>L</mi><msubsup><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow><mi>r</mi></msubsup><mo>=</mo><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mi>L</mi><msub><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow></msub><mi>/</mi><msub><mi>P</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi></mrow></msub><mo stretchy="false" form="postfix">]</mo><mo>*</mo><msup><mn>100</mn><mo>′</mo></msup><mn>000</mn></mrow><annotation encoding="application/x-tex">YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">P_{x,t}</annotation></semantics></math>
 is population.</li>
 <li>Age-standardized <em>YLL</em> rate:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>S</mi><mi>Y</mi><msub><mi>R</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow></msub><mo>=</mo><munderover><mo>∑</mo><mi>x</mi><mi>ω</mi></munderover><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mi>L</mi><msubsup><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow><mi>r</mi></msubsup><mo>*</mo><msub><mi>W</mi><mi>x</mi></msub><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>S</mi><mi>Y</mi><msub><mi>R</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow></msub><mo>=</mo><munderover><mo>∑</mo><mi>x</mi><mi>ω</mi></munderover><mrow><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mi>L</mi><msubsup><mi>L</mi><mrow><mi>x</mi><mo>,</mo><mi>t</mi><mo>,</mo><mi>c</mi></mrow><mi>r</mi></msubsup><mo>*</mo><msub><mi>W</mi><mi>x</mi></msub><mo stretchy="false" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mi>x</mi></msub><annotation encoding="application/x-tex">W_x</annotation></semantics></math>
 is the standard population weight at age <em>x</em>, where
@@ -514,7 +514,7 @@ and in <span class="citation">Pollard (<a href="#ref-pollard_dec">1982</a>)</spa
 <h3 id="age-and-cause-decomposition-of-differences-in-life-expectancies">Age and cause decomposition of differences in life expectancies<a class="anchor" aria-label="anchor" href="#age-and-cause-decomposition-of-differences-in-life-expectancies"></a>
 </h3>
 <p>Also one can do <em>decomposition</em> between 2 populations by
-<em>age</em> and <em>causes</em>. Lets use example from <span class="citation">E. M. Andreev and Shkolnikov (<a href="#ref-and_sch_mdecomp">2012</a>)</span> where data for US and
+<em>age</em> and <em>causes</em>. Lets use example from <span class="citation">Andreev and Shkolnikov (<a href="#ref-and_sch_mdecomp">2012</a>)</span> where data for US and
 England and Wales men mortality by some causes are presented.</p>
 <p>Lets see the data</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -637,7 +637,7 @@ one can answer the question “what will be the life expectancy if there
 is no mortality from cause i?” It is a natural expansion of Multiple
 Decrement Life Table (<code>MLT</code> function, see above)</p>
 <p>For example in the <code>demor</code> data (as it is easy to guess,
-taken from <span class="citation">E. M. Andreev and Shkolnikov (<a href="#ref-and_sch_mdecomp">2012</a>)</span>) on mortality of US men in
+taken from <span class="citation">Andreev and Shkolnikov (<a href="#ref-and_sch_mdecomp">2012</a>)</span>) on mortality of US men in
 2002 by some causes is added. Let me show what would be
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mi>x</mi></msub><annotation encoding="application/x-tex">e_x</annotation></semantics></math>
 if there is no deaths from neoplasm (i).</p>
@@ -764,8 +764,8 @@ using <code><a href="../reference/get_rosbris.html">get_rosbris()</a></code>:</p
 popular measure of fertility - that is standardized measure of “the
 average number of children a woman would bear if she survived through
 the end of the reproductive age span and experienced at each age a
-particular set of age-specific fertility ages” <span class="citation">(<a href="#ref-preston">Preston, Heuveline, and Guillot
-2001, 95</a>)</span>.</p>
+particular set of age-specific fertility ages” <span class="citation">(<a href="#ref-preston">Preston et al. 2001,
+95</a>)</span>.</p>
 <p>Surely, using <code>tfr</code> function one can compute TFR by parity
 whereby using
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>f</mi><mi>x</mi><mi>p</mi></msubsup><annotation encoding="application/x-tex">f_x^p</annotation></semantics></math>
@@ -840,30 +840,30 @@ supported (see <span class="citation">Peristera and Kostaki (<a href="#ref-peris
 the functions).</p>
 <p>Hadwiger model (optimal choice with balance of simplicity and
 accuracy) is as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>a</mi><mi>b</mi></mrow><mi>c</mi></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>c</mi><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow></msup><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><msup><mi>b</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>c</mi><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow></mfrac><mo>+</mo><mfrac><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow><mi>c</mi></mfrac><mo>−</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">f(age) = \frac{ab}{c} (\frac{c}{age})^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]</annotation></semantics></math>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>a</mi><mi>b</mi></mrow><mi>c</mi></mfrac><mo stretchy="false" form="prefix">(</mo><mfrac><mi>c</mi><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow></mfrac><msup><mo stretchy="false" form="postfix">)</mo><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow></msup><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false" form="prefix">[</mo><mi>−</mi><msup><mi>b</mi><mn>2</mn></msup><mo stretchy="false" form="prefix">(</mo><mfrac><mi>c</mi><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow></mfrac><mo>+</mo><mfrac><mrow><mi>a</mi><mi>g</mi><mi>e</mi></mrow><mi>c</mi></mfrac><mo>−</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">f(age) = \frac{ab}{c} (\frac{c}{age})^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a,b,c</annotation></semantics></math>
 - parameters.</p>
 <p>Gamma model (sophisticated and accurate, but not really sustainable
 due to convergence issues) is as follows:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>R</mi><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>c</mi><mi>b</mi></msup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow></msup><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi></mrow><mi>c</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mi>R</mi><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>c</mi><mi>b</mi></msup></mrow></mfrac><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow></msup><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mo stretchy="false" form="prefix">(</mo><mfrac><mrow><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi></mrow><mi>c</mi></mfrac><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">R,b,c,d</annotation></semantics></math>
 - parameters.</p>
 <p>Beta model (sophisticated and even more accurate than Gamma, but not
 really sustainable due to convergence issues) is as follows:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>R</mi><mrow><mi>B</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>C</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo>+</mo><mi>C</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>B</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">f(age) = \frac{R}{B(A,C)}(\beta - \alpha)^{-(A+C-1)}(age - \alpha)^{(A-1)}(\beta - age)^{(B-1)}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mi>R</mi><mrow><mi>B</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>C</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo stretchy="false" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>+</mo><mi>C</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>a</mi><mi>g</mi><mi>e</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">f(age) = \frac{R}{B(A,C)}(\beta - \alpha)^{-(A+C-1)}(age - \alpha)^{(A-1)}(\beta - age)^{(B-1)}</annotation></semantics></math>
 where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>.</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">B(.)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo stretchy="false" form="prefix">(</mo><mi>.</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">B(.)</annotation></semantics></math>
 is a beta function,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>,</mo><mi>β</mi><mo>,</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">R, \beta, \alpha</annotation></semantics></math>
 - parameters and
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>v</mi><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msup><mi>τ</mi><mn>2</mn></msup></mfrac><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><mi>β</mi><mo>−</mo><mi>v</mi></mrow><mrow><mi>β</mi><mo>−</mo><mi>α</mi></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>A</mi><mo>=</mo><mi>C</mi><mfrac><mrow><mi>v</mi><mo>−</mo><mi>α</mi></mrow><mrow><mi>β</mi><mo>−</mo><mi>v</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">C = (\frac{(v-\alpha)(\beta-v)}{\tau^2} -1)\frac{\beta - v}{\beta -\alpha}, \ \ \ A = C\frac{v-\alpha}{\beta - v}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>v</mi><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>β</mi><mo>−</mo><mi>v</mi><mo stretchy="false" form="postfix">)</mo></mrow><msup><mi>τ</mi><mn>2</mn></msup></mfrac><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mfrac><mrow><mi>β</mi><mo>−</mo><mi>v</mi></mrow><mrow><mi>β</mi><mo>−</mo><mi>α</mi></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>A</mi><mo>=</mo><mi>C</mi><mfrac><mrow><mi>v</mi><mo>−</mo><mi>α</mi></mrow><mrow><mi>β</mi><mo>−</mo><mi>v</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">C = (\frac{(v-\alpha)(\beta-v)}{\tau^2} -1)\frac{\beta - v}{\beta -\alpha}, \ \ \ A = C\frac{v-\alpha}{\beta - v}</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>,</mo><msup><mi>τ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">v, \tau^2</annotation></semantics></math>
 - parameters.</p>
 <p>Brass model (the simplest and the most inaccurate) is as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>c</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>d</mi><mo>+</mo><mi>w</mi><mo>−</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(age) = c(age-d)(d+w-age)</annotation></semantics></math>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>c</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo>−</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo>+</mo><mi>w</mi><mo>−</mo><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(age) = c(age-d)(d+w-age)</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>,</mo><mi>d</mi><mo>,</mo><mi>w</mi></mrow><annotation encoding="application/x-tex">c,d,w</annotation></semantics></math>
 - parameters.</p>
@@ -1055,7 +1055,7 @@ one can compute life expectancy vector
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐞</mi><annotation encoding="application/x-tex">\pmb e</annotation></semantics></math>
 as column sum of the matrix
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐄</mi><annotation encoding="application/x-tex">\pmb E</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐄</mi><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝐈</mi><mo>−</mo><mi>𝐌</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐄</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>𝐈</mi><mo>−</mo><mi>𝐌</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">
 \pmb E = (\pmb I - \pmb M)^{-1}
 </annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐞</mi><mo>=</mo><msup><mi>𝐄</mi><mi>T</mi></msup><mo>×</mo><mn>𝟏</mn></mrow><annotation encoding="application/x-tex">
 \pmb e = \pmb E^T \times \pmb 1
@@ -1122,12 +1122,12 @@ and
 <img src="demor_files/figure-html/unnamed-chunk-44-1.png" class="r-plt" alt="" width="700"></p>
 <p>Finally, one of the most important implications of Leslie matrix is
 the demographic projection in a concise and efficient matrix form.
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>𝐋</mi><mo>×</mo><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>𝐋</mi><mo>×</mo><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
 \pmb N(t+n) = \pmb L \times \pmb N(t)
 </annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pmb N(t)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pmb N(t)</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pmb N(t+n)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pmb N(t+n)</annotation></semantics></math>
 are column-vectors of population in the time
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
 and
@@ -1135,7 +1135,7 @@ and
 respectively. If the mortality and fertility rates are constant over
 time, the population in the last year of projection (of the horizon h)
 is simply
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mn>0</mn></msub><mo>+</mo><mi>n</mi><mo>×</mo><mi>h</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>𝐋</mi><mi>h</mi></msup><mo>×</mo><mi>𝐍</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>t</mi><mn>0</mn></msub><mo>+</mo><mi>n</mi><mo>×</mo><mi>h</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>𝐋</mi><mi>h</mi></msup><mo>×</mo><mi>𝐍</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>t</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
 \pmb N(t_0+n \times h) = \pmb L^h \times \pmb N(t_0)
 </annotation></semantics></math></p>
 <p>Usually to calculate the
@@ -1269,7 +1269,7 @@ population sizes in the age groups and that age groups.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Drewnowski" class="csl-entry">
 Aburto, José Manuel, Ugofilippo Basellini, Annette Baudisch, and
 Francisco Villavicencio. 2022. <span>“Drewnowski’s Index to Measure
@@ -1277,10 +1277,10 @@ Lifespan Variation: Revisiting the Gini Coefficient of the Life
 Table.”</span> <em>Theoretical Population Biology</em> 148: 1–10. <a href="https://doi.org/10.1016/j.tpb.2022.08.003" class="external-link">https://doi.org/10.1016/j.tpb.2022.08.003</a>.
 </div>
 <div id="ref-and_sch_mdecomp" class="csl-entry">
-Andreev, E. M., and V. M. Shkolnikov. 2012. <span>“An Excel Spreadsheet
-for the Decomposition of a Difference Between Two Values of an Aggregate
+Andreev, E. M., and V. M. Shkolnikov. 2012. <em>An Excel Spreadsheet for
+the Decomposition of a Difference Between Two Values of an Aggregate
 Demographic Measure by Stepwise Replacement Running from Young to Old
-Ages.”</span> Rostock: Max Planck Institute for Demographic Research. <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591</a>.
+Ages</em>. Max Planck Institute for Demographic Research. <a href="https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591" class="external-link">https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591</a>.
 </div>
 <div id="ref-Andreev_ax" class="csl-entry">
 Andreev, Evgeny M., and W. Ward Kingkade. 2015. <span>“<span class="nocase">Average age at death in infancy and infant mortality
@@ -1298,8 +1298,9 @@ Tempo of Fertility.”</span> <em>Population and Development Review</em>,
 271–91.
 </div>
 <div id="ref-bongaarts_tfr2" class="csl-entry">
-———. 2000. <span>“On the Quantum and Tempo of Fertility: Reply.”</span>
-<em>Population and Development Review</em> 26 (3): 560–64.
+Bongaarts, John, and Griffith Feeney. 2000. <span>“On the Quantum and
+Tempo of Fertility: Reply.”</span> <em>Population and Development
+Review</em> 26 (3): 560–64.
 </div>
 <div id="ref-hli" class="csl-entry">
 Ghislandi, Simone, Warren C. Sanderson, and Sergei Scherbov. 2019.
@@ -1345,7 +1346,7 @@ Actuaries</em> 109 (2): 225–40.
 </div>
 <div id="ref-preston" class="csl-entry">
 Preston, Samuel H., Patrix Heuveline, and Michel Guillot. 2001.
-<em>Demography: Measuring and Modeling Population Process</em>. Malden:
+<em>Demography: Measuring and Modeling Population Process</em>.
 Blackwell.
 </div>
 <div id="ref-Shkolnikov_gini" class="csl-entry">
@@ -1362,7 +1363,7 @@ Messages Derived from the Period TFR: Should We Stop Using It?”</span>
 </div>
 <div id="ref-rosbris" class="csl-entry">
 <span>“<span class="nocase">The Russian Fertility and Mortality
-database</span>.”</span> 2024. <em>Database</em>. The Centre for
+database</span>.”</span> 2024. In <em>Database</em>. The Centre for
 Demographic Research at the New Economic School. <a href="http://demogr.nes.ru/index.php/ru/demogr_indicat/data" class="external-link">http://demogr.nes.ru/index.php/ru/demogr_indicat/data</a>.
 </div>
 <div id="ref-edagger" class="csl-entry">

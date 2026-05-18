@@ -86,8 +86,10 @@ ccm(
 
 ## Value
 
-(List of) Matrices with projected population. Columns represent periods,
-rows represent age groups. The first column is `N0` (initial period).
+If `Mx.m` is `NULL`, a numeric matrix with projected female population,
+where rows are age groups and columns are periods `0:h`. If male
+mortality is supplied, a list with matrices `female`, `male`, and `all`,
+each with the same row/column structure.
 
 ## Details
 
@@ -102,3 +104,40 @@ Note that the model assumes that in \\\mathbf{N}\\ all age intervals are
 the same (i.e. \\age = \\0-1, 1-4, 5-9, ...\\\\ is not permitted).
 Fortunately (and thanks to me), the function handles such situations
 automatically by transforming all age groups into a unified standard.
+
+## Examples
+
+``` r
+age.mx <- seq(0, 80, 5)
+age.fx <- seq(15, 45, 5)
+Mx.f <- matrix(
+  rep(seq(0.005, 0.12, length.out = length(age.mx)), 2),
+  nrow = length(age.mx),
+  ncol = 2
+)
+Fx <- matrix(
+  rep(c(0.02, 0.08, 0.11, 0.09, 0.05, 0.02, 0.005), 2),
+  nrow = length(age.fx),
+  ncol = 2
+)
+N0.f <- round(100000 * exp(-0.04 * age.mx))
+ccm(Mx.f = Mx.f, Fx = Fx, age.mx = age.mx, age.fx = age.fx, N0.f = N0.f)
+#>         0         1
+#> 0  100000 32304.435
+#> 5   81873 94739.033
+#> 10  67032 75711.087
+#> 15  54881 59813.167
+#> 20  44933 47249.885
+#> 25  36788 37322.133
+#> 30  30119 29476.495
+#> 35  24660 23276.574
+#> 40  20190 18378.378
+#> 45  16530 14507.862
+#> 50  13534 11449.598
+#> 55  11080  9034.409
+#> 60   9072  7125.721
+#> 65   7427  5619.607
+#> 70   6081  4429.560
+#> 75   4979  3490.480
+#> 80   4076  4932.932
+```

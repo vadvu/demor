@@ -34,7 +34,8 @@ Research, Moscow (Russia). Available at
 
 ## Value
 
-A data frame. Column structure depends on `dataset`; see **Details**.
+A data frame with one row per year-region-age combination. Column
+structure depends on `dataset`; see **Details**.
 
 ## Details
 
@@ -70,13 +71,14 @@ post-census series are not used by this function.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-mort <- get_rosbris("mortality_5")
-fert <- get_rosbris("fertility_1")
-
-rus2010 <- subset(
-  mort,
-  year == 2010 & code == 1100 & sex == "m" & territory == "t"
-)
-} # }
+# \donttest{
+if (interactive()) {
+  mort <- get_rosbris("mortality_5")
+  rus2010 <- subset(
+    mort,
+    year == 2010 & code == 1100 & sex == "m" & territory == "t"
+  )
+  head(rus2010)
+}
+# }
 ```

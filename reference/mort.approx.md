@@ -37,7 +37,9 @@ mort.approx(mx, age, model = c("Brass", "Gompertz"), standard.mx = NULL, ...)
 
 ## Value
 
-list with estimated model and dataframe with predicted mortality rates.
+A list with two components: `model`, the fitted `lm` or `nls` object;
+and `predicted`, a data frame with columns `age` and `mx.pred`
+containing the fitted mortality schedule.
 
 ## Details
 
@@ -67,5 +69,46 @@ Measuring and Modeling Population Processes. Blackwell Publishers.
 ## Examples
 
 ``` r
-# mort.approx(mx = mx, age = 0:100, model = "Brass", standard.mx = standard.mx, sex = "m")
+age <- seq(40, 80, 10)
+mx <- c(0.003, 0.005, 0.009, 0.018, 0.036)
+standard.mx <- c(0.0025, 0.004, 0.007, 0.014, 0.03)
+mort.approx(mx = mx, age = age, model = "Gompertz")
+#> $model
+#> 
+#> Call:
+#> stats::lm(formula = log(mx) ~ age)
+#> 
+#> Coefficients:
+#> (Intercept)          age  
+#>    -8.38237      0.06251  
+#> 
+#> 
+#> $predicted
+#>   age     mx.pred
+#> 1  40 0.002789002
+#> 2  50 0.005210930
+#> 3  60 0.009736027
+#> 4  70 0.018190652
+#> 5  80 0.033987150
+#> 
+mort.approx(mx = mx, age = age, model = "Brass", standard.mx = standard.mx)
+#> $model
+#> Nonlinear regression model
+#>   model: 0.5 * log((qx/(1 - qx))) ~ a + b * stand.logit
+#>    data: parent.frame()
+#>     a     b 
+#> 0.189 1.050 
+#>  residual sum-of-squares: 0.0001375
+#> 
+#> Number of iterations to convergence: 1 
+#> Achieved convergence tolerance: 2.517e-08
+#> 
+#> $predicted
+#>   age     mx.pred
+#> 1  40 0.003037349
+#> 2  50 0.004955936
+#> 3  60 0.008879215
+#> 4  70 0.018178505
+#> 5  80 0.030000300
+#> 
 ```

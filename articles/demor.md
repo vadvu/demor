@@ -6,6 +6,7 @@ You can install the development version of `demor` from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("vadvu/demor")
 ```
@@ -25,6 +26,7 @@ are cached locally, so repeated calls reuse them unless
 The example below downloads mortality data by 5-year age groups:
 
 ``` r
+
 dbm <- get_rosbris("mortality_5")
 
 # for 1-year age interval
@@ -35,6 +37,7 @@ Lets see the data for Russia in 2010 for males and for total population
 (both urban and rural)
 
 ``` r
+
 dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 #>       year code territory sex age       mx       N        Dx
 #> 20445 2010 1100         t   m   0 0.008823  869388   7670.61
@@ -84,18 +87,19 @@ dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 Now one can create *life table* based on gotten data for 2010-Russia
 using [`LT()`](https://vadvu.github.io/demor/reference/LT.md).  
-Note, $a_{x}$ for age 0 is modeled as in Evgeny M. Andreev and Kingkade
+Note, $`a_x`$ for age 0 is modeled as in Andreev and Kingkade
 ([2015](#ref-Andreev_ax)), while the function can use user-specific
-$a_{x}$ from the argument `ax`. However, despite there is a plethora of
+$`a_x`$ from the argument `ax`. However, despite there is a plethora of
 methods to construct life table that “are based upon very different
 assumptions, when applied to actual mortality rates they do not result
 in significant differences of importance to mortality analysis.” (WHO,
-1977, p. 70, cite from [Preston, Heuveline, and Guillot 2001,
-47](#ref-preston)). For example, changing $a_{0}$ to 0.5 only increases
-the life expectancy $e_{0}$ by $\approx + 0.01$ for the 2010 Russian
-male population, which is about 4 days when applied to human life span.
+1977, p. 70, cite from [Preston et al. 2001, 47](#ref-preston)). For
+example, changing $`a_0`$ to 0.5 only increases the life expectancy
+$`e_0`$ by $`\approx +0.01`$ for the 2010 Russian male population, which
+is about 4 days when applied to human life span.
 
 ``` r
+
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
 LT(
@@ -126,25 +130,25 @@ LT(
 ```
 
 Note, from life table one can compute other *functions* (not just
-$e_{x}$) and quantities of interest:
+$`e_x`$) and quantities of interest:
 
-1.  Crude death rate $CDR = 1/e_{0} = \sum_{x}D_{x}/\sum_{x}N_{x}$ or
-    death rate above some age $x:1/e_{x}$
-2.  Probability of surviving from age $x$ to age $y$:
-    $p(x,y) = l_{y}/l_{x} \approx exp\left( - m_{x} \times n \right)$
-3.  Probability that a newborn will die between ages $x$ and $x + n$:
-    $d_{x}^{n}/l_{0}$
-4.  Probability that a newborn will die between ages $x$ and $y$:
-    $\left( l_{x} - l_{y} \right)/l_{0}$
-5.  Probability that a newborn will survive to age $x$:
-    $p(x) = l_{x}/l_{0}$
-6.  Probability that a newborn will die in age $x$: $q(x) = 1 - p_{x}$
-7.  Life course ratio from age $x$ to $y$ that is the fraction of
-    person-years lived from age $x$ onward: $T_{y}/T_{x}$
+1.  Crude death rate $`CDR = 1/e_0 = \sum_x D_x / \sum_x N_x`$ or death
+    rate above some age $`x: 1/e_x`$
+2.  Probability of surviving from age $`x`$ to age $`y`$:
+    $`p(x,y)=l_y/l_x \approx exp(-m_x \times n)`$
+3.  Probability that a newborn will die between ages $`x`$ and $`x+n`$:
+    $`d_x^n/l_0`$
+4.  Probability that a newborn will die between ages $`x`$ and $`y`$:
+    $`(l_x-l_y)/l_0`$
+5.  Probability that a newborn will survive to age $`x`$:
+    $`p(x) = l_x/l_0`$
+6.  Probability that a newborn will die in age $`x`$: $`q(x) = 1-p_x`$
+7.  Life course ratio from age $`x`$ to $`y`$ that is the fraction of
+    person-years lived from age $`x`$ onward: $`T_y/T_x`$
 8.  Crude estimate of the number of births needed to “replace” expected
-    deaths: $P/e_{0}$ where $P$ is total population
+    deaths: $`P/e_0`$ where $`P`$ is total population
 
-See also Preston, Heuveline, and Guillot ([2001](#ref-preston)).
+See also Preston et al. ([2001](#ref-preston)).
 
 The life table is the one of the most important demographic tools that
 can be used not only for mortality, but for any other decrement
@@ -153,16 +157,19 @@ processes (for ex., marital, occupation, migration status and etc).
 ### Human Life Indicator (HLI)
 
 A good alternative to the *human development indicator* (HDI) is the
-*human life indicator* (HLI) proposed by Ghislandi, Sanderson, and
-Scherbov ([2019](#ref-hli)). It requires just $m_{x}$ (and it is based
-on *life table*). It is calculated as geometric mean of lifespans:
-$$HLI = \prod\limits_{x}^{\omega}\left( x + a_{x} \right)^{d_{x}}$$
-where $x$ is age and $a_{x}$, $d_{x}$ are functions from *life table*
-that corresponds to age $x$.
+*human life indicator* (HLI) proposed by Ghislandi et al.
+([2019](#ref-hli)). It requires just $`m_x`$ (and it is based on *life
+table*). It is calculated as geometric mean of lifespans:
+``` math
+HLI = \prod_x^\omega{(x+a_x)^{d_x}}
+```
+where $`x`$ is age and $`a_x`$, $`d_x`$ are functions from *life table*
+that corresponds to age $`x`$.
 
-Calculation in the `demor` is as follows (one need only $m_{x}$):
+Calculation in the `demor` is as follows (one need only $`m_x`$):
 
 ``` r
+
 
 hli(
   age = rus2010$age, 
@@ -174,28 +181,29 @@ hli(
 
 ### Gini coefficient
 
-As Shkolnikov, Andreev, and Begun ([2003](#ref-Shkolnikov_gini)) note,
-“at present, the average level of life expectancy is high in many
-countries and it is interesting to study to what extent this advantage
-is equally accessible to all people”. (p. 306). One of the tools for
-analysing mortality inequality within the population (or, rather, the
-life table) is the Gini index, which is similar to the “usual” index
-widely used in economics. Life table Gini, $G_{0}$, shows a degree of
-inter-individual variability in age at death and can be interpreted as
-in other fields ($G_{0} \in \lbrack 0,1\rbrack$; higher $G_{0}$, higher
-inequality and vice versa). Also one can be interested in “absolute”
-Gini coefficient (aka AID - Absolute Inter-individual Difference) that
-is $G_{0}^{abs} = G_{0} \times e_{0}$ which “is equal to the average
+As Shkolnikov et al. ([2003](#ref-Shkolnikov_gini)) note, “at present,
+the average level of life expectancy is high in many countries and it is
+interesting to study to what extent this advantage is equally accessible
+to all people”. (p. 306). One of the tools for analysing mortality
+inequality within the population (or, rather, the life table) is the
+Gini index, which is similar to the “usual” index widely used in
+economics. Life table Gini, $`G_0`$, shows a degree of inter-individual
+variability in age at death and can be interpreted as in other fields
+($`G_0 \in [0,1]`$; higher $`G_0`$, higher inequality and vice versa).
+Also one can be interested in “absolute” Gini coefficient (aka AID -
+Absolute Inter-individual Difference) that is
+$`G_0^{abs} = G_0 \times e_0`$ which “is equal to the average
 inter-individual difference in length of life and is measured in years.”
-([Shkolnikov, Andreev, and Begun 2003, 312](#ref-Shkolnikov_gini))
+([Shkolnikov et al. 2003, 312](#ref-Shkolnikov_gini))
 
 Below is the function `gini` that computes Gini index as well as
 produces data for Lorenz curve - the graphical representation of
 inequality. The formulas for the calculations are derived from
-Shkolnikov, Andreev, and Begun ([2003](#ref-Shkolnikov_gini)) (that is
-based on the Hanada ([1983](#ref-hanada_gini)) formulation).
+Shkolnikov et al. ([2003](#ref-Shkolnikov_gini)) (that is based on the
+Hanada ([1983](#ref-hanada_gini)) formulation).
 
 ``` r
+
 dbm.1 <- get_rosbris("mortality_1")
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 1995,]$mx
 res = gini(age = 0:100, mx = mx, sex = "f")
@@ -209,16 +217,17 @@ res$Gini
 #> 9.27805
 ```
 
-Note, in Shkolnikov, Andreev, and Begun ([2003](#ref-Shkolnikov_gini))
-the $G_{0} = 0.13$ (see p. 310, figure 1), while using `gini` one
-obtains 0.1295. Also note that the larger the age interval, the less
-accurate the estimate will be, since it is based on a discrete
-approximation of a continuous function.
+Note, in Shkolnikov et al. ([2003](#ref-Shkolnikov_gini)) the
+$`G_0 = 0.13`$ (see p. 310, figure 1), while using `gini` one obtains
+0.1295. Also note that the larger the age interval, the less accurate
+the estimate will be, since it is based on a discrete approximation of a
+continuous function.
 
 Below is an example of Lorenz curve that can be created using ggplot2
 and `gini` output.
 
 ``` r
+
 
 res$plot %>% 
   ggplot(aes(Fx, Phix))+
@@ -238,22 +247,23 @@ res$plot %>%
 ![](demor_files/figure-html/unnamed-chunk-7-1.png)
 
 Note, one can calculate not only Gini *inequality* index, but also
-Drewnowski’s index of *equality* that is $D_{0} = 1 - G_{0}$ proposed by
+Drewnowski’s index of *equality* that is $`D_0 = 1 - G_0`$ proposed by
 Aburto et al. ([2022](#ref-Drewnowski)) (so, for Russian 1995 females it
-is $1 - 0.13 = 0.87$) that also can serve as an indicator of the shape
-of mortality patterns.
+is $`1-0.13=0.87`$) that also can serve as an indicator of the shape of
+mortality patterns.
 
 ### e-dagger
 
 Another measure of mortality inequality is “e-dagger”,
-$e_{x}^{\dagger}$, proposed by Vaupel and Romo ([2003](#ref-edagger)),
+$`e^{\dagger}_x`$, proposed by Vaupel and Romo ([2003](#ref-edagger)),
 that is approximation of “the average life expectancy lost because of
 death” ([Vaupel and Romo 2003, 206](#ref-edagger)).
 
 In `demor` there is a function `edagger` for calculation “e-dagger” for
-age $x$, $e_{x}^{\dagger}$:
+age $`x`$, $`e^{\dagger}_x`$:
 
 ``` r
+
 
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 1995,]$mx
 res = edagger(age = 0:100, mx = mx, sex = "f")
@@ -262,20 +272,20 @@ res[c(1, 26, 51, 76)]
 #> 12.719536 10.968361  9.137110  5.201578
 ```
 
-Hence, $e_{0}^{\dagger}$ for Russian female population in 1995 is 12.72.
-From $e_{x}^{\dagger}$ one can also calculate life table entropy
-$H_{x}$(see, for ex., [Wrycza, Missov, and Baudisch
-2015](#ref-comp_ineq2)) that is simply $H_{x} = e_{x}^{\dagger}/e_{x}$.
-Usually only one quantity as entropy is presented that is $H_{0}$, which
-sometimes is denoted as $\bar{H}$, and it is $e_{0}^{\dagger}/e_{0}$.
+Hence, $`e_0^{\dagger}`$ for Russian female population in 1995 is 12.72.
+From $`e^{\dagger}_x`$ one can also calculate life table entropy
+$`H_x`$(see, for ex., [Wrycza et al. 2015](#ref-comp_ineq2)) that is
+simply $`H_x = e^{\dagger}_x/e_x`$. Usually only one quantity as entropy
+is presented that is $`H_0`$, which sometimes is denoted as $`\bar H`$,
+and it is $`e^{\dagger}_0/e_0`$.
 
 Note that the larger the age interval, the less accurate the estimate
 will be, since it is based on a discrete approximation of a continuous
 function.
 
-For more inequality indicators and their comparisons, see Shkolnikov,
-Andreev, and Begun ([2003](#ref-Shkolnikov_gini)), Wrycza, Missov, and
-Baudisch ([2015](#ref-comp_ineq2)) and Wilmoth and Horiuchi
+For more inequality indicators and their comparisons, see Shkolnikov et
+al. ([2003](#ref-Shkolnikov_gini)), Wrycza et al.
+([2015](#ref-comp_ineq2)) and Wilmoth and Horiuchi
 ([1999](#ref-comp_ineq1)) as well as
 [`LifeIneq`](https://github.com/alysonvanraalte/LifeIneq) package.
 
@@ -291,31 +301,42 @@ of population health” ([Martinez et al. 2019, 1368](#ref-yll)).
 
 Authors proposed different metrics of *YLL*:
 
-1.  Absolute number of *YLL*: $$YLL_{x,t,c} = D_{x,t,c}*SLE_{x}$$ that
-    is calculated for age *x*, time *t* and cause of death *c*. *YLL*
-    for the whole population is just sum of $YLL_{x}$. *SLE* is the
-    *standard life expectancy* that is invariant over time, sex and
+1.  Absolute number of *YLL*:
+    ``` math
+    YLL_{x,t,c}=D_{x,t,c}*SLE_x
+    ```
+    that is calculated for age *x*, time *t* and cause of death *c*.
+    *YLL* for the whole population is just sum of $`YLL_x`$. *SLE* is
+    the *standard life expectancy* that is invariant over time, sex and
     population (it’s meaning is straightforward: it is the potential
     maximum life span of an individual, who is not exposed to avoidable
     health risks or severe injuries and receives appropriate health
-    services), and $D_{x}$ is a number of deaths at age *x*. Of course,
+    services), and $`D_x`$ is a number of deaths at age *x*. Of course,
     one can calculate *YLL* not for specific cause *c*, but for overall
     mortality that is called *all-causes YLL*.
-2.  *YLL* as proportion: $$YLL_{x,t,c}^{p} = YLL_{x,t,c}/YLL_{x,t}$$
+2.  *YLL* as proportion:
+    ``` math
+    YLL^p_{x,t,c}=YLL_{x,t,c}/YLL_{x,t}
+    ```
     that is just *cause specific YLL* divided by *all-causes YLL*.
 3.  *YLL* rate:
-    $$YLL_{x,t,c}^{r} = \left\lbrack YLL_{x,t,c}/P_{x,t} \right\rbrack*100\prime 000$$
-    where $P_{x,t}$ is population.
+    ``` math
+    YLL^r_{x,t,c}=[YLL_{x,t,c}/P_{x,t}] * 100'000
+    ```
+    where $`P_{x,t}`$ is population.
 4.  Age-standardized *YLL* rate:
-    $$ASYR_{x,t,c} = \sum\limits_{x}^{\omega}\left\lbrack YLL_{x,t,c}^{r}*W_{x} \right\rbrack$$
-    where $W_{x}$ is the standard population weight at age *x*, where
-    $\omega$ is the oldest, closing age (for ex., 85+ or 100+). In other
-    words, it’s just direct standardization of $YLL_{x,t,c}^{r}$.
+    ``` math
+    ASYR_{x,t,c} = \sum_x^\omega{[YLL^r_{x,t,c}*W_x]}
+    ```
+    where $`W_x`$ is the standard population weight at age *x*, where
+    $`\omega`$ is the oldest, closing age (for ex., 85+ or 100+). In
+    other words, it’s just direct standardization of $`YLL^r_{x,t,c}`$.
 
 Let’s calculate all-cause *YLL*, *Yll rate* and *ASYR* using Rosbris
 data that we have downloaded.
 
 ``` r
+
 #YLL
 yll(rus2010$Dx, type = "yll")
 #> $yll_all
@@ -328,6 +349,7 @@ yll(rus2010$Dx, type = "yll")
 ```
 
 ``` r
+
 #YLL rate
 yll(rus2010$Dx, type = "yll.r", pop = rus2010$N)
 #> $yll.r_all
@@ -345,6 +367,7 @@ standard (note, in this case *ASYR* equals *YLL rate* because we use
 2010 mortality).
 
 ``` r
+
 #ASYR
 yll(rus2010$Dx, type = "asyr", pop = rus2010$N, w = rus2010$N/sum(rus2010$N))
 #> $asyr_all
@@ -360,6 +383,7 @@ Also one can calculate different *YLL* measures using standards that are
 provided by `demor` as dataframe.
 
 ``` r
+
 demor::sle_stand
 ```
 
@@ -373,6 +397,7 @@ methods that were proposed almost simultaneously: in Андреев
 Pollard ([1982](#ref-pollard_dec)).
 
 ``` r
+
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 rus2000 <- dbm[dbm$year==2000 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
@@ -393,6 +418,7 @@ head(dec)
 Than let us plot the result of `decomp` using `ggplot2`:
 
 ``` r
+
 ggplot(dec, aes( as.factor(age), ex12))+
   geom_bar(stat = "identity", color = "black", fill = "orange3")+
   theme_minimal()+
@@ -407,13 +433,14 @@ ggplot(dec, aes( as.factor(age), ex12))+
 ### Age and cause decomposition of differences in life expectancies
 
 Also one can do *decomposition* between 2 populations by *age* and
-*causes*. Lets use example from E. M. Andreev and Shkolnikov
+*causes*. Lets use example from Andreev and Shkolnikov
 ([2012](#ref-and_sch_mdecomp)) where data for US and England and Wales
 men mortality by some causes are presented.
 
 Lets see the data
 
 ``` r
+
 data("mdecompex")
 head(mdecompex)
 #> # A tibble: 6 × 9
@@ -431,6 +458,7 @@ head(mdecompex)
 For `mdecomp` 2 lists with arrays for 2 population are required.
 
 ``` r
+
 #US men
 mx1 <- mdecompex %>% 
   filter(cnt == "usa") %>% 
@@ -471,6 +499,7 @@ that gives [ggplot2](https://github.com/tidyverse/ggplot2) object.
 
 ``` r
 
+
 initalplot <- plot(decm)
 
 initalplot+
@@ -487,13 +516,14 @@ initalplot+
 
 Also one can construct the Multiple Decrement Life Table that expands
 the usual life table adding additional columns
-($q_{x}^{i},d_{x}^{i},l_{x}^{i}\ \forall\ \text{causes}\ i$) for
-specific decrement causes. Note, $m_{x} = \sum_{i}m_{x}^{i}$ and user
-should specify $m_{x}$ (the first array in the list). Let us use the
-shorten vesrion of data from the previous example, using only overall
-$m_{x}$ and $m_{x}^{i}$ from neoplasm.
+($`q_x^i, d_x^i, l_x^i \ \forall \ \text{causes} \ i`$) for specific
+decrement causes. Note, $`m_x = \sum_i m_x^i`$ and user should specify
+$`m_x`$ (the first array in the list). Let us use the shorten vesrion of
+data from the previous example, using only overall $`m_x`$ and $`m_x^i`$
+from neoplasm.
 
 ``` r
+
 mx <- mx1[c("all", "neoplasms")]
 age = unique(mdecompex$age)
 mlt.res = MLT(age, mx)
@@ -517,9 +547,9 @@ head(mlt.res)
 From this table one can calculate, for ex.,
 
 - Proportion of newborn that will eventually die from cause i:
-  $l_{0}^{i}/l_{0}$
-- Proportion of people who survive to age $x$ that will die from cause
-  i: $l_{x}^{i}/l_{x}$
+  $`l_0^i/l_0`$
+- Proportion of people who survive to age $`x`$ that will die from cause
+  i: $`l_x^i/l_x`$
 
 ### Associated single decrement life table
 
@@ -530,12 +560,13 @@ this function one can answer the question “what will be the life
 expectancy if there is no mortality from cause i?” It is a natural
 expansion of Multiple Decrement Life Table (`MLT` function, see above)
 
-For example in the `demor` data (as it is easy to guess, taken from E.
-M. Andreev and Shkolnikov ([2012](#ref-and_sch_mdecomp))) on mortality
-of US men in 2002 by some causes is added. Let me show what would be
-$e_{x}$ if there is no deaths from neoplasm (i).
+For example in the `demor` data (as it is easy to guess, taken from
+Andreev and Shkolnikov ([2012](#ref-and_sch_mdecomp))) on mortality of
+US men in 2002 by some causes is added. Let me show what would be
+$`e_x`$ if there is no deaths from neoplasm (i).
 
 ``` r
+
 data("asdtex")
 
 asdt_neoplasm <- asdt(age = asdtex$age, 
@@ -560,6 +591,7 @@ One can plot the results using
 
 ``` r
 
+
 ggplot(data = asdt_neoplasm, aes(x = age))+
   geom_line(aes(y = lx, color = "lx all"), linewidth = 1)+
   geom_line(aes(y = l_not_i, color = "lx without neoplasms"), linewidth = 1)+
@@ -583,6 +615,7 @@ men in 2010 using Brass function and russian mortality of 2000 as
 standard mortality.
 
 ``` r
+
 rus2010 <- dbm[dbm$year==2010 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 rus2000 <- dbm[dbm$year==2000 & dbm$code==1100 & dbm$sex=="m" & dbm$territory=="t",]
 
@@ -607,6 +640,7 @@ brass_2010[[1]]
 Lets plot the modeled and observed mx.
 
 ``` r
+
 brass_2010[[2]] %>% 
   mutate(mx = rus2010$mx) %>% 
   ggplot(aes(x = age))+
@@ -620,6 +654,7 @@ brass_2010[[2]] %>%
 ![](demor_files/figure-html/unnamed-chunk-21-1.png)
 
 ``` r
+
 model1 <- mort.approx(mx = rus2010$mx[-c(1:6)], age = rus2010$age[-c(1:6)], model = "Gompertz")
 ```
 
@@ -631,16 +666,18 @@ model1 <- mort.approx(mx = rus2010$mx[-c(1:6)], age = rus2010$age[-c(1:6)], mode
 
 The data from “The Russian Fertility and Mortality database”
 ([2024](#ref-rosbris)) can also be downloaded as *fertility data* (asFR
-or $f_{x}$) using
+or $`f_x`$) using
 [`get_rosbris()`](https://vadvu.github.io/demor/reference/get_rosbris.md):
 
 ``` r
+
 dbf <- get_rosbris("fertility_1")
 ```
 
 For the example Russia-2010 is as follows
 
 ``` r
+
 rus2010f <- dbf[dbf$year==2010 & dbf$code==1100 & dbf$territory=="t",]
 head(rus2010f)
 #>       year code territory age       fx       N       Bx
@@ -662,6 +699,7 @@ head(rus2010f)
 One can plot the fertility structure:
 
 ``` r
+
 dbf %>%
   filter(code == 1100 & territory == "t") %>% 
   ggplot(aes(x = age, y = fx, group = year, color = year)) +
@@ -678,13 +716,14 @@ Now one can compute total fertility age (*TFR*) - the most popular
 measure of fertility - that is standardized measure of “the average
 number of children a woman would bear if she survived through the end of
 the reproductive age span and experienced at each age a particular set
-of age-specific fertility ages” ([Preston, Heuveline, and Guillot 2001,
+of age-specific fertility ages” ([Preston et al. 2001,
 95](#ref-preston)).
 
 Surely, using `tfr` function one can compute TFR by parity whereby using
-$f_{x}^{p}$ instead of overall $f_{x}$.
+$`f_x^p`$ instead of overall $`f_x`$.
 
 ``` r
+
 tfr(
   #asFR
   rus2010f$fx,
@@ -707,6 +746,7 @@ and Feeney ([2000](#ref-bongaarts_tfr2))). To calculate it, one can use
 `tatfr` function:
 
 ``` r
+
 dbf5all <- get_rosbris("fertility_5")
 dbf5 <- dbf5all %>% dplyr::filter(code == 1100 & year %in% 2009:2011 & territory == "t")
 
@@ -732,11 +772,12 @@ tatfr(past_fx = past_fx, present_fx = present_fx, post_fx = post_fx, age = seq(1
 
 ### MAC
 
-MAC is a mean age at childbearing. One can compute it using $f_{x}$.
+MAC is a mean age at childbearing. One can compute it using $`f_x`$.
 Surely, using `mac` function one can compute mean age at childbearing by
-parity whereby using $f_{x}^{p}$ instead of overall $f_{x}$.
+parity whereby using $`f_x^p`$ instead of overall $`f_x`$.
 
 ``` r
+
 mac(
   #asFR
   rus2010f$fx,
@@ -756,24 +797,35 @@ functions).
 Hadwiger model (optimal choice with balance of simplicity and accuracy)
 is as follows:
 
-$$f(age) = \frac{ab}{c}\left( \frac{c}{age} \right)^{3/2}exp\left\lbrack - b^{2}\left( \frac{c}{age} + \frac{age}{c} - 2 \right) \right\rbrack$$
-where $a,b,c$ - parameters.
+``` math
+f(age) = \frac{ab}{c} (\frac{c}{age})^{3/2} exp[-b^2(\frac{c}{age}+\frac{age}{c}-2)]
+```
+where $`a,b,c`$ - parameters.
 
 Gamma model (sophisticated and accurate, but not really sustainable due
 to convergence issues) is as follows:
-$$f(age) = \frac{R}{\Gamma(b)c^{b}}(age - d)^{b - 1}exp\left\lbrack - \left( \frac{age - d}{c} \right) \right\rbrack$$
-where $R,b,c,d$ - parameters.
+``` math
+f(age) = \frac{R}{\Gamma(b)c^b}(age-d)^{b-1} exp[-(\frac{age-d}{c})]
+```
+where $`R,b,c,d`$ - parameters.
 
 Beta model (sophisticated and even more accurate than Gamma, but not
 really sustainable due to convergence issues) is as follows:
-$$f(age) = \frac{R}{B(A,C)}(\beta - \alpha)^{- {(A + C - 1)}}(age - \alpha)^{(A - 1)}(\beta - age)^{(B - 1)}$$
-where $B(.)$ is a beta function, $R,\beta,\alpha$ - parameters and
-$$C = \left( \frac{(v - \alpha)(\beta - v)}{\tau^{2}} - 1 \right)\frac{\beta - v}{\beta - \alpha},\ \ \ A = C\frac{v - \alpha}{\beta - v}$$
-where $v,\tau^{2}$ - parameters.
+``` math
+f(age) = \frac{R}{B(A,C)}(\beta - \alpha)^{-(A+C-1)}(age - \alpha)^{(A-1)}(\beta - age)^{(B-1)}
+```
+where $`B(.)`$ is a beta function, $`R, \beta, \alpha`$ - parameters and
+``` math
+C = (\frac{(v-\alpha)(\beta-v)}{\tau^2} -1)\frac{\beta - v}{\beta -\alpha}, \ \ \ A = C\frac{v-\alpha}{\beta - v}
+```
+where $`v, \tau^2`$ - parameters.
 
 Brass model (the simplest and the most inaccurate) is as follows:
 
-$$f(age) = c(age - d)(d + w - age)$$ where $c,d,w$ - parameters.
+``` math
+f(age) = c(age-d)(d+w-age)
+```
+where $`c,d,w`$ - parameters.
 
 Function returns list with estimated model and dataframe with predicted
 ASFR.
@@ -782,6 +834,7 @@ The example below shows the model that try to approximate ASFR of
 russian women in 2010 using Gamma function.
 
 ``` r
+
 approximation_2010 = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Gamma", se = T, bn = 100)
 
 approximation_2010[[1]]
@@ -815,6 +868,7 @@ can see that model perfectly approximates real ASFR from 15 to 40 ages,
 while after the fit is not really good.
 
 ``` r
+
 data = approximation_2010[[2]]
 ggplot(data = data, aes(x = age))+
   geom_point(aes(y = fx, color = "Observed fx"))+
@@ -831,6 +885,7 @@ ggplot(data = data, aes(x = age))+
 Lets now do the same procedure but with Hadwiger function:
 
 ``` r
+
 data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Hadwiger", se = T, bn = 100)[[2]]
 ggplot(data = data, aes(x = age))+
   geom_point(aes(y = fx, color = "Observed fx"))+
@@ -847,6 +902,7 @@ ggplot(data = data, aes(x = age))+
 Lets now do the same procedure but with Brass function:
 
 ``` r
+
 data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Brass", se = T, bn = 100)[[2]]
 ggplot(data = data, aes(x = age))+
   geom_point(aes(y = fx, color = "Observed fx"))+
@@ -863,6 +919,7 @@ ggplot(data = data, aes(x = age))+
 Lets now do the same procedure but with Beta function:
 
 ``` r
+
 data = fert.approx(fx = rus2010f$fx, age = 15:55, model = "Beta", se = T, bn = 100)[[2]]
 ggplot(data = data, aes(x = age))+
   geom_point(aes(y = fx, color = "Observed fx"))+
@@ -888,6 +945,7 @@ extensions, which are partially implemented in the `demor`, see
 documentation) for mortality forecasting:
 
 ``` r
+
 leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 & 
                                            dbm.1$territory=="t" & 
                                            dbm.1$sex=="m" & 
@@ -902,6 +960,7 @@ leecart_forecast <- leecart(data = dbm.1[dbm.1$code==1100 &
 ```
 
 ``` r
+
 leecart_forecast$ex0 %>% filter(year >= 2018)
 #>        year e0.obs e0.hat conf.low conf.high
 #> x.2018 2018  67.93  68.23       NA        NA
@@ -916,6 +975,7 @@ One can plot the results using
 data with actual that, however, requires some data handling:
 
 ``` r
+
 #LE data calculation
 for(i in 2020:2022){
   leecart_forecast$ex0[leecart_forecast$ex0$year ==i,]$e0.obs <- 
@@ -956,10 +1016,11 @@ introduction to it and matrix projections in general, see Wachter
 [`demogR`](https://CRAN.R-project.org/package=demogR) and its tutorial
 ([Jones 2007](#ref-demogR)) for more on “matrix methods” in demography.
 
-In the `demor` one can compute its using $m_{x}$ and $f_{x}$ that is
+In the `demor` one can compute its using $`m_x`$ and $`f_x`$ that is
 age-specific mortality and fertility rates respectively.
 
 ``` r
+
 mx <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$mx
 fx <- dbf[dbf$code==1100 & dbf$territory=="t" & dbf$year == 2022,]$fx
 
@@ -974,22 +1035,28 @@ les[1:5, 1:5]
 #> [5,] 0.0000000 0.0000000 0.0000000 0.9998292    0
 ```
 
-Leslie matrix $\mathbf{L}$ can be expressed as
-$\mathbf{L} = \mathbf{F} + \mathbf{M}$ where $\mathbf{F}$ is the
-fertility component, which has nonzero values only across first row, and
-$\mathbf{M}$ is the “survival” component, which is “shifted” down
-diagonal matrix. From the $\mathbf{M}$ one can compute life expectancy
-vector $\mathbf{e}$ as column sum of the matrix $\mathbf{E}$
+Leslie matrix $`\pmb L`$ can be expressed as
+$`\pmb L = \pmb F + \pmb M`$ where $`\pmb F`$ is the fertility
+component, which has nonzero values only across first row, and
+$`\pmb M`$ is the “survival” component, which is “shifted” down diagonal
+matrix. From the $`\pmb M`$ one can compute life expectancy vector
+$`\pmb e`$ as column sum of the matrix $`\pmb E`$
 
-$$\mathbf{E} = (\mathbf{I} - \mathbf{M})^{- 1}$$$$\mathbf{e} = \mathbf{E}^{T} \times \mathbf{1}$$
+``` math
+\pmb E = (\pmb I - \pmb M)^{-1}
+```
+``` math
+\pmb e = \pmb E^T \times \pmb 1
+```
 
-where $\mathbf{I}$ is an identity matrix of the same size as
-$\mathbf{M}$ (so $n \times n$) and $\mathbf{1}$ is a column vector of
-size $n$ of 1.
+where $`\pmb I`$ is an identity matrix of the same size as $`\pmb M`$
+(so $`n \times n`$) and $`\pmb 1`$ is a column vector of size $`n`$ of
+1.
 
 So, in the R it is
 
 ``` r
+
 M <- les
 M[1,] <- 0
 E <- solve(diag(nrow(M))-M)
@@ -1004,19 +1071,19 @@ head(ex)
 #> [6,] 73.23845
 ```
 
-The graph below compares life expectancy at age x, $e_{x}$, from the
+The graph below compares life expectancy at age x, $`e_x`$, from the
 usual life table and from Leslie matrix (they are almost identical).
 However, there is a discrepancy in the last age group that is, according
 to the life table, has higher life expectancy than in Leslie model. This
 is because of the last age-group survival rate calculating. In the
 classical Leslie model (default in `leslie`) it is 0. It can be changed
-by assuming that it is $T_{x}/T_{x - 1}$ and then the $e_{x}$ from life
+by assuming that it is $`T_x/T_{x-1}`$ and then the $`e_x`$ from life
 table and Leslie matrix will be identical (in `leslie` one can write
 `fin = TRUE` to get this; by default, it is `FALSE` as in this example).
 
 ![](demor_files/figure-html/unnamed-chunk-42-1.png)
 
-Also from $\mathbf{L}$ one can compute stable population properties:
+Also from $`\pmb L`$ one can compute stable population properties:
 stable age distribution, asymptotic growth rate, etc. For more details,
 references and functions see Jones ([2007](#ref-demogR)), p. 10-24 where
 R package [`demogR`](https://CRAN.R-project.org/package=demogR) for
@@ -1025,9 +1092,10 @@ there is a generic function
 [`summary()`](https://rdrr.io/r/base/summary.html) that works with
 [`leslie()`](https://vadvu.github.io/demor/reference/leslie.md) output
 to get stable age distribution (w), reproductive values (v) and growth
-parameters ($\lambda$ and $r$):
+parameters ($`\lambda`$ and $`r`$):
 
 ``` r
+
 lesanal <- summary(les)
 stable_age <- lesanal$w
 names(lesanal)
@@ -1039,22 +1107,26 @@ The graph below compares observable and stable age distributions from
 
 Finally, one of the most important implications of Leslie matrix is the
 demographic projection in a concise and efficient matrix form.
-$$\mathbf{N}(t + n) = \mathbf{L} \times \mathbf{N}(t)$$ where
-$\mathbf{N}(t)$ and $\mathbf{N}(t + n)$ are column-vectors of population
-in the time $t$ and $t + n$ respectively. If the mortality and fertility
-rates are constant over time, the population in the last year of
-projection (of the horizon h) is simply
-$$\mathbf{N}\left( t_{0} + n \times h \right) = \mathbf{L}^{h} \times \mathbf{N}\left( t_{0} \right)$$
+``` math
+\pmb N(t+n) = \pmb L \times \pmb N(t)
+```
+where $`\pmb N(t)`$ and $`\pmb N(t+n)`$ are column-vectors of population
+in the time $`t`$ and $`t+n`$ respectively. If the mortality and
+fertility rates are constant over time, the population in the last year
+of projection (of the horizon h) is simply
+``` math
+\pmb N(t_0+n \times h) = \pmb L^h \times \pmb N(t_0)
+```
 
-Usually to calculate the $\mathbf{L}^{h}$ it is easier (and more
-accurate) to use iterative procedure since the modern computers are able
-to do it in a second (for reasonable horizon), but one surely can
-diagonalize $\mathbf{L}$ and find its transition matrix to reach more
-efficient (though less accurate) calculations.
+Usually to calculate the $`\pmb L^h`$ it is easier (and more accurate)
+to use iterative procedure since the modern computers are able to do it
+in a second (for reasonable horizon), but one surely can diagonalize
+$`\pmb L`$ and find its transition matrix to reach more efficient
+(though less accurate) calculations.
 
 Below a function for the cohort-component model
 [`ccm()`](https://vadvu.github.io/demor/reference/ccm.md) is presented.
-It requires matrix or dataframe of future $m_{x}$ and $f_{x}$; and a
+It requires matrix or dataframe of future $`m_x`$ and $`f_x`$; and a
 vector with initial population. Optionally, one can provide the function
 with matrix or dataframe of future net number of migrants, by default it
 is NULL (closed population model without external migration). To produce
@@ -1062,6 +1134,7 @@ constant rates model, one need to make matrices with identical columns,
 where each row is an age-specific rate and each column in a period.
 
 ``` r
+
 N0 <- dbm.1[dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="f" & dbm.1$year == 2022,]$N
 
 const.mx = matrix(rep(mx, each = 79), nrow = length(mx), byrow = TRUE)
@@ -1092,6 +1165,7 @@ and female population age structure (in %) that converges to stable
 population age structure.
 
 ``` r
+
 plot(2022:2100, colSums(Nt)/1e6, type = "l", 
      xlab = "year", ylab = "Female Population (mln)")
 ```
@@ -1099,6 +1173,7 @@ plot(2022:2100, colSums(Nt)/1e6, type = "l",
 ![](demor_files/figure-html/unnamed-chunk-46-1.png)
 
 ``` r
+
 Nt %>% 
   as.data.frame() %>% 
   mutate(age = 0:100) %>% 
@@ -1132,6 +1207,7 @@ mortality data. We already have data in `dbm`.
 
 ``` r
 
+
 plot_pyr(
   popm = dbm[dbm$year==2022 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="m",]$N,
   popf = dbm[dbm$year==2022 & dbm$code==1100 & dbm$territory=="t" & dbm$sex=="f",]$N, 
@@ -1146,6 +1222,7 @@ plot additional population (`popm2` and `popf2`) pyramid as dashed line
 that can be helpful for comparisons.
 
 ``` r
+
 
 plot <- 
   plot_pyr(
@@ -1173,6 +1250,7 @@ Also one can compute median age of some population, using vectors of
 population sizes in the age groups and that age groups.
 
 ``` r
+
 #Using 1-year age interval
 med.age(N = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$N,
         age = dbm.1[dbm.1$year==2010 & dbm.1$code==1100 & dbm.1$territory=="t" & dbm.1$sex=="m",]$age)
@@ -1192,10 +1270,10 @@ Variation: Revisiting the Gini Coefficient of the Life Table.”
 *Theoretical Population Biology* 148: 1–10.
 <https://doi.org/10.1016/j.tpb.2022.08.003>.
 
-Andreev, E. M., and V. M. Shkolnikov. 2012. “An Excel Spreadsheet for
+Andreev, E. M., and V. M. Shkolnikov. 2012. *An Excel Spreadsheet for
 the Decomposition of a Difference Between Two Values of an Aggregate
 Demographic Measure by Stepwise Replacement Running from Young to Old
-Ages.” Rostock: Max Planck Institute for Demographic Research.
+Ages*. Max Planck Institute for Demographic Research.
 <https://www.demogr.mpg.de/en/publications_databases_6118/publications_1904/mpidr_technical_reports/an_excel_spreadsheet_for_the_decomposition_of_a_difference_between_two_values_of_an_aggregate_demographic_4591>.
 
 Andreev, Evgeny M., and W. Ward Kingkade. 2015. “Average age at death in
@@ -1210,8 +1288,8 @@ Expectancies.” *Demography* 21 (1): 83–96.
 Bongaarts, John, and Griffith Feeney. 1998. “On the Quantum and Tempo of
 Fertility.” *Population and Development Review*, 271–91.
 
-———. 2000. “On the Quantum and Tempo of Fertility: Reply.” *Population
-and Development Review* 26 (3): 560–64.
+Bongaarts, John, and Griffith Feeney. 2000. “On the Quantum and Tempo of
+Fertility: Reply.” *Population and Development Review* 26 (3): 560–64.
 
 Ghislandi, Simone, Warren C. Sanderson, and Sergei Scherbov. 2019. “A
 Simple Measure of Human Development: The Human Life Indicator.”
@@ -1250,8 +1328,7 @@ Pollard, John H. 1982. “The Expectation of Life and Its Relationship to
 Mortality.” *Journal of the Institute of Actuaries* 109 (2): 225–40.
 
 Preston, Samuel H., Patrix Heuveline, and Michel Guillot. 2001.
-*Demography: Measuring and Modeling Population Process*. Malden:
-Blackwell.
+*Demography: Measuring and Modeling Population Process*. Blackwell.
 
 Shkolnikov, Vladimir, Evgeny M. Andreev, and Alexander Begun. 2003.
 “Gini coefficient as a life table function: Computation from discrete
@@ -1262,7 +1339,7 @@ Sobotka, Tomáš, and Wolfgang Lutz. 2010. “Misleading Policy Messages
 Derived from the Period TFR: Should We Stop Using It?” *Comparative
 Population Studies* 35 (3).
 
-“The Russian Fertility and Mortality database.” 2024. *Database*. The
+“The Russian Fertility and Mortality database.” 2024. In *Database*. The
 Centre for Demographic Research at the New Economic School.
 <http://demogr.nes.ru/index.php/ru/demogr_indicat/data>.
 
