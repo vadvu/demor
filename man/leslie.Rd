@@ -22,10 +22,17 @@ leslie(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...)
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-Matrix.
+A square numeric matrix of class \code{leslie} with one row and one
+column per age group. The first row contains fertility contributions and
+the subdiagonal contains survival ratios.
 }
 \description{
 Leslie Matrix
+}
+\examples{
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02)
+fx <- c(0.05, 0.08)
+leslie(mx = mx, fx = fx, age.mx = 0:4, age.fx = 1:2)
 }
 \seealso{
 \code{\link[=summary.leslie]{summary.leslie()}} for \code{leslie} output that calculates \eqn{\lambda}, \eqn{r}, \eqn{w} and \eqn{v}.

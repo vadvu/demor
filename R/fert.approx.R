@@ -7,7 +7,12 @@
 #' @param start Numeric vector with user-specific values of parameters for optimization. Default is `NULL` (choose automatically)
 #' @param alpha Numeric. Used if `se = TRUE`, the level of uncertainty. By default, `alpha = 0.05` for 95% CI.
 #' @param bn Numeric. Used if `se = TRUE`, number of bootstrap samples. By default, `bn = 1000`.
-#' @return list with estimated model (parameters, variance-covariance matrix, percentiles of parameters) and dataframe with predicted and observed ASFR as well as SE and percentile of predictions
+#' @return A list with two components: `model`, a list describing the fitted
+#'   fertility model (`type`, fitted `params`, `rmse`, and, if `se = TRUE`,
+#'   bootstrap `covmat` and parameter percentile intervals `prc`); and
+#'   `predicted`, a data frame with observed and fitted age-specific fertility
+#'   rates. When `se = TRUE`, `predicted` also includes bootstrap standard
+#'   errors and percentile intervals.
 #'
 #' @details
 #' This function runs least squares optimization (using default `optim`) of the selected fertility function with 1e-06 as tolerance parameter.
@@ -40,9 +45,9 @@
 #' @export
 #'
 #' @examples
-#'
-#' # fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", se = FALSE)
-#'
+#' age <- seq(15, 45, 5)
+#' fx <- c(0.03, 0.10, 0.14, 0.12, 0.07, 0.03, 0.01)
+#' fert.approx(fx = fx, age = age, model = "Hadwiger", se = FALSE)
 fert.approx <- function(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, bn = 1000){
 
   ##### Checks

@@ -14,8 +14,15 @@ edagger(age, mx, ...)
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-Numeric array
+A named numeric vector of the same length as \code{age}, where each
+element is \verb{e^\\dagger_x}, the average remaining life years lost because of
+death from age \code{x} onward.
 }
 \description{
 e-dagger
+}
+\examples{
+age <- 0:5
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+edagger(age, mx)[1:3]
 }

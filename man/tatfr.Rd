@@ -16,7 +16,10 @@ tatfr(past_fx, present_fx, post_fx, age)
 \item{age}{Array with numeric values age}
 }
 \value{
-list with TFR' (tatfr) and TFR' by parity (tatfr_i, in user-specific order as in lists), TFR (tfr) and TFR by parity (tfr_i)
+A list with four components: \code{tatfr} (overall tempo-adjusted total
+fertility rate), \code{tatfr_i} (parity-specific tempo-adjusted rates), \code{tfr}
+(overall conventional TFR), and \code{tfr_i} (parity-specific conventional
+rates).
 }
 \description{
 Tempo-adjusted total fertility rate (TFR')
@@ -27,6 +30,22 @@ This indicator is calculated as follows
 where \eqn{TFR_{i,t}', TFR_{i,t}} are tempo-adjusted and usual total fertility rate for parity \eqn{i} and time \eqn{t} respectively, \eqn{M_{i,t}} is mean age at childbearing for parity \eqn{i} and time \eqn{t}. The tempo-adjusted total fertility rate is a sum of parity-specific \eqn{TFR_i'}.
 
 Note, the calculation are done as in footnote 1 in (Bongaarts & Feeney, 2000, p. 563). Unfortunately, the original 1998 article does not provide the exact formula, which has caused some confusion in academic circles.
+}
+\examples{
+age <- seq(15, 45, 5)
+past_fx <- list(
+  c(0.02, 0.05, 0.07, 0.05, 0.03, 0.01, 0.00),
+  c(0.01, 0.03, 0.04, 0.03, 0.02, 0.01, 0.00)
+)
+present_fx <- list(
+  c(0.03, 0.06, 0.08, 0.06, 0.03, 0.01, 0.00),
+  c(0.01, 0.03, 0.05, 0.04, 0.02, 0.01, 0.00)
+)
+post_fx <- list(
+  c(0.03, 0.05, 0.08, 0.07, 0.04, 0.02, 0.00),
+  c(0.01, 0.03, 0.04, 0.04, 0.03, 0.01, 0.00)
+)
+tatfr(past_fx, present_fx, post_fx, age)
 }
 \references{
 Bongaarts, J., & Feeney, G. (1998). On the Quantum and Tempo of Fertility. Population and Development Review, 24(2), 271–291. \doi{10.2307/2807974}

@@ -20,7 +20,16 @@
 #' 2. Andreev, E. M. (1982). Metod komponent v analize prodolzhitel'nosti zhizni. *Vestnik statistiki*, *9*, 42-47.
 #' 3. Pollard, J. H. (1982). The expectation of life and its relationship to mortality. *Journal of the Institute of Actuaries*, *109(2)*, 225–240.
 #' @import dplyr
-#' @return dataframe with parameters of decomposition (depends on method) and decomposition in years (ex12) and percents (ex12_prc).
+#' @return A data frame with one row per age group. It always contains `age`,
+#'   `ex12`, and `ex12_prc`, where `ex12` is the absolute age contribution to
+#'   the life-expectancy difference and `ex12_prc` is the percentage
+#'   contribution. Additional columns depend on `method` and contain
+#'   intermediate life-table quantities used in the decomposition.
+#' @examples
+#' age <- 0:5
+#' mx1 <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+#' mx2 <- c(0.018, 0.009, 0.011, 0.014, 0.019, 0.028)
+#' decomp(mx1, mx2, age = age)$ex12
 #' @export
 decomp <- function(mx1, mx2, sex = "m", age, method = "andreev", ax1 = NULL, ax2 = NULL) {
   if (!(method %in% c("andreev", "arriaga", "pollard"))){stop("Choose method (misspelling?)")}

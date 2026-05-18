@@ -39,7 +39,12 @@ leecart(
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
+A list with four components: \code{model}, the fitted time-series model
+used to forecast \code{kt}; \code{kt}, a data frame with historical and forecast
+mortality index values and confidence intervals; \code{ex0}, a data frame with
+observed, fitted, and forecast life expectancy at birth and confidence
+intervals; and \code{mx}, a data frame with observed, fitted, and forecast
+age-specific mortality rates and confidence intervals.
 }
 \description{
 Lee-Carter model
@@ -72,6 +77,14 @@ The \strong{\code{ktadj}} argument allows to control how \code{k_t} is calculate
 \item \code{ktadj = "poisson"} for minimizing the deviance from a Poisson model, where the dependent variable is the age-specific annual number of deaths (as proposed in Booth et al., 2002). This method requires data on the age-specific number of deaths (\code{Dx} column in the data) and the age-specific population (\code{N} column in the data).
 \item \code{ktadj = "edaggermin"} for minimizing the deviance of predicted/actual edagger (see \code{\link[=edagger]{edagger()}}) as proposed in Rabbi & Mazzuco, 2021.
 }
+}
+\examples{
+age <- 0:20
+year <- 2000:2009
+lc_data <- expand.grid(age = age, year = year)
+lc_data$mx <- exp(-7 + 0.09 * lc_data$age - 0.02 * (lc_data$year - min(year)))
+fit <- leecart(lc_data, n = 2)
+head(fit$kt)
 }
 \references{
 Booth, H., Maindonald, J., & Smith, L. (2002). Applying Lee-Carter under conditions of variable mortality decline. Population Studies, 56(3), 325-336. \doi{10.1080/00324720215935}

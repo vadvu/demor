@@ -20,10 +20,23 @@ asdt(age, m_all, m_i, full = FALSE, method = "chiang1968", ...)
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-dataframe.
+If \code{full = TRUE}, a data frame with the full associated single
+decrement life table, including the standard life-table columns and the
+cause-deleted columns \code{r_not_i}, \code{p_not_i}, \code{l_not_i}, \code{a_not_i},
+\code{d_not_i}, \code{L_not_i}, \code{T_not_i}, and \code{ex_without_i}. If \code{full = FALSE}, a
+reduced data frame with columns \code{age}, \code{r_not_i}, \code{lx}, \code{qx}, \code{ax}, \code{ex},
+\code{p_not_i}, \code{l_not_i}, \code{a_not_i}, and \code{ex_without_i}.
 }
 \description{
 Associated single decrement life table (ASDT) for causes of death (cause-deleted life table)
+}
+\examples{
+data(asdtex)
+asdt(
+  age = asdtex$age,
+  m_all = asdtex$all,
+  m_i = asdtex$circulatory
+)[1:3, ]
 }
 \references{
 Chiang, L. (1968). \emph{Introduction to Stochastic Processes in Biostatistics}. New York: John Wiley and Sons.

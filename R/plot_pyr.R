@@ -11,7 +11,15 @@
 #' @param age.cont Optional. Logical. Should the age axis be considered as continuous scale? Recommend to switch to `TRUE` if the age intervals are small (1 year) and `FALSE` otherwise (for ex., when age interval is 5 years). By default function chooses the value by itself.
 #' @param un.intervals Logical. Should the age groups be unified? For example, if the first and second groups are 0-1, 1-4, and all other groups are five-year, the function automatically makes the group 1-4 to make all the intervals the same. By default, `TRUE`.
 #'
-#' @return `ggplot2` object
+#' @return A `ggplot2` object representing a population pyramid. If `popm2` and
+#'   `popf2` are supplied, the plot also includes dashed comparison lines for
+#'   the second population.
+#' @examples
+#' plot_pyr(
+#'   popm = c(100, 90, 80, 70, 60),
+#'   popf = c(95, 92, 85, 75, 65),
+#'   age = seq(0, 20, 5)
+#' )
 #' @import ggplot2 scales
 #' @export
 plot_pyr <- function(popm, popf, popm2 = NULL, popf2 = NULL, age, prc = FALSE, sexn = c("Males", "Females"), sexc = c("#ED0000B2","#00468BB2"), age.cont = NULL, un.intervals = TRUE){

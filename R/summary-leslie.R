@@ -11,6 +11,16 @@
 #'    \item \eqn{w} -- stable age distribution normalized to 1 s.t. \eqn{\sum_x^{\omega} w_x = 1} where \eqn{x} is age.
 #'    \item \eqn{v} -- reproductive values normalized s.t. \eqn{v'w = 1}.
 #' }
+#' @return A list of class `summary.leslie` with four components:
+#'   `lambda` (dominant eigenvalue / asymptotic growth factor), `r`
+#'   (intrinsic growth rate), `w` (stable age distribution summing to 1),
+#'   and `v` (reproductive values normalized so that `sum(v * w) = 1`).
+#'
+#' @examples
+#' mx <- c(0.02, 0.01, 0.012, 0.015, 0.02)
+#' fx <- c(0.05, 0.08)
+#' les <- leslie(mx = mx, fx = fx, age.mx = 0:4, age.fx = 1:2)
+#' summary(les)
 #'
 #' @seealso [leslie()]
 #' @export

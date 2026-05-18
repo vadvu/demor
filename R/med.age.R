@@ -3,7 +3,12 @@
 #' @param N Numeric array. Population counts by age groups (from young to old)
 #' @param age Numeric array. Lower bounds of age groups, same length as `N`
 #'
-#' @return Numeric value.
+#' @return A length-1 numeric value giving the estimated median age of the
+#'   population represented by `N`.
+#' @examples
+#' N <- c(100, 90, 80, 70, 60)
+#' age <- seq(0, 20, 5)
+#' med.age(N, age)
 #' @export
 med.age <- function(N, age){
   if(length(age) != length(N)){

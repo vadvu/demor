@@ -4,7 +4,18 @@
 #' @param mx List of numeric arrays. 1st array should be all-cause mx in the population, other arrays are cause-specific mx in the population.
 #' @param ... Other parameters for the function [LT()] including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
 #' @seealso [LT()] for usual life table calculation
-#' @return Extended `LT` matrix
+#' @return A numeric matrix extending the output of [LT()]. In addition to the
+#'   standard life-table columns, for each cause `i` in `mx[-1]` it adds
+#'   `qx_i`, `dx_i`, `lx_i`, and `ex_no_i`, corresponding to cause-specific
+#'   death probabilities, deaths, survivors, and cause-deleted life expectancy.
+#' @examples
+#' data(asdtex)
+#' mx_causes <- list(
+#'   all = asdtex$all,
+#'   neoplasms = asdtex$neoplasms,
+#'   circulatory = asdtex$circulatory
+#' )
+#' MLT(age = asdtex$age, mx = mx_causes)[1:3, c("age", "mx", "qx_neoplasms", "ex_no_neoplasms")]
 #' @export
 MLT <- function(age, mx, ...){
   if(length(mx)<2){

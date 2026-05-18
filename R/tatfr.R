@@ -18,7 +18,25 @@
 #'
 #' Bongaarts, J., & Feeney, G. (2000). On the Quantum and Tempo of Fertility: Reply. Population and Development Review, 26(3), 560–564. \doi{10.1111/j.1728-4457.2000.00560.x}
 #'
-#' @return list with TFR' (tatfr) and TFR' by parity (tatfr_i, in user-specific order as in lists), TFR (tfr) and TFR by parity (tfr_i)
+#' @return A list with four components: `tatfr` (overall tempo-adjusted total
+#'   fertility rate), `tatfr_i` (parity-specific tempo-adjusted rates), `tfr`
+#'   (overall conventional TFR), and `tfr_i` (parity-specific conventional
+#'   rates).
+#' @examples
+#' age <- seq(15, 45, 5)
+#' past_fx <- list(
+#'   c(0.02, 0.05, 0.07, 0.05, 0.03, 0.01, 0.00),
+#'   c(0.01, 0.03, 0.04, 0.03, 0.02, 0.01, 0.00)
+#' )
+#' present_fx <- list(
+#'   c(0.03, 0.06, 0.08, 0.06, 0.03, 0.01, 0.00),
+#'   c(0.01, 0.03, 0.05, 0.04, 0.02, 0.01, 0.00)
+#' )
+#' post_fx <- list(
+#'   c(0.03, 0.05, 0.08, 0.07, 0.04, 0.02, 0.00),
+#'   c(0.01, 0.03, 0.04, 0.04, 0.03, 0.01, 0.00)
+#' )
+#' tatfr(past_fx, present_fx, post_fx, age)
 #' @export
 tatfr <- function(past_fx, present_fx, post_fx, age){
   parity = length(past_fx)

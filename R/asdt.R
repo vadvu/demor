@@ -7,7 +7,19 @@
 #' @param method Character. The method of ASDT construction to use. Now just "chiang1968" is supported.
 #' @param ... Optional. Additional arguments for [LT()] function.
 #' @references Chiang, L. (1968). *Introduction to Stochastic Processes in Biostatistics*. New York: John Wiley and Sons.
-#' @return dataframe.
+#' @return If `full = TRUE`, a data frame with the full associated single
+#'   decrement life table, including the standard life-table columns and the
+#'   cause-deleted columns `r_not_i`, `p_not_i`, `l_not_i`, `a_not_i`,
+#'   `d_not_i`, `L_not_i`, `T_not_i`, and `ex_without_i`. If `full = FALSE`, a
+#'   reduced data frame with columns `age`, `r_not_i`, `lx`, `qx`, `ax`, `ex`,
+#'   `p_not_i`, `l_not_i`, `a_not_i`, and `ex_without_i`.
+#' @examples
+#' data(asdtex)
+#' asdt(
+#'   age = asdtex$age,
+#'   m_all = asdtex$all,
+#'   m_i = asdtex$circulatory
+#' )[1:3, ]
 #' @export
 asdt <- function(age, m_all, m_i, full = FALSE, method = "chiang1968", ...){
   lt <- as.data.frame(LT(age = age, mx = m_all, ...))

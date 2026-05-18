@@ -53,7 +53,19 @@
 #'
 #' Ševčíková, H., Li, N., Kantorová, V., Gerland, P., & Raftery, A. E. (2016). Age-Specific Mortality and Fertility Rates for Probabilistic Population Projections. In R. Schoen (Ed.), Dynamic Demographic Analysis (Vol. 39, pp. 285–310). Springer International Publishing. \doi{10.1007/978-3-319-26603-9_15}
 #'
-#' @return Dataframe with the projected mx and ex for t+n periods with mean, low95 and high 95 values
+#' @return A list with four components: `model`, the fitted time-series model
+#'   used to forecast `kt`; `kt`, a data frame with historical and forecast
+#'   mortality index values and confidence intervals; `ex0`, a data frame with
+#'   observed, fitted, and forecast life expectancy at birth and confidence
+#'   intervals; and `mx`, a data frame with observed, fitted, and forecast
+#'   age-specific mortality rates and confidence intervals.
+#' @examples
+#' age <- 0:20
+#' year <- 2000:2009
+#' lc_data <- expand.grid(age = age, year = year)
+#' lc_data$mx <- exp(-7 + 0.09 * lc_data$age - 0.02 * (lc_data$year - min(year)))
+#' fit <- leecart(lc_data, n = 2)
+#' head(fit$kt)
 #' @import forecast dplyr tidyr splines
 #' @export
 leecart <- function(data, n = 10, alpha = 0.05, model = "RWwD", ax_method = "classic", bx_method = "classic", boot = FALSE, bn = 1000, ktadj = "none", ...){

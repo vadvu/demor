@@ -8,7 +8,13 @@
 #' @param fin Logical. Should the survival rate for the last age-group be nonzero? By default it is `FALSE`, so the last survival rate is 0 as in classical model. Otherwise, it is \eqn{T_{x}/T_{x-1}}.
 #' @param ... Optional. Additional arguments for [LT()] function.
 #' @seealso [summary.leslie()] for `leslie` output that calculates \eqn{\lambda}, \eqn{r}, \eqn{w} and \eqn{v}.
-#' @return Matrix.
+#' @return A square numeric matrix of class `leslie` with one row and one
+#'   column per age group. The first row contains fertility contributions and
+#'   the subdiagonal contains survival ratios.
+#' @examples
+#' mx <- c(0.02, 0.01, 0.012, 0.015, 0.02)
+#' fx <- c(0.05, 0.08)
+#' leslie(mx = mx, fx = fx, age.mx = 0:4, age.fx = 1:2)
 #' @export
 leslie <- function(mx, fx, age.mx, age.fx, srb = 100/205, fin = TRUE, ...){
   lt <- LT(age = age.mx, mx = mx, ...)

@@ -31,7 +31,8 @@
 #' to the periods `1989-2014` and `2015-2022`. Updated post-census series are
 #' not used by this function.
 #'
-#' @return A data frame. Column structure depends on `dataset`; see **Details**.
+#' @return A data frame with one row per year-region-age combination. Column
+#'   structure depends on `dataset`; see **Details**.
 #'
 #' @seealso [rosbris.codes]
 #'
@@ -40,14 +41,15 @@
 #'   <https://www.nes.ru/research-main/research-centers/demogr/demogr-fermort-data>
 #'
 #' @examples
-#' \dontrun{
-#' mort <- get_rosbris("mortality_5")
-#' fert <- get_rosbris("fertility_1")
-#'
-#' rus2010 <- subset(
-#'   mort,
-#'   year == 2010 & code == 1100 & sex == "m" & territory == "t"
-#' )
+#' \donttest{
+#' if (interactive()) {
+#'   mort <- get_rosbris("mortality_5")
+#'   rus2010 <- subset(
+#'     mort,
+#'     year == 2010 & code == 1100 & sex == "m" & territory == "t"
+#'   )
+#'   head(rus2010)
+#' }
 #' }
 #'
 #' @export

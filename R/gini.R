@@ -3,7 +3,14 @@
 #' @param age Numeric array of age intervals
 #' @param mx Numeric array with age specific mortality rates.
 #' @param ... Optional. Additional arguments for [LT()] function.
-#' @return list with G0 (Gini coefficient), G0_abs (absolute Gini coefficient) and data for the Lorenz curve ($plot)
+#' @return A list with two components: `Gini`, itself a list with the relative
+#'   Gini coefficient `G0` and the absolute Gini coefficient `G0_abs`; and
+#'   `plot`, a data frame with columns `Fx` and `Phix` for drawing the Lorenz
+#'   curve.
+#' @examples
+#' age <- 0:5
+#' mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+#' gini(age, mx)$Gini
 #' @export
 gini <- function(age, mx, ...){
   lt <- LT(age = age, mx = mx, ...)

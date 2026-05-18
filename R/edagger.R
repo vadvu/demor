@@ -4,7 +4,13 @@
 #' @param mx Numeric array with age specific mortality rates.
 #' @param ... Optional. Additional arguments for [LT()] function.
 #'
-#' @return Numeric array
+#' @return A named numeric vector of the same length as `age`, where each
+#'   element is `e^\dagger_x`, the average remaining life years lost because of
+#'   death from age `x` onward.
+#' @examples
+#' age <- 0:5
+#' mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+#' edagger(age, mx)[1:3]
 #' @export
 edagger <- function(age, mx, ...){
   lt <- LT(age = age, mx = mx, ...)

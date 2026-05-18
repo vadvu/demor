@@ -4,7 +4,10 @@
 #' @param groups Numeric array. Values of lower boundaries of age groups
 #' @param char Logical. Should output be numeric (`FALSE`) or character (`TRUE`)? By default, `FALSE`
 #' @param below_min_val What value to return for x < min(groups) when char = `FALSE`? Default is NA.
-#' @return Factor or numeric array with classified ages
+#' @return If `char = TRUE`, a factor of the same length as `x` with age-group
+#'   labels. Otherwise, a numeric vector of the same length as `x` with the
+#'   lower boundaries from `groups`; values below the first group receive
+#'   `below_min_val`.
 #' @examples
 #' groups <- c(0, 1, 5, 10, 15, 20, 24, 45, 85)
 #' x <- 0:100

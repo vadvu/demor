@@ -30,7 +30,13 @@ yll(
 \item{standard}{Data frame. User-specific standard life expectancy to calculate YLL with the following columns: age, ex. Note: the \code{age.int} argument should be consistent with the \code{age} column in this data frame.}
 }
 \value{
-list with values.
+A list whose components depend on \code{type}. For \code{type = "yll"}, the
+list contains \code{yll_all} (overall YLL) and \code{yll} (age-specific YLL). For
+\code{type = "yll.p"}, it contains \code{yll.p_all} and \code{yll.p} (overall and
+age-specific YLL proportions). For \code{type = "yll.r"}, it contains
+\code{yll.r_all} and \code{yll.r} (overall and age-specific YLL rates). For
+\code{type = "asyr"}, it contains \code{asyr_all} and \code{asyr} (overall and
+age-specific age-standardized YLL rates).
 }
 \description{
 Years of Life Lost (YLL) calculation
@@ -53,6 +59,9 @@ where \eqn{N_{x,t}} is population in age group \eqn{x} at time \eqn{t}
 \deqn{ASYR_{t,c} = \sum_{x=\alpha}^{\omega} \left( YLL_{x,t,c}^r \times w_x \right)}
 where \eqn{\alpha} to \eqn{\omega} corresponds to first to last age group, \eqn{w_x} is standard population weight for age \eqn{x}.
 }
+}
+\examples{
+yll(Dx = rep(1, 19), type = "yll", age.int = 5)$yll_all
 }
 \references{
 Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. \emph{International Journal of Epidemiology}, \emph{48}, 1367–1376.

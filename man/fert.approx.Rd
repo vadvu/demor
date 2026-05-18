@@ -22,7 +22,12 @@ fert.approx(fx, age, model, start = NULL, se = FALSE, alpha = 0.05, bn = 1000)
 \item{bn}{Numeric. Used if \code{se = TRUE}, number of bootstrap samples. By default, \code{bn = 1000}.}
 }
 \value{
-list with estimated model (parameters, variance-covariance matrix, percentiles of parameters) and dataframe with predicted and observed ASFR as well as SE and percentile of predictions
+A list with two components: \code{model}, a list describing the fitted
+fertility model (\code{type}, fitted \code{params}, \code{rmse}, and, if \code{se = TRUE},
+bootstrap \code{covmat} and parameter percentile intervals \code{prc}); and
+\code{predicted}, a data frame with observed and fitted age-specific fertility
+rates. When \code{se = TRUE}, \code{predicted} also includes bootstrap standard
+errors and percentile intervals.
 }
 \description{
 Fertility models for ASFR approximation
@@ -60,9 +65,9 @@ where \eqn{v, \tau^2} are estimated parameters, where \eqn{v} can be interpreted
 }
 }
 \examples{
-
-# fert.approx(fx = ASFR, age = 15:55, model = "Hadwiger", se = FALSE)
-
+age <- seq(15, 45, 5)
+fx <- c(0.03, 0.10, 0.14, 0.12, 0.07, 0.03, 0.01)
+fert.approx(fx = fx, age = age, model = "Hadwiger", se = FALSE)
 }
 \references{
 Peristera, P., & Kostaki, A. (2007). Modeling fertility in modern populations. \emph{Demographic Research}, \emph{16}, 141-194.

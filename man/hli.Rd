@@ -14,7 +14,8 @@ hli(age, mx, ...)
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-HLI value
+A length-1 numeric value giving the Human Life Indicator, i.e. the
+geometric mean age at death implied by the life table.
 }
 \description{
 The Human Life Indicator (HLI)
@@ -23,6 +24,11 @@ The Human Life Indicator (HLI)
 It is calculated as
 \deqn{HLI = \prod_{x=\alpha}^{\omega}(x + a_x)^{d_x}}
 where \eqn{\alpha, \omega} are the first and last age groups, \eqn{x} is age, \eqn{a_x, d_x} are life table functions (s.t. \eqn{\sum_{x=\alpha}^{\omega} d_x = 1}).
+}
+\examples{
+age <- 0:5
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+hli(age, mx)
 }
 \references{
 Ghislandi, S., Sanderson, W.C., & Scherbov, S. (2019). A Simple Measure of Human Development: The Human Life Indicator. \emph{Population and Development Review}, \emph{45}, 219–233.

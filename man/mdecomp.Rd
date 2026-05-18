@@ -18,7 +18,11 @@ mdecomp(mx1, mx2, age, method = "andreev", ...)
 \item{...}{Optional. Additional arguments for \code{\link[=decomp]{decomp()}}.}
 }
 \value{
-Dataframe with 1st column as overall decomposition (\code{ex12}), and other columns are decomposition by causes (\code{cause(i)})
+A data frame of class \code{c("mdecomp", "data.frame")} with one row per
+age group. Column \code{age} contains ages, \code{ex12} contains the overall age
+contribution to the life-expectancy difference, and the remaining columns
+contain cause-specific contributions named after the cause-specific
+elements of \code{mx1} and \code{mx2}.
 }
 \description{
 Age and cause decomposition of differences in life expectancies
@@ -27,6 +31,25 @@ Age and cause decomposition of differences in life expectancies
 The contribution of each cause \eqn{c} to the absolute difference in life expectancies between the first and second population is caculated as
 \deqn{\Delta_{x,c} = \frac{m^1_{x,c} - m^2_{x,c}}{m^1_{x} - m^2_{x}} \times \Delta_{x}}
 where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function \code{\link[=decomp]{decomp()}}, \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
+}
+\examples{
+data(mdecompex)
+usa <- subset(mdecompex, cnt == "usa")
+eng <- subset(mdecompex, cnt == "eng")
+dec <- mdecomp(
+  mx1 = list(
+    all = usa$all,
+    neoplasms = usa$neoplasms,
+    circulatory = usa$circulatory
+  ),
+  mx2 = list(
+    all = eng$all,
+    neoplasms = eng$neoplasms,
+    circulatory = eng$circulatory
+  ),
+  age = usa$age
+)
+dec[1:3, ]
 }
 \seealso{
 \code{\link[=decomp]{decomp()}} for just age decomposition and \code{\link[=plot.mdecomp]{plot.mdecomp()}} for graph of \code{mdecomp} results

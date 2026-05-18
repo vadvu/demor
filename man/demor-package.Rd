@@ -4,9 +4,9 @@
 \name{demor-package}
 \alias{demor}
 \alias{demor-package}
-\title{demor: Functions for Demographic Analysis}
+\title{demor: Methods for Demographic Analysis}
 \description{
-Tools for demographic analysis, including life tables, fertility and mortality indicators, decomposition methods, Lee-Carter mortality forecasting, Leslie matrices, and population pyramids.
+Implements life tables, fertility and mortality indicators, decomposition methods, Lee-Carter mortality forecasting, Leslie matrices, and population pyramids for demographic analysis. Methods are described in Preston et al. (2001, ISBN:1557864519) and Ustyuzhanin (2025) \doi{10.17323/demreview.v12i4.30415}.
 }
 \seealso{
 Useful links:

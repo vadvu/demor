@@ -12,8 +12,14 @@ mac(fx, age)
 \item{age}{Numeric array of ages. For example, \code{15:55} for 1-year age-groups}
 }
 \value{
-Numeric value.
+A length-1 numeric value giving the mean age at childbearing implied
+by \code{fx}.
 }
 \description{
 Mean Age at Childbearing (MAC)
+}
+\examples{
+age <- seq(15, 45, 5)
+fx <- c(0.03, 0.10, 0.14, 0.12, 0.07, 0.03, 0.01)
+mac(fx, age)
 }

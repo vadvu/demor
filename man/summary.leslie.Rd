@@ -13,6 +13,12 @@
 
 \item{...}{Ignored.}
 }
+\value{
+A list of class \code{summary.leslie} with four components:
+\code{lambda} (dominant eigenvalue / asymptotic growth factor), \code{r}
+(intrinsic growth rate), \code{w} (stable age distribution summing to 1),
+and \code{v} (reproductive values normalized so that \code{sum(v * w) = 1}).
+}
 \description{
 Leslie matrix summary
 }
@@ -24,6 +30,13 @@ The function calculates \eqn{\lambda}, \eqn{r}, \eqn{w} and \eqn{v}.
 \item \eqn{w} -- stable age distribution normalized to 1 s.t. \eqn{\sum_x^{\omega} w_x = 1} where \eqn{x} is age.
 \item \eqn{v} -- reproductive values normalized s.t. \eqn{v'w = 1}.
 }
+}
+\examples{
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02)
+fx <- c(0.05, 0.08)
+les <- leslie(mx = mx, fx = fx, age.mx = 0:4, age.fx = 1:2)
+summary(les)
+
 }
 \seealso{
 \code{\link[=leslie]{leslie()}}

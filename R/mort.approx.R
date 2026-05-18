@@ -6,7 +6,9 @@
 #' @param standard.mx Numeric vector of age specific mortality rates for standard population. Default is `NULL`.
 #' @param ... Used only for `Brass` model. Other parameters for the function [LT()] including `ax` (by default, the middle of the interval), `sex` (by default = `"m"` - males), `l0` (by default = 1).
 #'
-#' @return list with estimated model and dataframe with predicted mortality rates.
+#' @return A list with two components: `model`, the fitted `lm` or `nls`
+#'   object; and `predicted`, a data frame with columns `age` and `mx.pred`
+#'   containing the fitted mortality schedule.
 #' @import dplyr
 #'
 #' @details
@@ -24,9 +26,11 @@
 #' @export
 #'
 #' @examples
-#'
-#' # mort.approx(mx = mx, age = 0:100, model = "Brass", standard.mx = standard.mx, sex = "m")
-#'
+#' age <- seq(40, 80, 10)
+#' mx <- c(0.003, 0.005, 0.009, 0.018, 0.036)
+#' standard.mx <- c(0.0025, 0.004, 0.007, 0.014, 0.03)
+#' mort.approx(mx = mx, age = age, model = "Gompertz")
+#' mort.approx(mx = mx, age = age, model = "Brass", standard.mx = standard.mx)
 mort.approx <- function(mx, age, model = c("Brass", "Gompertz"), standard.mx = NULL, ...){
 
   if(length(age) != length(mx)){

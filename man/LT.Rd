@@ -20,7 +20,10 @@ LT(age, sex = "m", mx, ax = NULL, w = NULL, l0 = 1)
 \item{l0}{Numeric. Life table radix. By default, = \code{1} but it can be any positive real number. In "human" demography tradition it is 100'000, in "ecological" and "evolutionary" demography tradition it is 1.}
 }
 \value{
-Matrix of (age x 9). Columns are: age, mx, ax, qx, lx, dx, Lx, Tx, ex
+A numeric matrix with one row per age group. Standard columns are
+\code{age}, \code{mx}, \code{ax}, \code{qx}, \code{lx}, \code{dx}, \code{Lx}, \code{Tx}, and \code{ex}. If \code{w} is
+supplied, additional columns \code{w}, \code{wLx}, and \code{wex} are appended, where
+\code{wex} is weighted life expectancy.
 }
 \description{
 Life table
@@ -38,11 +41,13 @@ age <- 0:5
 mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
 LT(age = age, sex = "m", mx = mx)
 \donttest{
-# Real RosBris data via get_rosbris(): Russian males, 2010
-rus2010 <- subset(get_rosbris("mortality_5"),
-  year == 2010 & code == 1100 & sex == "m" & territory == "t"
-)
-LT(age = rus2010$age, sex = "m", mx = rus2010$mx)
+if (interactive()) {
+  # Real RosBris data via get_rosbris(): Russian males, 2010
+  rus2010 <- subset(get_rosbris("mortality_5"),
+    year == 2010 & code == 1100 & sex == "m" & territory == "t"
+  )
+  LT(age = rus2010$age, sex = "m", mx = rus2010$mx)
+}
 }
 }
 \references{

@@ -18,7 +18,9 @@ mort.approx(mx, age, model = c("Brass", "Gompertz"), standard.mx = NULL, ...)
 \item{...}{Used only for \code{Brass} model. Other parameters for the function \code{\link[=LT]{LT()}} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
 }
 \value{
-list with estimated model and dataframe with predicted mortality rates.
+A list with two components: \code{model}, the fitted \code{lm} or \code{nls}
+object; and \code{predicted}, a data frame with columns \code{age} and \code{mx.pred}
+containing the fitted mortality schedule.
 }
 \description{
 Mortality models for mx approximation
@@ -40,9 +42,11 @@ and subscript S defines that function is for standard population. To get mx from
 }
 }
 \examples{
-
-# mort.approx(mx = mx, age = 0:100, model = "Brass", standard.mx = standard.mx, sex = "m")
-
+age <- seq(40, 80, 10)
+mx <- c(0.003, 0.005, 0.009, 0.018, 0.036)
+standard.mx <- c(0.0025, 0.004, 0.007, 0.014, 0.03)
+mort.approx(mx = mx, age = age, model = "Gompertz")
+mort.approx(mx = mx, age = age, model = "Brass", standard.mx = standard.mx)
 }
 \references{
 Preston, S. H., Heuveline, P., & Guillot, M. (2001). Demography: Measuring and Modeling Population Processes. Blackwell Publishers.

@@ -14,10 +14,31 @@
 \item{...}{Ignored.}
 }
 \value{
-ggplot2 plot
+If \code{return.data = FALSE}, a \code{ggplot2} object with stacked bars of
+age- and cause-specific contributions. If \code{return.data = TRUE}, a data
+frame with columns \code{age}, \code{ex12}, and \code{group} used to build the plot.
 }
 \description{
 Plot for mdecomp function
+}
+\examples{
+data(mdecompex)
+usa <- subset(mdecompex, cnt == "usa")
+eng <- subset(mdecompex, cnt == "eng")
+dec <- mdecomp(
+  mx1 = list(
+    all = usa$all,
+    neoplasms = usa$neoplasms,
+    circulatory = usa$circulatory
+  ),
+  mx2 = list(
+    all = eng$all,
+    neoplasms = eng$neoplasms,
+    circulatory = eng$circulatory
+  ),
+  age = usa$age
+)
+plot(dec)
 }
 \seealso{
 \code{\link[=mdecomp]{mdecomp()}}

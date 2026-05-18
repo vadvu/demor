@@ -42,7 +42,10 @@ ccm(
 \item{...}{Optional. Additional arguments for \code{\link[=leslie]{leslie()}} function.}
 }
 \value{
-(List of) Matrices with projected population. Columns represent periods, rows represent age groups. The first column is \code{N0} (initial period).
+If \code{Mx.m} is \code{NULL}, a numeric matrix with projected female
+population, where rows are age groups and columns are periods \code{0:h}. If
+male mortality is supplied, a list with matrices \code{female}, \code{male}, and
+\code{all}, each with the same row/column structure.
 }
 \description{
 Cohort Component Model for Projecting Population.
@@ -53,4 +56,20 @@ The model is calculated in matrix form as
 where \eqn{\mathbf{N}_t} is a column vector of population for time \eqn{t} with \eqn{h} as a step of projection (it is the length of age interval), \eqn{\mathbf{L}_t} is Leslie matrix and \eqn{\mathbf{I}_{t}} is a column vector of net migration.
 
 Note that the model assumes that in \eqn{\mathbf{N}} all age intervals are the same (i.e. \eqn{age = \{0-1, 1-4, 5-9, ...\}} is not permitted). Fortunately (and thanks to me), the function handles such situations automatically by transforming all age groups into a unified standard.
+}
+\examples{
+age.mx <- seq(0, 80, 5)
+age.fx <- seq(15, 45, 5)
+Mx.f <- matrix(
+  rep(seq(0.005, 0.12, length.out = length(age.mx)), 2),
+  nrow = length(age.mx),
+  ncol = 2
+)
+Fx <- matrix(
+  rep(c(0.02, 0.08, 0.11, 0.09, 0.05, 0.02, 0.005), 2),
+  nrow = length(age.fx),
+  ncol = 2
+)
+N0.f <- round(100000 * exp(-0.04 * age.mx))
+ccm(Mx.f = Mx.f, Fx = Fx, age.mx = age.mx, age.fx = age.fx, N0.f = N0.f)
 }

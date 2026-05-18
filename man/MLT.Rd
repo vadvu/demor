@@ -14,10 +14,22 @@ MLT(age, mx, ...)
 \item{...}{Other parameters for the function \code{\link[=LT]{LT()}} including \code{ax} (by default, the middle of the interval), \code{sex} (by default = \code{"m"} - males), \code{l0} (by default = 1).}
 }
 \value{
-Extended \code{LT} matrix
+A numeric matrix extending the output of \code{\link[=LT]{LT()}}. In addition to the
+standard life-table columns, for each cause \code{i} in \code{mx[-1]} it adds
+\code{qx_i}, \code{dx_i}, \code{lx_i}, and \code{ex_no_i}, corresponding to cause-specific
+death probabilities, deaths, survivors, and cause-deleted life expectancy.
 }
 \description{
 Multiple Decrement Life Table
+}
+\examples{
+data(asdtex)
+mx_causes <- list(
+  all = asdtex$all,
+  neoplasms = asdtex$neoplasms,
+  circulatory = asdtex$circulatory
+)
+MLT(age = asdtex$age, mx = mx_causes)[1:3, c("age", "mx", "qx_neoplasms", "ex_no_neoplasms")]
 }
 \seealso{
 \code{\link[=LT]{LT()}} for usual life table calculation

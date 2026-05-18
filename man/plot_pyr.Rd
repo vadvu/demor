@@ -39,8 +39,17 @@ plot_pyr(
 \item{un.intervals}{Logical. Should the age groups be unified? For example, if the first and second groups are 0-1, 1-4, and all other groups are five-year, the function automatically makes the group 1-4 to make all the intervals the same. By default, \code{TRUE}.}
 }
 \value{
-\code{ggplot2} object
+A \code{ggplot2} object representing a population pyramid. If \code{popm2} and
+\code{popf2} are supplied, the plot also includes dashed comparison lines for
+the second population.
 }
 \description{
 Plot population pyramid
+}
+\examples{
+plot_pyr(
+  popm = c(100, 90, 80, 70, 60),
+  popf = c(95, 92, 85, 75, 65),
+  age = seq(0, 20, 5)
+)
 }

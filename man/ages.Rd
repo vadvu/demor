@@ -16,7 +16,10 @@ ages(x, groups, char = FALSE, below_min_val = NA)
 \item{below_min_val}{What value to return for x < min(groups) when char = \code{FALSE}? Default is NA.}
 }
 \value{
-Factor or numeric array with classified ages
+If \code{char = TRUE}, a factor of the same length as \code{x} with age-group
+labels. Otherwise, a numeric vector of the same length as \code{x} with the
+lower boundaries from \code{groups}; values below the first group receive
+\code{below_min_val}.
 }
 \description{
 Split continuous ages to age groups

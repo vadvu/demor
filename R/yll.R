@@ -27,7 +27,15 @@
 #' }
 #' @references
 #' Martinez, R., Soliz, P., Caixeta, R., & Ordunez, P. (2019). Reflection on modern methods: years of life lost due to premature mortality—a versatile and comprehensive measure for monitoring non-communicable disease mortality. *International Journal of Epidemiology*, *48*, 1367–1376.
-#' @return list with values.
+#' @return A list whose components depend on `type`. For `type = "yll"`, the
+#'   list contains `yll_all` (overall YLL) and `yll` (age-specific YLL). For
+#'   `type = "yll.p"`, it contains `yll.p_all` and `yll.p` (overall and
+#'   age-specific YLL proportions). For `type = "yll.r"`, it contains
+#'   `yll.r_all` and `yll.r` (overall and age-specific YLL rates). For
+#'   `type = "asyr"`, it contains `asyr_all` and `asyr` (overall and
+#'   age-specific age-standardized YLL rates).
+#' @examples
+#' yll(Dx = rep(1, 19), type = "yll", age.int = 5)$yll_all
 #' @export
 #'
 yll <- function(Dx, type = c("yll", "yll.p", "yll.r", "asyr"), age.int = 5, Dx_all = NULL, pop = NULL, w = NULL, standard = NULL){

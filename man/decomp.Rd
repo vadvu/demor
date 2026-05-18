@@ -22,7 +22,11 @@ decomp(mx1, mx2, sex = "m", age, method = "andreev", ax1 = NULL, ax2 = NULL)
 \item{ax2}{Optional. Numeric array with ax for the 2nd population. By default, it is a the middle of the interval, while ax for age 0 is modeled as in Andreev & Kingkade (2015).}
 }
 \value{
-dataframe with parameters of decomposition (depends on method) and decomposition in years (ex12) and percents (ex12_prc).
+A data frame with one row per age group. It always contains \code{age},
+\code{ex12}, and \code{ex12_prc}, where \code{ex12} is the absolute age contribution to
+the life-expectancy difference and \code{ex12_prc} is the percentage
+contribution. Additional columns depend on \code{method} and contain
+intermediate life-table quantities used in the decomposition.
 }
 \description{
 Age decomposition of mortality: single decrement process
@@ -32,6 +36,12 @@ Example of decomposition using Andreev (1982) formulas:
 \deqn{\Delta_x = l_x^2(e_x^2 - e_x^1) - l_{x+n}^2(e_{x+n}^2 - e_{x+n}^1), \ \ \ x \neq \omega}
 \deqn{\Delta_{\omega} = l_{\omega}^2(e_{\omega}^2 - e_{\omega}^1)}
 where \eqn{\Delta_x} is an absolute contribution of age \eqn{x} to difference in \eqn{e_0} between the second and the first population. \eqn{e_x^i, l_x^i} are life table functions for population \eqn{i}. \eqn{\omega} is the last age group. Note, \eqn{e_0^2 - e_0^1 = \sum_{x}^{\omega}\Delta_x}
+}
+\examples{
+age <- 0:5
+mx1 <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+mx2 <- c(0.018, 0.009, 0.011, 0.014, 0.019, 0.028)
+decomp(mx1, mx2, age = age)$ex12
 }
 \references{
 \enumerate{

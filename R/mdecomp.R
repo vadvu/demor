@@ -10,7 +10,29 @@
 #' \deqn{\Delta_{x,c} = \frac{m^1_{x,c} - m^2_{x,c}}{m^1_{x} - m^2_{x}} \times \Delta_{x}}
 #' where \eqn{\Delta_{x}} is contribution of age \eqn{x} to difference \eqn{e_0^2 - e_0^1} from function [decomp()], \eqn{m^i_{x,c}} is age-specific mortality rate for population \eqn{i} from cause \eqn{c}, and \eqn{m^i_x} is total age-specific mortality rate.
 #' @seealso [decomp()] for just age decomposition and [plot.mdecomp()] for graph of `mdecomp` results
-#' @return Dataframe with 1st column as overall decomposition (`ex12`), and other columns are decomposition by causes (`cause(i)`)
+#' @return A data frame of class `c("mdecomp", "data.frame")` with one row per
+#'   age group. Column `age` contains ages, `ex12` contains the overall age
+#'   contribution to the life-expectancy difference, and the remaining columns
+#'   contain cause-specific contributions named after the cause-specific
+#'   elements of `mx1` and `mx2`.
+#' @examples
+#' data(mdecompex)
+#' usa <- subset(mdecompex, cnt == "usa")
+#' eng <- subset(mdecompex, cnt == "eng")
+#' dec <- mdecomp(
+#'   mx1 = list(
+#'     all = usa$all,
+#'     neoplasms = usa$neoplasms,
+#'     circulatory = usa$circulatory
+#'   ),
+#'   mx2 = list(
+#'     all = eng$all,
+#'     neoplasms = eng$neoplasms,
+#'     circulatory = eng$circulatory
+#'   ),
+#'   age = usa$age
+#' )
+#' dec[1:3, ]
 #' @export
 mdecomp <- function(mx1, mx2, age, method = "andreev", ...){
   if (length(mx1)!=length(mx2)){

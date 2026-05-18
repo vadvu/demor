@@ -1,12 +1,14 @@
 Package: demor
-Title: Functions for Demographic Analysis
+Title: Methods for Demographic Analysis
 Version: 1.0.9
 Authors@R: 
     person("Vadim", "Ustyuzhanin", , "vadim.v.ustyuzhanin@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3800-1108"))
-Description: Tools for demographic analysis, including life tables,
-    fertility and mortality indicators, decomposition methods, Lee-Carter
-    mortality forecasting, Leslie matrices, and population pyramids.
+Description: Implements life tables, fertility and mortality indicators,
+    decomposition methods, Lee-Carter mortality forecasting, Leslie
+    matrices, and population pyramids for demographic analysis. Methods
+    are described in Preston et al. (2001, ISBN:1557864519) and
+    Ustyuzhanin (2025) <doi:10.17323/demreview.v12i4.30415>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

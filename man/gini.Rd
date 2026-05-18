@@ -14,8 +14,16 @@ gini(age, mx, ...)
 \item{...}{Optional. Additional arguments for \code{\link[=LT]{LT()}} function.}
 }
 \value{
-list with G0 (Gini coefficient), G0_abs (absolute Gini coefficient) and data for the Lorenz curve ($plot)
+A list with two components: \code{Gini}, itself a list with the relative
+Gini coefficient \code{G0} and the absolute Gini coefficient \code{G0_abs}; and
+\code{plot}, a data frame with columns \code{Fx} and \code{Phix} for drawing the Lorenz
+curve.
 }
 \description{
 Gini coefficient of a life table
+}
+\examples{
+age <- 0:5
+mx <- c(0.02, 0.01, 0.012, 0.015, 0.02, 0.03)
+gini(age, mx)$Gini
 }

@@ -12,8 +12,14 @@ med.age(N, age)
 \item{age}{Numeric array. Lower bounds of age groups, same length as \code{N}}
 }
 \value{
-Numeric value.
+A length-1 numeric value giving the estimated median age of the
+population represented by \code{N}.
 }
 \description{
 Median age calculation
+}
+\examples{
+N <- c(100, 90, 80, 70, 60)
+age <- seq(0, 20, 5)
+med.age(N, age)
 }
